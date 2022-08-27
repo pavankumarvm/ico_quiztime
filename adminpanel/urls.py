@@ -15,9 +15,9 @@ Including another URLconf
 """
 from django.urls import path
 
-from adminpanel.views import index, home
+from adminpanel.views import *
 
 urlpatterns = [
   path('', index, name='index'),
-  path('home/',home,name='home'),
+  path('leaderboard/',leaderboard,name='leaderboard'),
 ]
