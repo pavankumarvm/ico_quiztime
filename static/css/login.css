@@ -46,7 +46,7 @@ body {
   height: 100px;
   border-radius: 50%;
   position: absolute;
-  top:16%;
+  top: 16%;
 }
 
 h1 {
@@ -79,7 +79,7 @@ input[type="password"] {
 }
 
 .login-box input[type="text"]::placeholder,
-input[type="password"]::placeholder{
+input[type="password"]::placeholder {
   color: #dddddd;
 }
 

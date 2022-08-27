@@ -10,7 +10,7 @@ body {
   left: 0;
   right: 0;
   margin: 0px auto;
-  max-width: 320px;
+  max-width: 500px;
   height: auto;
   z-index: 10000;
   bottom: 7%;
@@ -19,6 +19,12 @@ body {
   align-items: flex-start;
   justify-content: center;
   padding-right: 1.25rem;
+}
+
+@media screen and (max-width: 600px) {
+  .alert {
+    width: 320px;
+  }
 }
 
 .ico_logo {
