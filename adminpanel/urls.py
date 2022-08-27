@@ -18,7 +18,9 @@ from django.urls import path
 from adminpanel.views import *
 
 urlpatterns = [
-  path('', dashboard, name='dashboard'),
+  path('', index, name='index'),
+  path('profile/', profile, name='profile'),
+  path('dashboard/', dashboard, name='dashboard'),
   path('leaderboard/',leaderboard,name='leaderboard'),
   path('adminpanel/', adminpanel, name='adminpanel'),
 ]
