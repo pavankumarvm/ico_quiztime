@@ -19,7 +19,7 @@ from adminpanel.views import *
 
 urlpatterns = [
   path('', index, name='index'),
-  path('profile/', profile, name='profile')
+  path('profile/', profile, name='profile'),
   path('leaderboard/',leaderboard,name='leaderboard'),
   path('adminpanel/', adminpanel, name='adminpanel'),
 ]
