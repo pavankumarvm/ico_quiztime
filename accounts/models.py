@@ -11,9 +11,11 @@ class IcoUser(AbstractBaseUser, PermissionsMixin):
 
     # Creates User
     user_id = models.UUIDField(primary_key=True, default = uuid.uuid4, editable=False)
+    username = models.CharField(max_length=25, unique=True, null=False)
     first_name = models.CharField(max_length=30, blank=False, null=True)
     last_name = models.CharField(max_length=30, blank=False, null=True)
     email = models.EmailField(max_length=50, blank=False, null=False, unique=True)
+    phone_no = models.CharField(max_length=10, blank=True, null=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(verbose_name="last login", auto_now=True)
     is_admin = models.BooleanField(default=False)
@@ -24,6 +26,7 @@ class IcoUser(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
 
     def __str__(self):
         return f'{self.first_name} - ({self.email})'

@@ -20,3 +20,8 @@ body {
   justify-content: center;
   padding-right: 1.25rem;
 }
+
+.ico_logo {
+  padding: 8px;
+  background-color: #0c3c60;
+}
