@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ICO Quiz Time!!!</title>
-</head>
-<body>
-  <h1> ICO Quiz Time</h1>
-</body>
-</html>
+{% extends 'base.html' %} {% load static %} {% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'css/dashboard.css' %}"
+/>
+<title>Dashboard | ICO Quiz Time</title>
+{% endblock head %} {% block body %}
+<div class="dashboard">
+  <div class="flex-column">{% include 'sidebar.html' %}</div>
+  <div class="flex-column"></div>
+</div>
+{% endblock body %}

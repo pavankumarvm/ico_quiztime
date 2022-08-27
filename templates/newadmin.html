@@ -1,0 +1,112 @@
+{% extends 'adminpanel.html' %} {% load static %} {% block content %}
+<div class="col">
+  <div class="row mx-4 mt-4">
+    <h2>New Admin Registration</h2>
+    <hr />
+  </div>
+  <div class="row">
+    <form method="POST" action="/accounts/register/">
+      {% csrf_token %}
+      <input type="hidden" name="usertype" value="A" />
+      <div class="form-row mx-4">
+        <div class="col-md-5 mb-3">
+          <label for="validationServer01">First name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="validationServer01"
+            placeholder="First name"
+            name="first_name"
+            required
+          />
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+        <div class="col-md-5 mb-3">
+          <label for="validationServer02">Last name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="validationServer02"
+            placeholder="Last name"
+            name="last_name"
+          />
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+      </div>
+      <div class="form-row mx-4">
+        <div class="col-md-5 mb-3">
+          <label for="validationServerPhone">Phone Number</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroupPrepend3">+91</span>
+            </div>
+            <input
+              type="number"
+              class="form-control"
+              id="validationServerPhone"
+              placeholder="Phone Number"
+              name="phone_no"
+              aria-describedby="inputGroupPrepend3"
+              required
+            />
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please enter Mobile Number.</div>
+          </div>
+        </div>
+        <div class="col-md-5 mb-3">
+          <label for="validationServerPhone">Email Address</label>
+          <div class="input-group">
+            <input
+              type="email"
+              class="form-control"
+              id="validationServerEmail"
+              placeholder="Email Address"
+              name="email"
+              required
+            />
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">
+              Please enter Valid Email Address.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row mx-4">
+        <div class="col-md-5 mb-3">
+          <label for="validationServerPassword">Password</label>
+          <div class="input-group">
+            <input
+              type="password"
+              class="form-control"
+              id="validationServerPassword"
+              placeholder="Password"
+              name="password1"
+              required
+            />
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Minimum 4 characters.</div>
+          </div>
+        </div>
+        <div class="col-md-5 mb-3">
+          <label for="validationServerComfirm">Confirm Password</label>
+          <div class="input-group">
+            <input
+              type="password"
+              class="form-control"
+              id="validationServerConfirm"
+              placeholder="Password"
+              name="password2"
+              required
+            />
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Passwords don't match.</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row mx-4">
+        <button class="btn btn-primary" type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

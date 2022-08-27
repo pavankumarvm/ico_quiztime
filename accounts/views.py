@@ -1,6 +1,6 @@
 import random
 import http
-from datetime import datetime,timezone
+from datetime import datetime, timezone
 
 from django.shortcuts import render
 from django.contrib.auth import authenticate,login, logout
@@ -13,18 +13,59 @@ from .serializers import IcoUserSerializer
 from .models import IcoUser,Otp
 
 # Create your views here.
+def register_user(request):
+    if request.method == 'POST':
+        usertype = request.POST.get('usertype')
+        phone_no = request.POST.get('phone_no')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+
+        if usertype == None or usertype == "":
+            usertype = 'S'
+
+        if not (phone_no and first_name and last_name and email and password1 and password2):
+            messages.error(request, 'Fill the Empty Fields.')
+            return render(request,
+                          template_name='newadmin.html')
+        elif password1 == password2:
+            if IcoUser.objects.filter(email=email):
+                messages.error(
+                    request, 'Email Address already exists.Try another.')
+                return render(request, 'newadmin.html')
+            else:
+                user = IcoUser.objects.create_user(
+                    username=str(email).split('@')[0] + random_otp()[:4],
+                    phone_no=phone_no,
+                    password=password1,
+                    email=email,
+                    first_name=first_name,
+                    last_name=last_name,
+                    usertype=usertype)
+                messages.success(request, 'User registered successfully.')
+                return redirect("/admin_panel/dashboard/")
+        else:
+            messages.error(request, "Passwords doesn't match")
+            return render(request, 'newadmin.html')
+    else:
+        return render(request,
+                      template_name='newadmin.html')
+
 def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('email')
         password = request.POST.get('password')
+        login_type = request.POST.get('login_type')
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
             messages.success(request, 'Logged in successfully.')
-            if user.is_admin:
-                return redirect('/adminpanel/' + username + '/')
+            if user.is_admin and login_type == 'admin':
+                return redirect('/adminpanel/' + user.username + '/')
             else:
-                return redirect('/dashboard/' + username + '/')
+                return redirect('/dashboard/' + user.username + '/')
         else:
             messages.error(request, 'Wrong username or password.')
             return render(request,
@@ -34,6 +75,13 @@ def login_user(request):
         return render(request,
                     template_name='login.html',
                 )
+
+def login_admin(request):
+    if request.method == 'GET':
+        return render(
+            request,
+            template_name='adminlogin.html',
+        )
 
 
 def logout_user(request):
