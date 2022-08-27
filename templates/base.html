@@ -45,7 +45,7 @@
             </li>
             {% if user.is_active %}
               <li class="nav-item">
-                <a class="nav-link" href="/dashboard/{{ user.username }}"
+                <a class="nav-link" href="/dashboard/{{ user.first_name }}"
                   >Dashboard</a
                 >
               </li>
@@ -59,7 +59,7 @@
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                Hii, {{user.username}}
+                Hii, {{user.first_name }}
               </a>
 
               <div
@@ -90,7 +90,8 @@
       class="alert alert-{{ message.tags }} alert-dismissible fade show"
       role="alert"
     >
-      <strong>Message:</strong> {{ message }}
+      <strong>Message:</strong>
+      <span>{{ message }}</span>
       <button
         type="button"
         class="close"
