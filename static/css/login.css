@@ -7,9 +7,6 @@ body {
 body {
   margin: 0;
   padding: 0;
-  /* background: url(edu.jpg); */
-  background-size: cover;
-  background-position: relative;
   font-family: sans-serif;
   overflow: hidden;
 }
@@ -18,14 +15,16 @@ body {
   margin: 0;
   padding: 0;
   background-size: cover;
-  background-position: relative;
-  font-family: sans-serif;
-}
-
-.login-section > img{
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  font-family: sans-serif;
+  background-image: url("../images/its-quiz-time.jpg");
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .login-box {
@@ -33,12 +32,13 @@ body {
   height: 420px;
   background: rgba(0, 0, 0, 0.5);
   color: #fff;
-  top: 50%;
-  left: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%);
   box-sizing: border-box;
   padding: 70px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 7%;
 }
 
 .avatar {
@@ -46,8 +46,7 @@ body {
   height: 100px;
   border-radius: 50%;
   position: absolute;
-  top: -50px;
-  left: calc(50% - 50px);
+  top:16%;
 }
 
 h1 {
@@ -79,6 +78,11 @@ input[type="password"] {
   font-size: 16px;
 }
 
+.login-box input[type="text"]::placeholder,
+input[type="password"]::placeholder{
+  color: #dddddd;
+}
+
 .login-box input[type="submit"] {
   border: none;
   outline: none;
@@ -99,6 +103,7 @@ input[type="password"] {
   text-decoration: none;
   font-size: 14px;
   color: #fff;
+  text-align: center;
 }
 
 .login-box a:hover {
