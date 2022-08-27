@@ -18,7 +18,16 @@ from django.urls import path
 from adminpanel.views import *
 
 urlpatterns = [
-  path('', dashboard, name='dashboard'),
-  path('leaderboard/',leaderboard,name='leaderboard'),
+  path('', index, name='index'),
   path('adminpanel/', adminpanel, name='adminpanel'),
+  path('adminpanel/create_quiz/', create_quiz, name='adminpanel'),
+  path('adminpanel/edit_quiz/', edit_quiz, name='adminpanel'),
+  path('adminpanel/delete_quiz/', delete_quiz, name='adminpanel'),
+  path('adminpanel/newadmin', add_new_admin, name='add_new_admin')
+  # User APIS
+  path('user/dashboard/', dashboard, name='dashboard'),
+  path('user/leaderboard/', leaderboard, name='leaderboard'),
+  path('user/personal_scores/', personal_scores, name='personal_scores'),
+  path('user/rules/',user_rules,name='user_rules'),
+  path('user/take_quiz/', take_quiz, name='take_quiz'),
 ]
