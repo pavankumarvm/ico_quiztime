@@ -7,7 +7,7 @@ body {
 body {
   margin: 0;
   padding: 0;
-  background: url(edu.jpg);
+  /* background: url(edu.jpg); */
   background-size: cover;
   background-position: relative;
   font-family: sans-serif;
@@ -20,6 +20,12 @@ body {
   background-size: cover;
   background-position: relative;
   font-family: sans-serif;
+}
+
+.login-section > img{
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .login-box {
