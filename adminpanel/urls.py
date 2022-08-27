@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.urls import path
 
-from adminpanel.views import index
+from adminpanel.views import *
 
 urlpatterns = [
   path('', index, name='index'),
+  path('adminpanel/', adminpanel, name='adminpanel'),
 ]

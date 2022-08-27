@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 from pathlib import Path
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -95,6 +96,7 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = 'accounts.IcoUser'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -148,3 +150,17 @@ MEDIA_URL = "/media/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Email settings
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_HOST = '127.0.0.1'
+# EMAIL_PORT = '8000'
+# EMAIL_HOST_USER = '12345'
+# EMAIL_HOST_PASSWORD = '12345'
+# EMAIL_USE_TSL = True
+
+MESSAGE_TAGS = {
+    messages.SUCCESS: 'success',
+    messages.ERROR: 'danger'
+}
