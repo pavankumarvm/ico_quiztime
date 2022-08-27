@@ -6,5 +6,6 @@ def index(request):
   
 def leaderboard(request):
   return render(request, template_name='leaderboard.html')
-  
-  
+
+def adminpanel(request):
+  return render(request, template_name='adminpanel.html')
