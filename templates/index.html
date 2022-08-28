@@ -57,16 +57,8 @@
   <body>
     <section id="nav-bar">
       <nav
-        class="navbar navbar-expand-lg navbar-dark bg-dark py-2 fixed-top px-5"
+        class="navbar navbar-expand-lg navbar-dark bg-dark p-2 fixed-top justify-content-start"
       >
-        <a class="navbar-brand" href="/"
-          ><img
-            src="{% static 'images\ico_logo.webp' %}"
-            class="logoimg"
-            alt="logo"
-            style="width: auto; height: 60px"
-        /></a>
-        <h2 style="color: grey">Quiz Time</h2>
         <button
           class="navbar-toggler"
           type="button"
@@ -78,6 +70,17 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
+        <a
+          class="navbar-brand d-flex flex-row px-2 justify-content-start"
+          href="/"
+          ><img
+            src="{% static 'images\ico_logo.webp' %}"
+            class="logoimg"
+            alt="logo"
+            style="width: auto; height: 40px"
+          />
+          <h2 style="color: grey">Quiz Time</h2></a
+        >
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto nav-pills">
             <li class="nav-item active">
