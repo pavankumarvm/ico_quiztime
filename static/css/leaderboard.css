@@ -1,12 +1,10 @@
 .bg{
-    background-color: rgb(217, 241, 245);
+    width: 1100px;
     margin: 35px;
-    border-radius: 20px;
+    border-radius: 30px;
 }
 .head{
-    text-align: center;
-    border: 2px solid red;
-    height: 80px;
+    height: 47px;
     margin: 20px;
     margin-top: 30px;
 }
@@ -15,76 +13,52 @@
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-style: normal;
 }
-.cp{
-    margin-top: 40px;
-    text-align: center;
-    border: 2px solid red;
+.img{    
     margin: 20px;
-    height: 190px;
+    height: 150px;
 }
-.img{
-    /*border-radius: 20px;*/
-    margin-top: 40px;
-    text-align: center;
-    border: 2px solid red;
-    margin: 20px;
-    height: 190px;
+.col1{
+    width: 145px;
+    margin-left: 30px;
+    border: 1px solid black;
+}
+.col2{
+    width: 400px;
 }
 .image{
-    /*border-radius: 20px;*/
-    border: 2px solid red;
     margin: 3px;
-    height: 180px;
+    height: 140px;
 }
 .info{
-    /*border-radius: 20px;*/
-    border: 2px solid green;
     margin: 3px;
-    height: 180px;
+    height: 140px;
 }
-.border-table{
-    border: 3px solid blue;
-    /*margin-left: 230px;
-    margin-right: 230px;*/
-    margin: 20px;
-    margin-top: 2   0px;
-    /*margin-bottom: 20px;*/
+.tablefixhead{
+    overflow-y: auto;
+    height:275px;
 }
-.table-wrapper-scroll-y thead th .col {
-    border: 3px solid blue;
-    display: block;
-    position: fixed;
-    }
-.my-custom-scrollbar {
-    position: relative;
-    height: 200px;
-    overflow-y: scroll;
-    }
-.back{
-        margin: 20px;
-        margin-top: 15px;
-        border: 3px solid green;
-        text-align: center;
-        /*background: purple;*/
-    }
-.but1{
-        background: rgb(167, 167, 248);
-        color: white;
-        border: none;
-        width: 100px;
-        height: 30px;
+.tablefixhead table{
+    width: 100%;
+    table-layout: fixed; 
+    border-spacing: 1px;
+}
+.tablefixhead table th{
+    text-align: left;
+    top: 0;
+    position: sticky;
+    background-color: black;
+    color: white !important;
 }
 .quiz{
-        margin: 20px;
-        margin-top: 15px;
-        border: 3px solid red;
-        text-align: center;
-        /*background: purple;*/
-    }
+    margin: 20px;
+    margin-top: 20px;
+    text-align: center;
+}
 .but2{
-    background: rgb(167, 167, 248);
+    background: rgb(0, 123, 255);
     color: white;
     border: none;
-    width: 130px;
-    height: 30px;
+    border-radius: .25rem;
+    width: 155px;
+    height: 45px;
 }
