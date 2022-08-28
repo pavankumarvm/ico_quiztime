@@ -70,6 +70,81 @@
       </button>
     </div>
     {% endfor %} {% endif %}
+    <section id="nav-bar">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2 fixed-top">
+        <a
+          class="navbar-brand d-flex flex-row px-2 justify-content-start"
+          href="/"
+          ><img
+            src="{% static 'images\ico_logo.webp' %}"
+            class="logoimg"
+            alt="logo"
+            style="width: auto; height: 40px"
+          />
+          <h2 style="color: grey">Quiz Time</h2></a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto nav-pills">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            {% if user.is_active %}
+            <li class="nav-item">
+              <a class="nav-link" href="/user/dashboard/">Dashboard</a>
+            </li>
+            {% if user.is_admin %}
+            <li class="nav-item">
+              <a class="nav-link" href="/adminpanel/dashboard/"
+                >Admin Dashboard</a
+              >
+            </li>
+            {% endif %}
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Hii, {{user.username }}
+              </a>
+
+              <div
+                class="dropdown-menu dropdown-menu-right"
+                aria-labelledby="navbarDropdown"
+                style="background-color: gray; color: white"
+              >
+                <a class="dropdown-item" href="/accounts/logout/">Logout</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/feedback/">Feedback</a>
+              </div>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="/accounts/login/">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/accounts/adminlogin/">Admin Login</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+    </section>
     <div class="login-section">
       <div class="login-box">
         <img src="{% static 'images/avatar.png' %}" class="avatar" />
