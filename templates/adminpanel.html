@@ -92,7 +92,7 @@
       {% endfor %}
     </div>
     {% endif %}
-    <main>
+    <main class="d-flex main_body">
       <div id="nav-bar">
         <nav
           class="navbar navbar-expand-lg navbar-dark bg-dark p-2 fixed-top justify-content-start"
@@ -119,78 +119,75 @@
           >
         </nav>
       </div>
-      <div class="main_body">
-        <div class="ico_sidebar_container" id="ico_nav_sidebar">
-          <div
-            class="d-flex flex-column flex-shrink-0 p-3 bg-light ico_sidebar"
+      <div class="ico_sidebar_container" id="ico_nav_sidebar">
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-light ico_sidebar">
+          <a
+            href="/"
+            class="d-flex flex-column align-items-center mb-3 link-dark text-decoration-none"
           >
-            <a
-              href="/"
-              class="d-flex flex-column align-items-center mb-3 link-dark text-decoration-none"
-            >
-              <img
-                src="{% static 'images/ico_logo.webp' %}"
-                class="ico_logo"
-                height="65"
-                style="padding: 8px; background-color: #0c3c60"
-              />
-              <span>ICO QuizTime AdminPanel</span>
-            </a>
-            <hr />
-            <ul class="nav nav-pills flex-column mb-auto">
-              <li class="nav-item">
-                <a
-                  href="/adminpanel/dashboard/"
-                  class="nav-link link-dark"
-                  id="dashboard"
-                  aria-current="page"
-                >
-                  <span class="bi me-2" width="16" height="16">
-                    <i class="fa fa-tachometer" aria-hidden="true"></i>
-                  </span>
-                  Dashboard
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                  href="/adminpanel/create_quiz/"
-                  class="nav-link link-dark"
-                  id="create_quiz"
-                  aria-current="page"
-                >
-                  <span class="bi me-2" width="16" height="16">
-                    <i class="fa fa-plus-square" aria-hidden="true"></i>
-                  </span>
-                  Create New Quiz
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                  href="/adminpanel/edit_quiz/"
-                  class="nav-link link-dark"
-                  id="edit_quiz"
-                  aria-current="page"
-                >
-                  <span class="bi me-2" width="16" height="16">
-                    <i class="fa fa-pencil-square" aria-hidden="true"></i>
-                  </span>
-                  Edit Quiz
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                  href="/adminpanel/delete_quiz/"
-                  class="nav-link link-dark"
-                  id="delete_quiz"
-                  aria-current="page"
-                >
-                  <span class="bi me-2" width="16" height="16">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
-                  </span>
-                  Delete Quiz
-                </a>
-              </li>
-              <!-- <li class="nav-item">
+            <img
+              src="{% static 'images/ico_logo.webp' %}"
+              class="ico_logo"
+              height="65"
+              style="padding: 8px; background-color: #0c3c60"
+            />
+            <span>ICO QuizTime AdminPanel</span>
+          </a>
+          <hr />
+          <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+              <a
+                href="/adminpanel/dashboard/"
+                class="nav-link link-dark"
+                id="dashboard"
+                aria-current="page"
+              >
+                <span class="bi me-2" width="16" height="16">
+                  <i class="fa fa-tachometer" aria-hidden="true"></i>
+                </span>
+                Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/adminpanel/create_quiz/"
+                class="nav-link link-dark"
+                id="create_quiz"
+                aria-current="page"
+              >
+                <span class="bi me-2" width="16" height="16">
+                  <i class="fa fa-plus-square" aria-hidden="true"></i>
+                </span>
+                Create New Quiz
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/adminpanel/edit_quiz/"
+                class="nav-link link-dark"
+                id="edit_quiz"
+                aria-current="page"
+              >
+                <span class="bi me-2" width="16" height="16">
+                  <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                </span>
+                Edit Quiz
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/adminpanel/delete_quiz/"
+                class="nav-link link-dark"
+                id="delete_quiz"
+                aria-current="page"
+              >
+                <span class="bi me-2" width="16" height="16">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </span>
+                Delete Quiz
+              </a>
+            </li>
+            <!-- <li class="nav-item">
             <a
               href="/adminpanel/rules/"
               class="nav-link link-dark"
@@ -203,49 +200,46 @@
               Rules and Format
             </a>
           </li> -->
+          </ul>
+          <hr />
+          <div class="dropdown">
+            <a
+              href="#"
+              class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
+              id="dropdownUser1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <img
+                src="{% static 'images/avatar.png' %}"
+                alt="admin"
+                width="32"
+                height="32"
+                class="rounded-circle me-2"
+              />
+              <strong>{{ user.username }}</strong>
+            </a>
+            <ul
+              class="dropdown-menu dropdown-menu-light text-small shadow"
+              aria-labelledby="dropdownUser1"
+            >
+              <li>
+                <a class="dropdown-item" href="/adminpanel/profile/">Profile</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="/adminpanel/new_admin/"
+                  >New Admin</a
+                >
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a class="dropdown-item" href="/accounts/logout/">Log Out</a>
+              </li>
             </ul>
-            <hr />
-            <div class="dropdown">
-              <a
-                href="#"
-                class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
-                id="dropdownUser1"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <img
-                  src="{% static 'images/avatar.png' %}"
-                  alt="admin"
-                  width="32"
-                  height="32"
-                  class="rounded-circle me-2"
-                />
-                <strong>{{ user.username }}</strong>
-              </a>
-              <ul
-                class="dropdown-menu dropdown-menu-light text-small shadow"
-                aria-labelledby="dropdownUser1"
-              >
-                <li>
-                  <a class="dropdown-item" href="/adminpanel/profile/"
-                    >Profile</a
-                  >
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/adminpanel/new_admin/"
-                    >New Admin</a
-                  >
-                </li>
-                <li><hr class="dropdown-divider" /></li>
-                <li>
-                  <a class="dropdown-item" href="/accounts/logout/">Log Out</a>
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
-        <div class="main_content">{% block content %} {% endblock %}</div>
       </div>
+      <div class="main_content">{% block content %} {% endblock %}</div>
     </main>
 
     <script>
@@ -279,6 +273,9 @@
       } else {
         $("#ico_nav_sidebar").removeClass("hide");
       }
+      $(".ico_sidebar_container").click(() => {
+        $("#ico_nav_sidebar").addClass("hide");
+      });
     </script>
   </body>
 </html>
