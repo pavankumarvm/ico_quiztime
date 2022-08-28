@@ -45,7 +45,7 @@ def register_user(request):
                     last_name=last_name,
                     usertype=usertype)
                 messages.success(request, 'User registered successfully.')
-                return redirect("/admin_panel/dashboard/")
+                return redirect("/adminpanel/dashboard/")
         else:
             messages.error(request, "Passwords doesn't match")
             return render(request, 'newadmin.html')
@@ -63,9 +63,9 @@ def login_user(request):
             login(request, user)
             messages.success(request, 'Logged in successfully.')
             if user.is_admin and login_type == 'admin':
-                return redirect('/adminpanel/' + user.username + '/')
+                return redirect('/adminpanel/dashboard/')
             else:
-                return redirect('/dashboard/' + user.username + '/')
+                return redirect('/user/dashboard/')
         else:
             messages.error(request, 'Wrong username or password.')
             return render(request,

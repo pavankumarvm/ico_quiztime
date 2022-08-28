@@ -66,125 +66,149 @@
       </button>
     </div>
     {% endfor %} {% endif %}
-    <div class="d-flex flex-row">
-      <div
-        class="d-flex flex-column flex-shrink-0 p-3 bg-light"
-        style="width: 280px; height: 100vh"
-      >
-        <a
-          href="/"
-          class="d-flex flex-column align-items-center mb-3 link-dark text-decoration-none"
+    <div class="d-flex main_body">
+      <div id="nav-bar">
+        <nav
+          class="navbar navbar-expand-lg navbar-dark bg-dark p-2 fixed-top justify-content-start"
         >
-          <img
-            src="{% static 'images/ico_logo.webp' %}"
-            class="ico_logo"
-            style="padding: 8px; background-color: #0c3c60"
-            width="auto"
-            height="65"
-          />
-          <span class="fs-4">Quiz Time</span>
-        </a>
-        <hr />
-        <ul class="nav nav-pills flex-column mb-auto">
-          <li class="nav-item">
-            <a
-              href="/user/dashboard/"
-              class="nav-link link-dark"
-              id="dashboard"
-              aria-current="page"
-            >
-              <span class="bi me-2" width="16" height="16">
-                <i class="fa fa-tachometer" aria-hidden="true"></i>
-              </span>
-              Dashboard
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              href="/user/leaderboard/"
-              class="nav-link link-dark"
-              id="leaderboard"
-              aria-current="page"
-            >
-              <span class="bi me-2" width="16" height="16">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              </span>
-              Leader Board
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              href="/user/personal_scores/"
-              class="nav-link link-dark"
-              id="personal_leaderboard"
-              aria-current="page"
-            >
-              <span class="bi me-2" width="16" height="16"
-                ><i class="fa fa-star-half-o" aria-hidden="true"></i>
-              </span>
-              Personal Scores
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              href="/user/take_quiz/"
-              class="nav-link link-dark"
-              id="take_quiz"
-              aria-current="page"
-            >
-              <span class="bi me-2" width="16" height="16">
-                <i class="fa fa-question" aria-hidden="true"></i>
-              </span>
-              Take The Quiz
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              href="/user/rules/"
-              class="nav-link link-dark"
-              id="rules"
-              aria-current="page"
-            >
-              <span class="bi me-2" width="16" height="16">
-                <i class="fa fa-tasks" aria-hidden="true"></i>
-              </span>
-              Rules and Format
-            </a>
-          </li>
-        </ul>
-        <hr />
-        <div class="dropdown">
+          <button
+            class="navbar-toggler"
+            id="sidebar-toggler"
+            type="button"
+            data-target="#ico_nav_sidebar"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
           <a
-            href="#"
-            class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
-            id="dropdownUser1"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
+            class="navbar-brand d-flex flex-row px-2 justify-content-start"
+            href="/"
+            ><img
+              src="{% static 'images\ico_logo.webp' %}"
+              class="logoimg"
+              alt="logo"
+              style="width: auto; height: 40px"
+            />
+            <h2 style="color: grey">Quiz Time</h2></a
+          >
+        </nav>
+      </div>
+      <div class="ico_sidebar_container" id="ico_nav_sidebar">
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-light ico_sidebar">
+          <a
+            href="/"
+            class="d-flex flex-column align-items-center mb-3 link-dark text-decoration-none"
           >
             <img
-              src="{% static 'images/avatar.png' %}"
-              alt="admin"
-              width="32"
-              height="32"
-              class="rounded-circle me-2"
+              src="{% static 'images/ico_logo.webp' %}"
+              class="ico_logo"
+              style="padding: 8px; background-color: #0c3c60"
+              width="auto"
+              height="65"
             />
-            <strong>{{ user.first_name }}</strong>
+            <span class="fs-4">Quiz Time</span>
           </a>
-          <ul
-            class="dropdown-menu dropdown-menu-light text-small shadow"
-            aria-labelledby="dropdownUser1"
-          >
-            <li>
-              <a class="dropdown-item" href="/admin_panel/profile/">Profile</a>
+          <hr />
+          <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+              <a
+                href="/user/dashboard/"
+                class="nav-link link-dark"
+                id="dashboard"
+                aria-current="page"
+              >
+                <span class="bi me-2" width="16" height="16">
+                  <i class="fa fa-tachometer" aria-hidden="true"></i>
+                </span>
+                Dashboard
+              </a>
             </li>
-            <li><hr class="dropdown-divider" /></li>
-            <li>
-              <a class="dropdown-item" href="/accounts/logout/">Log Out</a>
+            <li class="nav-item">
+              <a
+                href="/user/leaderboard/"
+                class="nav-link link-dark"
+                id="leaderboard"
+                aria-current="page"
+              >
+                <span class="bi me-2" width="16" height="16">
+                  <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                </span>
+                Leader Board
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/user/personal_scores/"
+                class="nav-link link-dark"
+                id="personal_leaderboard"
+                aria-current="page"
+              >
+                <span class="bi me-2" width="16" height="16"
+                  ><i class="fa fa-star-half-o" aria-hidden="true"></i>
+                </span>
+                Personal Scores
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/user/take_quiz/"
+                class="nav-link link-dark"
+                id="take_quiz"
+                aria-current="page"
+              >
+                <span class="bi me-2" width="16" height="16">
+                  <i class="fa fa-question" aria-hidden="true"></i>
+                </span>
+                Take The Quiz
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/user/rules/"
+                class="nav-link link-dark"
+                id="rules"
+                aria-current="page"
+              >
+                <span class="bi me-2" width="16" height="16">
+                  <i class="fa fa-tasks" aria-hidden="true"></i>
+                </span>
+                Rules and Format
+              </a>
             </li>
           </ul>
+          <hr />
+          <div class="dropdown">
+            <a
+              href="#"
+              class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
+              id="dropdownUser1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <img
+                src="{% static 'images/avatar.png' %}"
+                alt="admin"
+                width="32"
+                height="32"
+                class="rounded-circle me-2"
+              />
+              <strong>{{ user.username }}</strong>
+            </a>
+            <ul
+              class="dropdown-menu dropdown-menu-light text-small shadow"
+              aria-labelledby="dropdownUser1"
+            >
+              <li>
+                <a class="dropdown-item" href="/user/profile/">Profile</a>
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a class="dropdown-item" href="/accounts/logout/">Log Out</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-      <div class="flex-column">{% block body %} {% endblock body %}</div>
+      <div class="main_content">{% block body %} {% endblock body %}</div>
     </div>
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -209,6 +233,25 @@
         .parents("li,ul")
         .addClass("active");
       $('a[href="' + this.location.pathname + '"]').addClass("active");
+      $("#sidebar-toggler").click((e) => {
+        console.log("here");
+        var sidebar = $(
+          e.currentTarget.attributes.getNamedItem("data-target").value
+        );
+        if (sidebar.hasClass("hide")) {
+          sidebar.removeClass("hide");
+        } else {
+          sidebar.addClass("hide");
+        }
+      });
+      if ($(".main_body").width() < 600) {
+        $("#ico_nav_sidebar").addClass("hide");
+      } else {
+        $("#ico_nav_sidebar").removeClass("hide");
+      }
+      // $(".ico_sidebar_container").click(() => {
+      //   $("#ico_nav_sidebar").addClass("hide");
+      // });
     </script>
   </body>
 </html>
