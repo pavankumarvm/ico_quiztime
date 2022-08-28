@@ -2,58 +2,39 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}" />
 <title>Login | ICO Quiz Time</title>
 {% endblock head %} {% block body %}
-<body>
-<div class="ex1">
-    <h3 style="font-size:50px;">Basic Profile</h3>
-        <style>
-            h3{ 
-                text-align: center;
-                
-            }
-            div.ex1 {
-                background-color:rgb(63, 63, 155);
-                height : 200px;
-                width :500px;
-                margin: auto;
-            }
-
-        </style>
-</div>
-
-
 <div class="container">
-    <style>
-        div.container {
-            width: 400px;
-            margin: auto;
-        }
-    </style>
+  <h3 style="font-size: 50px">Basic Profile</h3>
   <form action="/action_page.php">
     <label for="fname">First Name</label>
-    <input type="text" id="fname" name="firstname" placeholder="Your name..">
+    <input type="text" id="fname" name="firstname" placeholder="Your name.." />
 
     <label for="lname">Last Name</label>
-    <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+    <input
+      type="text"
+      id="lname"
+      name="lastname"
+      placeholder="Your last name.."
+    />
 
     <label for="Age">Age</label>
-    <input type="number" id="Age" name="Age" placeholder="Your Age ..">
-
-
+    <input type="number" id="Age" name="Age" placeholder="Your Age .." />
+    
     <label for="Gender">Gender</label>
     <select id="Gender" name="Gender">
       <option value="Male">Male</option>
       <option value="Female">Female</option>
-      
     </select>
 
     <label for="Profile Image">Profile Image</label>
-    <input type ="file" alt ="submit" style="float:center"width="48"height="48">
+    <input
+      type="file"
+      alt="submit"
+      style="float: center"
+      width="48"
+      height="48"
+    />
 
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit" />
   </form>
 </div>
-
-</body>
-</html>
-
 {% endblock body %}
