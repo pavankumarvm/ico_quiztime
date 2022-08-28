@@ -26,6 +26,7 @@ urlpatterns = [
   path('adminpanel/newadmin', add_new_admin, name='add_new_admin')
   # User APIS
   path('user/dashboard/', dashboard, name='dashboard'),
+  path('user/profile/', profile, name='profile'),
   path('user/leaderboard/', leaderboard, name='leaderboard'),
   path('user/personal_scores/', personal_scores, name='personal_scores'),
   path('user/rules/',user_rules,name='user_rules'),
