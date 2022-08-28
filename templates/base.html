@@ -234,6 +234,7 @@
         .addClass("active");
       $('a[href="' + this.location.pathname + '"]').addClass("active");
       $("#sidebar-toggler").click((e) => {
+        console.log("here");
         var sidebar = $(
           e.currentTarget.attributes.getNamedItem("data-target").value
         );
@@ -248,9 +249,9 @@
       } else {
         $("#ico_nav_sidebar").removeClass("hide");
       }
-      $(".ico_sidebar_container").click(() => {
-        $("#ico_nav_sidebar").addClass("hide");
-      });
+      // $(".ico_sidebar_container").click(() => {
+      //   $("#ico_nav_sidebar").addClass("hide");
+      // });
     </script>
   </body>
 </html>
