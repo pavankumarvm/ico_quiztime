@@ -113,15 +113,15 @@
               <li class="nav-item active">
                 <a class="nav-link" href="/">Home</a>
               </li>
-              {% if user.is_active %} {% if user.is_admin %}
+              {% if user.is_active %}
+              <li class="nav-item">
+                <a class="nav-link" href="/user/dashboard/">Dashboard</a>
+              </li>
+              {% if user.is_admin %}
               <li class="nav-item">
                 <a class="nav-link" href="/adminpanel/dashboard/"
                   >Admin Dashboard</a
                 >
-              </li>
-              {% else %}
-              <li class="nav-item">
-                <a class="nav-link" href="/user/dashboard/">Dashboard</a>
               </li>
               {% endif %}
               <li class="nav-item dropdown">
