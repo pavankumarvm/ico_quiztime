@@ -243,21 +243,12 @@
     </main>
 
     <script>
-      var url = window.location.href;
-      var page_id = url.split("/")[4];
-      // console.log(page_id);
-      if (page_id != "") {
-        var ele = document.getElementById(page_id);
-        ele.classList.add("active");
-      } else {
-        var ele = document.getElementById("dashboard");
-        ele.classList.add("active");
-      }
-
-      var alertList = document.querySelectorAll(".alert");
-      alertList.forEach(function (alert) {
-        new bootstrap.Alert(alert);
-      });
+      $("nav a").parents("li,ul").removeClass("active");
+      $("nav a").removeClass("active");
+      $('a[href="' + this.location.pathname + '"]')
+        .parents("li,ul")
+        .addClass("active");
+      $('a[href="' + this.location.pathname + '"]').addClass("active");
       $("#sidebar-toggler").click((e) => {
         var sidebar = $(
           e.currentTarget.attributes.getNamedItem("data-target").value

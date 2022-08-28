@@ -28,7 +28,7 @@
 .ico_sidebar {
   width: 280px;
   height: calc(100vh - 72px);
-  position: absolute;
+  position: fixed;
   top: 72px;
   box-shadow: 2px 2px 2px gray;
   z-index: 1;
@@ -37,7 +37,6 @@
 .main_content {
   display: flex;
   flex-direction: column;
-  width: 100%;
   z-index: 1;
   position: absolute;
   width: -webkit-fill-available;
