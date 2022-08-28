@@ -6,17 +6,24 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 .container{
     margin-top: 100px;
+    margin-left:50px;
 }
 
 input[type=submit] {
     background-color: #04AA6D;
     color: white;
-    padding: 12px 20px;
+    padding: 10px 15px;
     border: none;
+    
     border-radius: 4px;
     cursor: pointer;
-    
-    position:bottom;
+    position:fixed;
+    right:10%;
+    bottom:5%;
+    z-index:2;
+  }
+  input[type=submit]:hover{
+    background-color:chartreuse;
   }
 
 h1{
