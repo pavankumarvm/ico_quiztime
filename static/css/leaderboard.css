@@ -1,64 +1,37 @@
-.bg{
-    width: 1100px;
-    margin: 35px;
-    border-radius: 30px;
+.image {
+  margin: 5px;
+  height: 60px;
+  width: 60px;
 }
-.head{
-    height: 47px;
-    margin: 20px;
-    margin-top: 30px;
+.info {
+  margin: 5px;
 }
-.lead{
-    font-size: 40px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-style: normal;
+.tablefixhead {
+  overflow-y: auto;
+  height: 275px;
 }
-.img{    
-    margin: 20px;
-    height: 150px;
+.tablefixhead table {
+  width: 100%;
+  table-layout: fixed;
+  border-spacing: 1px;
 }
-.col1{
-    width: 145px;
-    margin-left: 30px;
-    border: 1px solid black;
+.tablefixhead table th {
+  text-align: left;
+  top: 0;
+  position: sticky;
+  background-color: black;
+  color: white !important;
 }
-.col2{
-    width: 400px;
+.quiz {
+  margin: 20px;
+  margin-top: 20px;
+  text-align: center;
 }
-.image{
-    margin: 3px;
-    height: 140px;
-}
-.info{
-    margin: 3px;
-    height: 140px;
-}
-.tablefixhead{
-    overflow-y: auto;
-    height:275px;
-}
-.tablefixhead table{
-    width: 100%;
-    table-layout: fixed; 
-    border-spacing: 1px;
-}
-.tablefixhead table th{
-    text-align: left;
-    top: 0;
-    position: sticky;
-    background-color: black;
-    color: white !important;
-}
-.quiz{
-    margin: 20px;
-    margin-top: 20px;
-    text-align: center;
-}
-.but2{
-    background: rgb(0, 123, 255);
-    color: white;
-    border: none;
-    border-radius: .25rem;
-    width: 155px;
-    height: 45px;
+.but2 {
+  background: rgb(0, 123, 255);
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  width: 155px;
+  height: 45px;
 }
