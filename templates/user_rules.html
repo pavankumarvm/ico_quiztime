@@ -1,12 +1,28 @@
 {% extends 'base.html' %} {% load static %} {% block head %}
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="{% static 'css/dashboard.css' %}"
-/>
-<title>Rules | ICO Quiz Time</title>
+<link rel="stylesheet" type="text/css" href="{% static 'css/rules.css' %}" />
+<title>Rules | ICO QuizTime</title>
 {% endblock head %} {% block body %}
-<div class="dashboard">
-  <h1>Rules and Format</h1>
+<div class="container">
+  <h1>Rules | ICO QuizTime</h1>
+
+  <ul>
+    <li>You must use a functioning webcam and microphone</li>
+    <li>No cell phones or other secondary devices in the room or test area</li>
+    <li>
+      Your desk/table must be clear or any materials except your test-taking
+      device
+    </li>
+    <li>No one else can be in the room with you</li>
+    <li>There is specific time for each question</li>
+    <li>
+      There is relative marking for each question , which is based on time
+    </li>
+    <li>
+      You will awarded from bonus marks ,if you submit the answer early within
+      the time
+    </li>
+  </ul>
+
+  <input type="submit" value="Start The Quiz" />
 </div>
 {% endblock body %}
