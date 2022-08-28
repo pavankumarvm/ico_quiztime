@@ -10,7 +10,14 @@ def adminpanel(request):
   data = {
     'user': request.user,
   }
-  return render(request, template_name='admin_dashboard.html', context=data)
+  return render(request, template_name='admindashboard.html', context=data)
+
+@user_passes_test(lambda u: u.is_admin, login_url='/accounts/adminlogin/')
+def adminprofile(request):
+  data = {
+    'user': request.user,
+  }
+  return render(request, template_name='adminprofile.html', context=data)
 
 @user_passes_test(lambda u: u.is_admin, login_url='/accounts/adminlogin/')
 def create_quiz(request):
@@ -34,7 +41,10 @@ def dashboard(request):
 
 @login_required(login_url='/accounts/login/')
 def profile(request):
-  return render(request, template_name='profile.html')
+  data = {
+    'user': request.user,
+  }
+  return render(request, template_name='profile.html',context=data)
 
 @login_required(login_url='/accounts/login/')
 def leaderboard(request):

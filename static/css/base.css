@@ -49,6 +49,9 @@
     width: 320px;
   }
 
+  .navbar-brand > h2 {
+    display: none;
+  }
   .main_body {
     display: flex;
     flex-direction: column;
