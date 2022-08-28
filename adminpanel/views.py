@@ -5,7 +5,10 @@ def index(request):
   return render(request, template_name='index.html')
 
 def adminpanel(request):
-  return render(request, template_name='adminpanel.html')
+  data = {
+    'user': request.user,
+  }
+  return render(request, template_name='admin_dashboard.html', context=data)
 
 def create_quiz(request):
   return render(request, template_name='create_quiz.html')

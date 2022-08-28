@@ -110,7 +110,7 @@
         <ul class="nav nav-pills flex-column mb-auto">
           <li class="nav-item">
             <a
-              href="/admin_panel/dashboard/"
+              href="/adminpanel/dashboard/"
               class="nav-link link-dark"
               id="dashboard"
               aria-current="page"
@@ -123,7 +123,7 @@
           </li>
           <li class="nav-item">
             <a
-              href="/admin_panel/create_quiz/"
+              href="/adminpanel/create_quiz/"
               class="nav-link link-dark"
               id="create_quiz"
               aria-current="page"
@@ -136,7 +136,7 @@
           </li>
           <li class="nav-item">
             <a
-              href="/admin_panel/edit_quiz/"
+              href="/adminpanel/edit_quiz/"
               class="nav-link link-dark"
               id="edit_quiz"
               aria-current="page"
@@ -149,7 +149,7 @@
           </li>
           <li class="nav-item">
             <a
-              href="/admin_panel/delete_quiz/"
+              href="/adminpanel/delete_quiz/"
               class="nav-link link-dark"
               id="delete_quiz"
               aria-current="page"
@@ -160,9 +160,9 @@
               Delete Quiz
             </a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a
-              href="/admin_panel/rules/"
+              href="/adminpanel/rules/"
               class="nav-link link-dark"
               id="rules"
               aria-current="page"
@@ -172,7 +172,7 @@
               </span>
               Rules and Format
             </a>
-          </li>
+          </li> -->
         </ul>
         <hr />
         <div class="dropdown">
@@ -190,17 +190,17 @@
               height="32"
               class="rounded-circle me-2"
             />
-            <strong>{{ user.first_name }}</strong>
+            <strong>{{ user.username }}</strong>
           </a>
           <ul
             class="dropdown-menu dropdown-menu-light text-small shadow"
             aria-labelledby="dropdownUser1"
           >
             <li>
-              <a class="dropdown-item" href="/admin_panel/profile/">Profile</a>
+              <a class="dropdown-item" href="/adminpanel/profile/">Profile</a>
             </li>
             <li>
-              <a class="dropdown-item" href="/admin_panel/new_admin/"
+              <a class="dropdown-item" href="/adminpanel/new_admin/"
                 >New Admin</a
               >
             </li>
