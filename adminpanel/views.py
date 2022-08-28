@@ -15,3 +15,6 @@ def leaderboard(request):
 
 def adminpanel(request):
   return render(request, template_name='adminpanel.html')
+
+def rules(request):
+  return render(request, template_name='rules.html')

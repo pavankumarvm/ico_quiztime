@@ -21,6 +21,7 @@ urlpatterns = [
   path('', index, name='index'),
   path('profile/', profile, name='profile'),
   path('dashboard/', dashboard, name='dashboard'),
+  path('rules/', rules ,name='rules'),  
   path('leaderboard/',leaderboard,name='leaderboard'),
   path('adminpanel/', adminpanel, name='adminpanel'),
 ]
