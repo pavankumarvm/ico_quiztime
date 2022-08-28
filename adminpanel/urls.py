@@ -20,6 +20,7 @@ from adminpanel.views import *
 urlpatterns = [
   path('', index, name='index'),
   path('adminpanel/dashboard/', adminpanel, name='adminpanel'),
+  path('adminpanel/profile/', profile, name='profile'),
   path('adminpanel/create_quiz/', create_quiz, name='adminpanel'),
   path('adminpanel/edit_quiz/', edit_quiz, name='adminpanel'),
   path('adminpanel/delete_quiz/', delete_quiz, name='adminpanel'),
