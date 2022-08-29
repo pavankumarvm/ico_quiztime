@@ -35,3 +35,9 @@
   width: 155px;
   height: 45px;
 }
+
+@media screen and (max-width: 600px) {
+  .company_logo {
+    display: none;
+  }
+}

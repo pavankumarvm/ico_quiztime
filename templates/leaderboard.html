@@ -15,29 +15,31 @@
       </div>
       <div class="row">
         <div class="col">
-          <div class="row">
-            <div class="col-md-1 mx-3">
-              <div class="image">
-                <img
-                  src="{% static 'images/avatar.png' %}"
-                  class="img-circle"
-                  width="80"
-                  alt="User Photo"
-                />
+          <div class="row justify-content-center">
+            <div class="col-md-5">
+              <div class="row">
+                <div class="col-3">
+                  <img
+                    src="{% static 'images/avatar.png' %}"
+                    class="img-circle"
+                    width="80"
+                    alt="User Photo"
+                  />
+                </div>
+                <div class="col">
+                  <div class="info">
+                    <h5 style="text-align: left">
+                      Name:{{user.first_name}} {{user.last_name}}
+                    </h5>
+                    <h5 style="text-align: left">
+                      Total Score:{{user.total_score}}
+                    </h5>
+                    <h5 style="text-align: left">Rank:{{user.rank}}</h5>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col-md-4">
-              <div class="info">
-                <h5 style="text-align: left">
-                  Name:{{user.first_name}} {{user.last_name}}
-                </h5>
-                <h5 style="text-align: left">
-                  Total Score:{{user.total_score}}
-                </h5>
-                <h5 style="text-align: left">Rank:{{user.rank}}</h5>
-              </div>
-            </div>
-            <div class="col-md-6 d-flex justify-content-end">
+            <div class="col-md-5 d-flex justify-content-end company_logo">
               <img
                 src="{% static 'images\ico_logo.webp' %}"
                 class="ico_logo"
@@ -51,10 +53,10 @@
       <div class="tablefixhead mx-4">
         <table class="table table-striped">
           <tr>
+            <th id="rank">Rank</th>
             <th id="name">Name</th>
             <th id="score">Total Score</th>
             <th id="time">Time</th>
-            <th id="rank">Rank</th>
           </tr>
 
           <tr>

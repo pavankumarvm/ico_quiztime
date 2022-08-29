@@ -2,27 +2,34 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/rules.css' %}" />
 <title>Rules | ICO QuizTime</title>
 {% endblock head %} {% block body %}
-<div class="container">
-  <h1>Rules | ICO QuizTime</h1>
-
-  <ul>
-    <li>You must use a functioning webcam and microphone</li>
-    <li>No cell phones or other secondary devices in the room or test area</li>
-    <li>
-      Your desk/table must be clear or any materials except your test-taking
-      device
-    </li>
-    <li>No one else can be in the room with you</li>
-    <li>There is specific time for each question</li>
-    <li>
-      There is relative marking for each question , which is based on time
-    </li>
-    <li>
-      You will awarded from bonus marks ,if you submit the answer early within
-      the time
-    </li>
-  </ul>
-
-  <input type="submit" value="Start The Quiz" />
+<div class="containe mb-3">
+  <div class="col">
+    <div class="row mx-4 mt-4">
+      <h2>Rules of the Quiz</h2>
+      <hr />
+    </div>
+    <div class="row mx-4">
+      <ul>
+        <li>You must use a functioning webcam and microphone</li>
+        <li>
+          No cell phones or other secondary devices in the room or test area
+        </li>
+        <li>
+          Your desk/table must be clear or any materials except your test-taking
+          device
+        </li>
+        <li>No one else can be in the room with you</li>
+        <li>There is specific time for each question</li>
+        <li>
+          There is relative marking for each question , which is based on time
+        </li>
+        <li>
+          You will awarded from bonus marks ,if you submit the answer early
+          within the time
+        </li>
+      </ul>
+    </div>
+    <input type="submit" value="Start The Quiz" />
+  </div>
 </div>
 {% endblock body %}
