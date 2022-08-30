@@ -32,4 +32,6 @@ urlpatterns = [
   path('user/personal_scores/', personal_scores, name='personal_scores'),
   path('user/rules/',user_rules,name='user_rules'),
   path('user/take_quiz/', take_quiz, name='take_quiz'),
+  # Quiz APIS
+  path('quiz/', QuizView.as_view() , name='quiz'),
 ]

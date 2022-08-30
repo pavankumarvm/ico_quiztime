@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- CSS only -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <!-- JavaScript Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+    <!-- FontAwesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <!-- JQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/quiz.css' %}" />
+    <!-- <script src="{% static 'js/main.js'%}"></script> -->
+    <style>
+      .alert {
+        position: fixed;
+        z-index: 1000;
+        width: 290px;
+        bottom: 50px;
+        margin: auto;
+        left: 0px;
+        right: 0px;
+        display: flex;
+        align-self: center;
+        justify-content: center;
+      }
+      .container {
+        overflow-y: auto;
+        margin-top: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    {% if messages %}
+    <div class="alert alert-success alert-dismissible" role="alert">
+      {% for message in messages %} {{message}}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+      {% endfor %}
+    </div>
+    {% endif %}
+    <main>
+      <section id="nav-bar">
+        <nav
+          class="navbar navbar-expand-lg navbar-light p-2 fixed-top ico_navbar"
+        >
+          <a
+            class="navbar-brand d-flex flex-row px-2 justify-content-start"
+            href="/"
+            ><img
+              src="{% static 'images\lets_quiz.jpeg' %}"
+              class="logoimg"
+              alt="logo"
+              style="width: auto; height: 40px"
+            />
+            <!-- <h2 style="color: grey">Quiz Time</h2> -->
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto nav-pills">
+              <li class="nav-item active">
+                <a class="nav-link" href="/">Home</a>
+              </li>
+              {% if user.is_active %}
+              <li class="nav-item">
+                <a class="nav-link" href="/user/dashboard/">Dashboard</a>
+              </li>
+              {% if user.is_admin %}
+              <li class="nav-item">
+                <a class="nav-link" href="/adminpanel/dashboard/"
+                  >Admin Dashboard</a
+                >
+              </li>
+              {% endif %}
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Hii, {{user.username }}
+                </a>
+
+                <div
+                  class="dropdown-menu dropdown-menu-right"
+                  aria-labelledby="navbarDropdown"
+                  style="background-color: gray; color: white"
+                >
+                  <a class="dropdown-item" href="/accounts/logout/">Logout</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="/feedback/">Feedback</a>
+                </div>
+              </li>
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="/accounts/login/">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/accounts/adminlogin/">Admin Login</a>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+        </nav>
+      </section>
+      <div class="container">
+        <form
+          id="answers"
+          method="POST"
+          onsubmit="return confirm('Are you sure you want to submit quiz?');"
+        >
+          {% csrf_token %}
+          <div class="questions">
+            <div id="{{ question.question_id }}" class="slide">
+              <div class="card mb-2">
+                <div class="card-header">
+                  <strong>Question 1</strong>
+                  <div class="timer">00:59 Left</div>
+                </div>
+                <div class="card-body row">
+                  <div class="col-md-4 img">
+                    <img
+                      src="https://media.istockphoto.com/vectors/vector-illustration-of-a-archimedes-in-bath-thumbs-up-eureka-ancient-vector-id1202900421"
+                    />
+                  </div>
+                  <h3 class="col-md-8 question">Who is he?</h3>
+                </div>
+                <div class="card-footer">Click on Correct Answer</div>
+              </div>
+
+              <div
+                class="answers d-flex flex-wrap align-items-center justify-content-center gap-2"
+              >
+                <label class="card col-md-5 answer">
+                  <div class="card-body">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="{{ question.question_id }}"
+                      value="A"
+                    />
+                    <strong>A.&nbsp;</strong> Archimedes
+                  </div> </label
+                ><label class="card col-md-5 answer">
+                  <div class="card-body">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="{{ question.question_id }}"
+                      value="A"
+                    /><strong>B.&nbsp;</strong>
+                    Pythogoras
+                  </div> </label
+                ><label class="card col-md-5 answer">
+                  <div class="card-body">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="{{ question.question_id }}"
+                      value="A"
+                    /><strong>C.&nbsp;</strong>
+                    Aristotle
+                  </div> </label
+                ><label class="card col-md-5 answer">
+                  <div class="card-body">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="{{ question.question_id }}"
+                      value="A"
+                    /><strong>D.&nbsp;</strong>
+                    Aryabhatta
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="submit-container">
+            <!-- <button type="button" id="previous" class="button">
+              Previous Question
+            </button> -->
+            <!-- <button
+              type="submit"
+              id="submit"
+              name="quiz_id"
+              value="{{ quiz_id }}"
+            >
+              End Quiz
+            </button> -->
+          </div>
+        </form>
+      </div>
+      <!-- <div id="alert-container">
+        <div class="confirm">
+          <div id="confirmMessage">Confirm text</div>
+          <div>
+            <input id="confirmYes" type="button" value="Yes" />
+            <input id="confirmNo" type="button" value="No" />
+          </div>
+        </div>
+      </div> -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <!-- <script>
+        // Variables
+        const previousButton = document.getElementById("previous");
+        const nextButton = document.getElementById("next");
+        const slides = document.querySelectorAll(".slide");
+        const q_numbers = document.querySelectorAll(".number");
+        let currentSlide = 0;
+        var started = false;
+        var Submit = false;
+        // Functions
+
+        function showSlide(n) {
+          slides[currentSlide].classList.remove("active-slide");
+          q_numbers[currentSlide].classList.remove("active-question");
+          slides[n].classList.add("active-slide");
+          q_numbers[n].classList.add("active-question");
+          currentSlide = n;
+          if (currentSlide === 0) {
+            previousButton.classList.add("fade_it");
+          } else {
+            previousButton.classList.remove("fade_it");
+          }
+          if (currentSlide === slides.length - 1) {
+            nextButton.classList.add("fade_it");
+          } else {
+            nextButton.classList.remove("fade_it");
+          }
+        }
+
+        function showNextSlide() {
+          if (currentSlide != slides.length - 1) showSlide(currentSlide + 1);
+        }
+
+        function showPreviousSlide() {
+          if (currentSlide != 0) showSlide(currentSlide - 1);
+        }
+
+        const ui = {
+          confirm: async (message) => createConfirm(message),
+        };
+
+        const createConfirm = (message) => {
+          return new Promise((complete, failed) => {
+            $("#confirmMessage").text(message);
+
+            $("#confirmYes").off("click");
+            $("#confirmNo").off("click");
+
+            $("#confirmYes").on("click", () => {
+              $("#alert-container").hide();
+              $(".confirm").hide();
+              if (!started) {
+                let questions = Array.from(q_numbers);
+                questions.forEach(
+                  (elem) => (elem.innerHTML = questions.indexOf(elem) + 1)
+                );
+                showSlide(currentSlide);
+                started = true;
+                console.log("Quiz started");
+              }
+              // else{
+              // 	Submit = true;
+              // 	console.log("Quiz submitted");
+              // }
+              complete(true);
+            });
+            $("#confirmNo").on("click", () => {
+              $("#alert-container").hide();
+              $(".confirm").hide();
+              if (!started) {
+                location.href = "/";
+                console.log("Quiz not started");
+              }
+              // else{
+              // 	var alert_container = document.getElementById('alert-container');
+              // 	alert_container.style.display = 'none';
+              // 	Submit = false;
+              // 	console.log("Quiz not submitted");
+              // }
+              complete(false);
+            });
+            $("#alert-container").show();
+            $(".confirm").show();
+          });
+        };
+
+        const confirmBox = async (message) => {
+          const confirm = await ui.confirm(message);
+          if (confirm) {
+            alert("\n        All the best!!!\n\n         Try your Best.");
+          }
+        };
+        // Show the first slide
+        (function () {
+          confirmBox("Do you want ot start quiz?");
+        })();
+
+        function thisQuestion(question) {
+          let slides_array = Array.from(slides);
+          showSlide(slides_array.findIndex((elem) => elem.id === question.id));
+        }
+
+        // Event listeners
+        previousButton.addEventListener("click", showPreviousSlide);
+        nextButton.addEventListener("click", showNextSlide);
+      </script> -->
+    </main>
+  </body>
+</html>

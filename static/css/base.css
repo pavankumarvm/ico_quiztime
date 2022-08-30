@@ -14,6 +14,10 @@
   padding-right: 1.25rem;
 }
 
+.ico_navbar {
+  background-color: #ffc82f;
+}
+
 .main_body {
   display: grid;
   grid-template-columns: 280px auto;

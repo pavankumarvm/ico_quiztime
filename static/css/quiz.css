@@ -1,0 +1,57 @@
+.ico_navbar {
+  background-color: #ffc82f;
+}
+
+.card > .card-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffc82f;
+  color: black;
+}
+.card > .card-header > .timer {
+  font-weight: bold;
+  color: green;
+}
+.card > .card-body > .img {
+  max-height: 220px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.card > .card-body > .img > img {
+  height: 100%;
+}
+.card > .card-body > .question {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.card > .card-footer {
+  background-color: black;
+  color: white;
+  font-size: 18px;
+  text-align: center;
+  font-weight: bold;
+}
+.card.answer {
+  background-color: #ffc82f;
+}
+.card.answer > .card-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  color: black;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.card.answer > .card-body > input[type="radio"] {
+  visibility: hidden;
+}
