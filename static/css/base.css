@@ -31,9 +31,9 @@
 
 .ico_sidebar {
   width: 280px;
-  height: calc(100vh - 72px);
+  height: calc(100vh - 66px);
   position: fixed;
-  top: 72px;
+  top: 66px;
   box-shadow: 2px 2px 2px gray;
   z-index: 1;
 }
@@ -45,7 +45,7 @@
   position: absolute;
   width: -webkit-fill-available;
   left: 280px;
-  top: 72px;
+  top: 66px;
 }
 
 @media screen and (max-width: 600px) {
@@ -75,7 +75,7 @@
   .main_content {
     width: 100%;
     position: absolute;
-    top: 72px;
+    top: 66px;
     left: 0px;
     z-index: inherit;
   }
@@ -83,9 +83,18 @@
 
 .ico_logo {
   padding: 8px;
-  background-color: #0c3c60;
+  /* background-color: #0c3c60; */
 }
 
 .hide {
   display: none;
+}
+
+.navbar-nav > .nav-item > .nav-link.active {
+  background-color: #fff !important;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #ffc82f !important;
+  color: black;
 }

@@ -1,6 +1,6 @@
 import uuid
 from django.db import models
-from accounts.models import IcoUser
+from accounts.models import IcoUser, Participant
 # Create your models here.
 
 ANSWER = (('a','A'), ('b','B'), ('c','C'), ('d','D'))
@@ -19,13 +19,8 @@ class Question(models.Model):
     class Meta:
         db_table = 'question'
 
-
 class Quiz(models.Model):
-    quiz_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    quiz_no = models.IntegerField(unique=True, null=False)
-    user_id = models.ForeignKey(IcoUser, on_delete=models.CASCADE)
-    score = models.IntegerField(null=False, blank=False, default=0)
-    date_appeared = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        db_table = 'quiz'
+    name = models.CharField(max_length=25, null=True)
+    start_time = models.DateTimeField(null=False)
+    end_time = models.DateTimeField(null=False)
+    participant = models.ForeignKey(to=Participant,on_delete=models.CASCADE, null=True)

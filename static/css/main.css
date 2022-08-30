@@ -1,0 +1,12 @@
+.ico_navbar {
+  background-color: #ffc82f;
+}
+main {
+  background-color: #ffc82f;
+  height: 100vh;
+  width: 100%;
+}
+.container {
+  margin-top: 66px;
+  width: 100%;
+}

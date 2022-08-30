@@ -48,16 +48,12 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'css/index.css' %}"
-    />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
   </head>
   <body>
     <section id="nav-bar">
       <nav
-        class="navbar navbar-expand-lg navbar-light p-2 fixed-top ico_navbar justify-content-start"
+        class="navbar navbar-expand-lg navbar-light py-2 fixed-top ico_navbar"
       >
         <button
           class="navbar-toggler"
@@ -70,17 +66,14 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <a
-          class="navbar-brand d-flex flex-row px-2 justify-content-start"
-          href="/"
+        <a class="navbar-brand d-flex flex-row justify-content-start" href="/"
           ><img
-            src="{% static 'images\ico_logo.webp' %}"
+            src="{% static 'images\lets_quiz.jpeg' %}"
             class="logoimg"
             alt="logo"
             style="width: auto; height: 40px"
           />
-          <h2 style="color: grey">Quiz Time</h2></a
-        >
+        </a>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto nav-pills">
             <li class="nav-item active">
@@ -132,5 +125,8 @@
         </div>
       </nav>
     </section>
+    <main>
+      <div class="container"></div>
+    </main>
   </body>
 </html>

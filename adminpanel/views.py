@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render
+from django.contrib import messages
 import random
 import pandas as pd
 import os
@@ -30,17 +31,66 @@ def adminprofile(request):
   }
   return render(request, template_name='adminprofile.html', context=data)
 
+
 @user_passes_test(lambda u: u.is_admin, login_url='/accounts/adminlogin/')
-def create_quiz(request):
-  return render(request, template_name='create_quiz.html')
+def add_quiz(request):
+    try:
+        if request.method == "POST":
+            start_time = request.POST.get('start_time')
+            end_time = request.POST.get('end_time')
+            quizName = request.POST.get('quizName')
+
+            quiz = Quiz.objects.create(
+            start_time = start_time
+                end_time=end_time,
+                name=quizName,
+            )
+            quiz.save()
+            messages.success(request, "Quiz Successfully saved.")
+        return redirect('/admin_panel/create_quiz/')
+    except:
+        messages.error(request, "Quiz not saved.Try Again.")
+        return redirect('/admin_panel/dashboard/')
+
 
 @user_passes_test(lambda u: u.is_admin, login_url='/accounts/adminlogin/')
 def edit_quiz(request):
-  return render(request, template_name='edit_quiz.html')
+    try:
+        if request.method == "POST":
+            quiz_id = request.POST.get('quiz_id')
+            start_time = request.POST.get('start_time')
+            end_time = request.POST.get('end_time')
+            quizName = request.POST.get('quizName')
+
+            quiz = Quiz.objects.filter(
+                id=quiz_id
+            )[0]
+            quiz.start_time = start_time
+            quiz.end_time = end_time
+            quiz.name = quizName
+            quiz.save()
+            messages.success(request, "Quiz Details Successfully Edited.")
+        return redirect('/admin_panel/create_quiz/')
+    except:
+        messages.error(request, "Quiz not saved.Try Again.")
+        return redirect('/admin_panel/dashboard/')
+
 
 @user_passes_test(lambda u: u.is_admin, login_url='/accounts/adminlogin/')
 def delete_quiz(request):
-  return render(request, template_name='delete_quiz.html')
+    try:
+        if request.method == "POST":
+            quiz_id = request.POST.get('quiz_id')
+
+            quiz = Quiz.objects.get(
+                id=quiz_id
+            )
+            quiz.delete()
+            messages.success(request, "Quiz Successfully deleted.")
+        return redirect('/admin_panel/delete_quiz/')
+    except:
+        messages.error(request, "Quiz not deleted.Try Again.")
+        return redirect('/admin_panel/dashboard/')
 
 @user_passes_test(lambda u: u.is_admin, login_url='/accounts/adminlogin/')
 def add_new_admin(request):

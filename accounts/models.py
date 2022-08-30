@@ -7,6 +7,15 @@ from django.contrib.auth.models import PermissionsMixin
 from .managers import UserManager
 # Create your models here.
 
+
+class Participant(models.Model):
+    participant_id = models.UUIDField(primary_key=True,editable=False)
+    score = models.IntegerField(null=False, blank=False, default=0)
+    time_appeared = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'quiz'
+
 class IcoUser(AbstractBaseUser, PermissionsMixin):
 
     # Creates User
@@ -22,6 +31,11 @@ class IcoUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+
+    age = models.CharField(max_length=4,null=True)
+    gender = models.CharField(max_length=1,null=True)
+
+    quiz = models.ForeignKey(to=Participant,on_delete=models.CASCADE,null=True)
 
     objects = UserManager()
 
