@@ -7,8 +7,24 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-color: #ffc82f;
   color: black;
+}
+.card > .card-header > .client_logo {
+  height: 50px;
+}
+
+.card > .card-header > .q_no {
+  font-size: 28px;
+  font-weight: bold;
+  background-color: #ffc82f;
+  color: white;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  border: 1px solid #f7b603;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .card > .card-header > .timer {
   font-weight: bold;
