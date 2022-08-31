@@ -33,7 +33,7 @@ def adminprofile(request):
 
 
 @user_passes_test(lambda u: u.is_admin, login_url='/accounts/adminlogin/')
-def add_quiz(request):
+def create_quiz(request):
     try:
         if request.method == "POST":
             start_time = request.POST.get('start_time')
@@ -41,7 +41,7 @@ def add_quiz(request):
             quizName = request.POST.get('quizName')
 
             quiz = Quiz.objects.create(
-            start_time = start_time
+                start_time = start_time,
                 end_time=end_time,
                 name=quizName,
             )
