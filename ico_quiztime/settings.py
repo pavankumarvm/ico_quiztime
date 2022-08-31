@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-2bp#@$#!%pwm-!1uvf=rxvo-k2tq(&m45wqh%@#mhp0l(!c0-d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['3.110.84.157', '*']
 
 
 # Application definition
@@ -135,10 +135,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'assets/')
+STATIC_ROOT =  '/var/www/ico_quiztime/assets/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static/'),
+    os.path.join(BASE_DIR, 'static'),
 )
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
