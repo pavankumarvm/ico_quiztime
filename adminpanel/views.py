@@ -238,8 +238,12 @@ class QuestionView(TemplateView):
 	template_name="new_question.html"
 	
 	def post(self, request, quiz):
-		category = request.POST.get('category')
-		category = str(category).lower()
+		questionType = request.POST.get('questionType')
+		img = None
+		if questionType == 'img':
+			files = request.FILES
+			img = files.getlist('image')[0]
+		quiz_id = request.POST.get('quiz_id')
 		question = request.POST.get('question')
 		option_A = request.POST.get('option_A')
 		option_B = request.POST.get('option_B')
@@ -249,10 +253,9 @@ class QuestionView(TemplateView):
 		answer = str(answer).lower()
 		explanation = request.POST.get('explanation')
 		user = request.user
-
+		quiz_obj = Quiz.objects.get(id=quiz_id)
 		question_obj = Question.objects.create(
-					quiz = quiz,
-					category=category,
+					quiz = quiz_obj,
 					question=question,
 					option_A=option_A,
 					option_B=option_B,
@@ -262,9 +265,18 @@ class QuestionView(TemplateView):
 					explanation=explanation,
 					given_by= user,
 					)
+		if questionType == 'img':
+			question_obj.img = img
 		question_obj.save()
-		messages.success(request, "Question added successfully.")
+		messages.success(request, "Question added successfully to " + str(quiz_obj.name))
 		return render(request, template_name = 'new_question.html')
 
 	def get(self, request, quiz):
-		return render(request, template_name= 'new_question.html', context={'quiz_id':quiz})
+		quizes = Quiz.objects.all()
+		for i in range(len(quizes)):
+			quizes[i].srno = i+1
+		data = {
+			'quizes' : quizes,
+			'quiz_id':quiz
+		}
+		return render(request, template_name= 'new_question.html', context=data)

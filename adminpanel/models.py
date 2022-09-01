@@ -32,9 +32,9 @@ class Participant(models.Model):
 ANSWER = (('a','A'), ('b','B'), ('c','C'), ('d','D'))
 class Question(models.Model):
     question_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    quiz = models.ForeignKey(Quiz, null=True, on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, null=True, on_delete=models.CASCADE, related_name='quiz')
     img = models.ImageField(upload_to="question/", null=True)
-    question = models.CharField(max_length=250, null=False, blank=False)
+    question = models.CharField(max_length=250, null=True, blank=True)
     option_A = models.CharField(max_length=250, null=True, blank=True)
     option_B = models.CharField(max_length=250, null=True, blank=True)
     option_C = models.CharField(max_length=250, null=True, blank=True)

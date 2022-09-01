@@ -6,41 +6,89 @@
 />
 <title>Quiz | ICO Quiz Time</title>
 {% endblock head %}{% block body %}
-<div class="container-fluid">
+<div class="container mb-4">
   <div class="row mx-4 mt-4">
     <h2>Quiz {{quiz_id}}</h2>
     <hr />
   </div>
   <div class="row mx-4">
-    <form method="POST" class="question-form">
+    <form
+      method="POST"
+      class="question-form col-md-12"
+      action="/quiz/add_question/{{quiz_id}}/"
+      enctype="multipart/form-data"
+    >
       {% csrf_token %}
-      <div class="col-md-5 mb-3">
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="radio"
-            name="questionType"
-            value="img"
-            id="questionType1"
-          />
-          <label class="form-check-label" for="questionType1">
-            With Image
-          </label>
+      <div class="form-row mx-4">
+        <div class="col-md-3 mb-3">
+          <label for="validationGender">For Quiz:</label>
+          <select class="custom-select" id="quiz_select" name="quiz_id">
+            <option>-----Select Quiz-----</option>
+            {% for quiz in quizes %}
+            <option value="{{quiz.id}}" {% if quiz.id == quiz_id %}selected="selected"{% endif %}>{{quiz.id}}-{{quiz.name}}</option>
+            {% endfor %}
+          </select>
         </div>
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="radio"
-            name="questionType"
-            value="txt"
-            id="questionType2"
-          />
-          <label class="form-check-label" for="questionType1">
-            Without Image
+        <div class="col-md-3 mb-3">
+          <div class="form-check">
+            <label class="form-check-label" for="questionType1">
+              <input
+                class="form-check-input img-radio"
+                type="radio"
+                name="questionType"
+                value="img"
+                checked
+                id="questionType1"
+              />
+              With Image
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label" for="questionType2">
+              <input
+                class="form-check-input img-radio"
+                type="radio"
+                name="questionType"
+                value="txt"
+                id="questionType2"
+              />
+              Without Image
+            </label>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="img-file" id="img-file">
+            <input
+              id="img-file"
+              type="file"
+              name="image"
+              onchange="loadFile(event)"
+              accept="image/*"
+            />
+            <img
+              src=""
+              id="output"
+              width="200"
+              height="200"
+              alt="Preview Image"
+            />
           </label>
         </div>
       </div>
-
+      <script>
+        $(".img-radio").click(() => {
+          var val = $('input[name="questionType"]:checked').val();
+          if (val == "img") {
+            $("#img-file").show();
+          } else {
+            $("#img-file").hide();
+          }
+        });
+        var loadFile = function (event) {
+          var image = document.getElementById("output");
+          image.src = URL.createObjectURL(event.target.files[0]);
+        };
+      </script>
       <div class="form-row mx-4">
         <div class="col-md-10 mb-3">
           <label for="question">Question:</label>

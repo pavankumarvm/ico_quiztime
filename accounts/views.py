@@ -176,7 +176,10 @@ def update_details(request):
         last_name = request.POST.get('last_name')
         age = request.POST.get('age')
         gender = request.POST.get('gender')
-        avatar = request.FILES[0]
+        files = request.FILES.getlist('image')
+        avatar = None
+        if len(files) != 0:
+            avatar = files[0]
 
         if not (first_name and last_name and email):
             messages.error(request, 'Fill the Empty Fields.')
@@ -189,7 +192,8 @@ def update_details(request):
             user.phone_no = phone_no
             user.age = age
             user.gender = gender
-            user.avatar = avatar
+            if avatar:
+                user.avatar = avatar
             messages.success(request, 'User Details updated successfully.')
             return redirect("/admin_panel/dashboard/")
     else:
