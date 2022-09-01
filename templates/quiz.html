@@ -167,8 +167,11 @@
             <div id="{{ question.question_id }}" class="slide">
               <div class="card mb-2">
                 <div class="card-header">
-                  <div class="client_logo">
+                  <div class="client_logo mr-0">
                     <img src="{% static 'images/bajaj.jpeg' %}" height="50" />
+                  </div>
+                  <div class="exam">
+                    <img src="{% static 'images/engquiz.jpeg' %}" height="50" />
                   </div>
                   <div class="q_no">1</div>
                   <div class="timer">00:59 Left</div>
@@ -176,10 +179,14 @@
                 <div class="card-body row">
                   <div class="col-md-4 img">
                     <img
-                      src="https://media.istockphoto.com/vectors/vector-illustration-of-a-archimedes-in-bath-thumbs-up-eureka-ancient-vector-id1202900421"
+                      src="https://static.wixstatic.com/media/9fa8c2_3fc13868157e449ab0d6d7b93ba3c6be.jpg/v1/fill/w_372,h_357,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/9fa8c2_3fc13868157e449ab0d6d7b93ba3c6be.jpg"
                     />
                   </div>
-                  <h3 class="col-md-8 question">Who is he?</h3>
+                  <h3 class="col-md-8 question">
+                    An experiment in 1590 from the Leaning Tower of Pisa, to
+                    show that bodies of different masses will hit the ground at
+                    the same time. Who is the experimenter?
+                  </h3>
                 </div>
                 <div class="card-footer">Click on Correct Answer</div>
               </div>
@@ -195,7 +202,7 @@
                       name="{{ question.question_id }}"
                       value="A"
                     />
-                    <strong>A.&nbsp;</strong> Archimedes
+                    <strong>A.&nbsp;</strong> Leonardo Da Vinci
                   </div> </label
                 ><label class="card col-md-5 answer">
                   <div class="card-body">
@@ -205,7 +212,7 @@
                       name="{{ question.question_id }}"
                       value="A"
                     /><strong>B.&nbsp;</strong>
-                    Pythogoras
+                    Copernicus
                   </div> </label
                 ><label class="card col-md-5 answer">
                   <div class="card-body">
@@ -215,7 +222,7 @@
                       name="{{ question.question_id }}"
                       value="A"
                     /><strong>C.&nbsp;</strong>
-                    Aristotle
+                    Galileo Galilei
                   </div> </label
                 ><label class="card col-md-5 answer">
                   <div class="card-body">
@@ -225,7 +232,7 @@
                       name="{{ question.question_id }}"
                       value="A"
                     /><strong>D.&nbsp;</strong>
-                    Aryabhatta
+                    Isaac Newton
                   </div>
                 </label>
               </div>
