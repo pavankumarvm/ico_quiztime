@@ -6,7 +6,49 @@
 />
 <title>Dashboard | ICO Quiz Time</title>
 {% endblock head %} {% block body %}
-<div class="dashboard">
-  <h1>Dashboard</h1>
+<div class="container-fluid">
+  <div class="row mx-4 mt-4">
+    <h2>Quiz</h2>
+    <hr />
+  </div>
+  <div class="col mx-2">
+    <div class="row">
+      <table class="table table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Quiz Name</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">End Date</th>
+            <th scope="col">Delete Quiz</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for quiz in quizes %}
+          <tr id="{{quiz.id}}">
+            <th scope="row">{{quiz.srno}}</th>
+            <form method="POST" action="/adminpanel/delete_quiz/">
+              {% csrf_token %}
+              <input type="hidden" name="quiz_id" value="{{quiz.id}}" />
+              <td>{{quiz.name}}</td>
+              <td>
+                {{quiz.start_time|date:'Y-m-d'}}T{{quiz.end_time|time:'H:i:s'}}
+                />
+              </td>
+              <td>
+                {{quiz.end_time|date:'Y-m-d'}}T{{quiz.end_time|time:'H:i:s'}}
+              </td>
+              <td>
+                <button type="submit" class="btn btn-danger mx-1">
+                  Delete
+                </button>
+              </td>
+            </form>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 {% endblock body %}

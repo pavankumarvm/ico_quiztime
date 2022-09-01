@@ -97,6 +97,18 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'ico_quiz_database',
+#         'USER': 'ico_admin',
+#         'PASSWORD': 'ico_admin_pavan',
+#         'HOST': 'ico-quiz-cluster.cluster-ceygtmojrix9.ap-south-1.rds.amazonaws.com',
+#         'PORT':  '5432',
+#     }
+# }
+
+
 AUTH_USER_MODEL = 'accounts.IcoUser'
 
 # Password validation

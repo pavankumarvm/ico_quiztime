@@ -2,11 +2,84 @@
 <link
   rel="stylesheet"
   type="text/css"
-  href="{% static 'css/dashboard.css' %}"
+  href="{% static 'css/leaderboard.css' %}"
 />
-<title>Dashboard | ICO Quiz Time</title>
+<title>Personal Scores| ICO Quiz Time</title>
 {% endblock head %} {% block body %}
-<div class="dashboard">
-  <h1>Personal Scores</h1>
+<div class="container mb-3">
+  <div class="row">
+    <div class="col">
+      <div class="row mx-4 mt-4">
+        <h2>Leaderboard</h2>
+        <hr />
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="row justify-content-center">
+            <div class="col-md-5">
+              <div class="row">
+                <div class="col-3">
+                  <img
+                    src="{% static 'images/avatar.png' %}"
+                    class="img-circle"
+                    width="80"
+                    alt="User Photo"
+                  />
+                </div>
+                <div class="col">
+                  <div class="info">
+                    <h5 style="text-align: left">Name: Pavan Maurya</h5>
+                    <h5 style="text-align: left">Total Score: 500</h5>
+                    <h5 style="text-align: left">Rank:3</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5 d-flex justify-content-end company_logo">
+              <img
+                src="{% static 'images\lets_quiz.jpeg' %}"
+                class="ico_logo"
+                alt="logo"
+                style="width: auto; height: 90px"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tablefixhead mx-4">
+        <table class="table table-striped">
+          <tr>
+            <th id="id">Sr. No.</th>
+            <th id="name">Name</th>
+            <th id="score">Total Score</th>
+            <th id="time">Time</th>
+          </tr>
+
+          <tr>
+            <td>1</td>
+            <td>Quiz#1</td>
+            <td>200</td>
+            <td>20 min 5 s</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Quiz#2</td>
+            <td>250</td>
+            <td>21 min 10 s</td>
+          </tr>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="quiz">
+            <a href="/user/take_quiz/">
+              <button class="but2" type="button" onclick="alert('Lets Go')">
+                Take More Quizes!
+              </button>  
+            </a>
+         </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock body %}

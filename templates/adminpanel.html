@@ -52,6 +52,7 @@
       type="text/css"
       href="{% static 'css/adminpanel.css' %}"
     />
+    {% block head %}{% endblock %}
     <style>
       main {
         display: flex;
@@ -127,9 +128,9 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto nav-pills">
-              <li class="nav-item active">
+              <!-- <li class="nav-item active">
                 <a class="nav-link" href="/">Home</a>
-              </li>
+              </li> -->
               {% if user.is_active %}
               <li class="nav-item">
                 <a class="nav-link" href="/user/dashboard/">Dashboard</a>
@@ -227,7 +228,7 @@
                 <span class="bi me-2" width="16" height="16">
                   <i class="fa fa-pencil-square" aria-hidden="true"></i>
                 </span>
-                Edit Quiz
+                View/Edit Quiz
               </a>
             </li>
             <li class="nav-item">
@@ -295,7 +296,7 @@
           </div>
         </div>
       </div>
-      <div class="main_content">{% block content %} {% endblock %}</div>
+      <div class="main_content">{% block body %} {% endblock %}</div>
     </main>
 
     <script>

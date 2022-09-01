@@ -1,0 +1,63 @@
+{% extends 'adminpanel.html' %} {% load static %} {% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'css/new_question.css' %}"
+/>
+<title>Quiz | ICO Quiz Time</title>
+{% endblock head %}{% block body %}
+<div class="container-fluid">
+  <div class="row mx-4 mt-4">
+    <h2>Quiz {{quiz_id}}</h2>
+    <hr />
+  </div>
+  <div class="row mx-4">
+    <form method="POST" class="question-form">
+      {% csrf_token %}
+      <div class="col-md-5 mb-3">
+        <!-- <label for="category">Category:</label>
+        <input maxlength="50" name="category" class="category_box" required /> -->
+      </div>
+      <div class="form-row mx-4">
+        <div class="col-md-10 mb-3">
+          <label for="question">Question:</label>
+          <input name="question" class="form-control" required />
+        </div>
+      </div>
+      <div class="form-row mx-4">
+        <div class="col-md-5 mb-3">
+          <label for="option_A">Option A:</label>
+          <input name="option_A" class="form-control" required />
+        </div>
+        <div class="col-md-5 mb-3">
+          <label for="option_B">Option B:</label>
+          <input name="option_B" class="form-control" required />
+        </div>
+      </div>
+      <div class="form-row mx-4">
+        <div class="col-md-5 mb-3">
+          <label for="option_C">Option C:</label>
+          <input name="option_C" class="form-control" />
+        </div>
+        <div class="col-md-5 mb-3">
+          <label for="option_D">Option D:</label>
+          <input name="option_D" class="form-control" />
+        </div>
+      </div>
+      <div class="form-row mx-4">
+        <div class="col-md-5 mb-3">
+          <label for="answer">Correct Answer:</label>
+          <select name="answer" class="custom-select">
+            <option selected>-- Select an Answer---</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary mx-4">Add Question</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
