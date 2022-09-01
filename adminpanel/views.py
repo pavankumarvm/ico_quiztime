@@ -118,7 +118,11 @@ def delete_quiz(request):
 
 @user_passes_test(lambda u: u.is_admin, login_url='/accounts/adminlogin/')
 def add_new_admin(request):
-	return render(request, template_name='newadmin.html')
+	return render(request, template_name='new_admin.html')
+
+@user_passes_test(lambda u: u.is_admin, login_url='/accounts/adminlogin/')
+def add_new_user(request):
+	return render(request, template_name='new_user.html')
 
 @login_required(login_url='/accounts/login/')
 def dashboard(request):

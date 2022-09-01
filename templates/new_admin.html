@@ -1,0 +1,53 @@
+{% extends 'adminpanel.html' %} {% load static %} {% block body %}
+<div class="col">
+  <div class="row mx-4 mt-4">
+    <h2>New Admin Registration</h2>
+    <hr />
+  </div>
+  <div class="row">
+    <form method="POST" action="/accounts/new_admin/">
+      {% csrf_token %}
+      <input type="hidden" name="usertype" value="A" />
+      <div class="form-row mx-4">
+        <div class="col-md-5 mb-3">
+          <label for="validationServerPhone">Email Address</label>
+          <div class="input-group">
+            <input
+              type="email"
+              class="form-control"
+              id="validationServerEmail"
+              placeholder="Email Address"
+              name="email"
+              required
+            />
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">
+              Please enter Valid Email Address.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row mx-4">
+        <div class="col-md-5 mb-3">
+          <label for="validationServerPassword">Password</label>
+          <div class="input-group">
+            <input
+              type="password"
+              class="form-control"
+              id="validationServerPassword"
+              placeholder="Password"
+              name="password1"
+              required
+            />
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Minimum 4 characters.</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row mx-4">
+        <button class="btn btn-primary" type="submit">Add New Admin</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

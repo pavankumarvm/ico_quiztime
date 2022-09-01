@@ -17,49 +17,49 @@
         <div class="col">
           <div class="row justify-content-center">
             <div class="col-md-5">
-              <div class="row">
+              <div class="row px-2">
                 <div class="col-3">
                   <img
-                    src="{% static 'images/avatar.png' %}"
+                    src="/static/images/avatar.png"
                     class="img-circle"
                     width="80"
                     alt="User Photo"
                   />
                 </div>
-                <div class="col">
+                <div class="col-9">
                   <div class="info">
-                    <h5 style="text-align: left">Name: Pavan Maurya</h5>
-                    <h5 style="text-align: left">Total Score: 500</h5>
-                    <h5 style="text-align: left">Rank:3</h5>
+                    <h6 style="text-align: left">
+                      Name: {{user.first_name}} {{user.last_name}}
+                    </h6>
+                    <h6 style="text-align: left">Total Score: 500</h6>
+                    <h6 style="text-align: left">Rank:3</h6>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-md-5 d-flex justify-content-end company_logo">
+            <div class="col-md-5 company_logo">
               <img
-                src="{% static 'images\lets_quiz.jpeg' %}"
+                src="/static/images/lets_quiz.jpeg"
                 class="ico_logo"
                 alt="logo"
-                style="width: auto; height: 90px"
               />
             </div>
           </div>
         </div>
       </div>
-      <div class="tablefixhead mx-4">
+      <div class="tablefixhead">
         <table class="table table-striped">
           <tr>
-            <th id="rank">Rank</th>
-            <th id="name">Name</th>
-            <th id="score">Total Score</th>
-            <th id="time">Time</th>
+            <th id="rank" class="col-4">Rank</th>
+            <th id="name" class="col-9">Name</th>
+            <th id="score" class="col-4">Score</th>
+            <th id="time" class="col-5">Time</th>
           </tr>
-
           <tr>
             <td>1</td>
             <td>Mark</td>
             <td>600</td>
-            <td>20 min 5 s</td>
+            <td>200s</td>
           </tr>
           <tr>
             <td>2</td>

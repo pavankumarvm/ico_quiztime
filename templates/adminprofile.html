@@ -1,4 +1,7 @@
-{% extends 'adminpanel.html' %} {% load static %} {% block body %}
+{% extends 'adminpanel.html' %} {% load static %}{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}" />
+<title>AdminProfile | ICO Quiz Time</title>
+{% endblock head %} {% block body %}
 <div class="container mb-3">
   <div class="col">
     <div class="row mx-4 mt-4">

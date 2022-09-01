@@ -1,4 +1,7 @@
-{% extends 'base.html' %} {% load static %} {% block body %}
+{% extends 'base.html' %} {% load static %} {% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}" />
+<title>Profile | ICO Quiz Time</title>
+{% endblock head %} {% block body %}
 <div class="container mb-3">
   <div class="col">
     <div class="row mx-4 mt-4">
@@ -8,6 +11,42 @@
     <div class="row">
       <form method="POST" action="/accounts/update_details/">
         {% csrf_token %}
+        <div class="form-row mx-4">
+          <div class="profile-pic">
+            <label class="-label" for="file">
+              <span class="glyphicon glyphicon-camera"></span>
+              <span>Change Image</span>
+            </label>
+            <input
+              id="file"
+              type="file"
+              onchange="loadFile(event)"
+              accept="image/*"
+              disabled
+            />
+            {% if user.avatar %}
+            <img
+              src="/media/{{user.avatar}}"
+              id="output"
+              width="100"
+              height="100"
+            />
+            {% else %}
+            <img
+              src="{% static 'images/avatar.png' %}"
+              id="output"
+              width="80"
+              height="80"
+            />
+            {% endif %}
+          </div>
+          <script>
+            var loadFile = function (event) {
+              var image = document.getElementById("output");
+              image.src = URL.createObjectURL(event.target.files[0]);
+            };
+          </script>
+        </div>
         <div class="form-row mx-4">
           <div class="col-md-5 mb-3">
             <label for="validation01">First name</label>
@@ -109,11 +148,11 @@
           </div>
           <div class="col-md-5 mb-3">
             <label for="validationGender">Gender</label>
-            <select class="custom-select" disabled>
-              <option selected>Select Your Gender</option>
-              <option value="1">Male</option>
-              <option value="2">Female</option>
-              <option value="3">Others</option>
+            <select class="custom-select" disabled value="{{user.gender}}">
+              <option>-----Select Gender-----</option>
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+              <option value="O">Others</option>
             </select>
           </div>
         </div>
@@ -134,66 +173,6 @@
         </div>
       </form>
     </div>
-    <div class="row mx-4 my-3">
-      <hr />
-      <div class="form-row">
-        <h2>Reset Password</h2>
-      </div>
-      <form method="POST" action="/accounts/reset_password/">
-        {% csrf_token %}
-        <input type="hidden" name="phone_no" value="{{ user.phone_no }}" />
-        <div class="form-row my-2">
-          <div class="col-md-4 mb-3">
-            <label for="validationPassword">Current Password</label>
-            <div class="input-group">
-              <input
-                type="password"
-                class="form-control"
-                id="validationPassword"
-                placeholder="Password"
-                name="password"
-                required
-              />
-              <div class="valid-feedback">Looks good!</div>
-              <div class="invalid-feedback">Minimum 4 characters.</div>
-            </div>
-          </div>
-          <div class="col-md-4 mb-3">
-            <label for="validationPassword1">New Password</label>
-            <div class="input-group">
-              <input
-                type="password"
-                class="form-control"
-                id="validationPassword1"
-                placeholder="Password"
-                name="password1"
-                required
-              />
-              <div class="valid-feedback">Looks good!</div>
-              <div class="invalid-feedback">Minimum 4 characters.</div>
-            </div>
-          </div>
-          <div class="col-md-4 mb-3">
-            <label for="validationComfirm">Confirm New Password</label>
-            <div class="input-group">
-              <input
-                type="password"
-                class="form-control"
-                id="validationConfirm"
-                placeholder="Password"
-                name="password2"
-                required
-              />
-              <div class="valid-feedback">Looks good!</div>
-              <div class="invalid-feedback">Passwords don't match.</div>
-            </div>
-          </div>
-        </div>
-        <div class="form-row">
-          <button class="btn btn-primary" type="submit">Reset Password</button>
-        </div>
-      </form>
-    </div>
   </div>
 </div>
 <script>
@@ -207,10 +186,10 @@
       inp = row.getElementsByTagName("input");
       // remove disabled attribute from each inp tag of this card
       Array.from(inp).forEach((el, index) => {
-        if (index != 4) el.removeAttribute("disabled");
+        if (index != 5) el.removeAttribute("disabled");
       });
 
-      sel.getElementsByTagName("select");
+      sel = row.getElementsByTagName("select");
 
       Array.from(sel).forEach((sel) => {
         sel.removeAttribute("disabled");

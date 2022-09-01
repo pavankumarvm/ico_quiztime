@@ -25,6 +25,7 @@ urlpatterns = [
   path('adminpanel/edit_quiz/', edit_quiz, name='adminpanel'),
   path('adminpanel/delete_quiz/', delete_quiz, name='adminpanel'),
   path('adminpanel/new_admin/', add_new_admin, name='add_new_admin'),
+  path('adminpanel/new_user/', add_new_user, name='add_new_user'),
   # User APIS
   path('user/dashboard/', dashboard, name='dashboard'),
   path('user/profile/', profile, name='profile'),

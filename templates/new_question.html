@@ -15,9 +15,32 @@
     <form method="POST" class="question-form">
       {% csrf_token %}
       <div class="col-md-5 mb-3">
-        <!-- <label for="category">Category:</label>
-        <input maxlength="50" name="category" class="category_box" required /> -->
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="questionType"
+            value="img"
+            id="questionType1"
+          />
+          <label class="form-check-label" for="questionType1">
+            With Image
+          </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="questionType"
+            value="txt"
+            id="questionType2"
+          />
+          <label class="form-check-label" for="questionType1">
+            Without Image
+          </label>
+        </div>
       </div>
+
       <div class="form-row mx-4">
         <div class="col-md-10 mb-3">
           <label for="question">Question:</label>

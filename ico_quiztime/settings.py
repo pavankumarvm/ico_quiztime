@@ -177,3 +177,6 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'success',
     messages.ERROR: 'danger'
 }
+
+
+APPEND_SLASH = True
