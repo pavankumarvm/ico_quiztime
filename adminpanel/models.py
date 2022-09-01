@@ -18,12 +18,11 @@ class Quiz(models.Model):
     end_time = models.DateTimeField(null=False)
 
 class Participant(models.Model):
-    participant_id = models.UUIDField(primary_key=True,editable=False)
+    user = models.ForeignKey(IcoUser, null=True, on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, null=True,on_delete=models.CASCADE)
     score = models.IntegerField(null=False, blank=False, default=0)
     rank = models.IntegerField(null=True, blank=True,)
     time_appeared = models.DateTimeField(auto_now_add=True)
-    quiz = models.ForeignKey(Quiz, null=True,on_delete=models.CASCADE)
-    user = models.ForeignKey(IcoUser, null=True, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'quiz'
@@ -40,7 +39,8 @@ class Question(models.Model):
     option_C = models.CharField(max_length=250, null=True, blank=True)
     option_D = models.CharField(max_length=250, null=True, blank=True)
     answer = models.CharField(max_length=1, choices=ANSWER, null=True, blank=True)
-    explanation = models.CharField(max_length=250, null=True, blank=True)
+    points = models.IntegerField(default=1,null=False)
+    time = models.IntegerField(default=1,null=False)
     given_by = models.ForeignKey(IcoUser, on_delete=models.SET_NULL, related_name='author',null=True)
 
     

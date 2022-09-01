@@ -25,7 +25,9 @@
           <select class="custom-select" id="quiz_select" name="quiz_id">
             <option>-----Select Quiz-----</option>
             {% for quiz in quizes %}
-            <option value="{{quiz.id}}" {% if quiz.id == quiz_id %}selected="selected"{% endif %}>{{quiz.id}}-{{quiz.name}}</option>
+            <option value="{{quiz.id}}" {% if quiz.id == quiz_id %}selected="selected"{% endif %}>
+              {{quiz.id}}-{{quiz.name}}
+            </option>
             {% endfor %}
           </select>
         </div>
@@ -57,13 +59,14 @@
           </div>
         </div>
         <div class="col-md-4 mb-3">
-          <label for="img-file" id="img-file">
+          <label for="img-file" id="img-file-box">
             <input
               id="img-file"
               type="file"
               name="image"
               onchange="loadFile(event)"
               accept="image/*"
+              required="true"
             />
             <img
               src=""
@@ -79,9 +82,11 @@
         $(".img-radio").click(() => {
           var val = $('input[name="questionType"]:checked').val();
           if (val == "img") {
-            $("#img-file").show();
+            $("#img-file-box").show();
+            $("#img-file").attr("required","true");
           } else {
-            $("#img-file").hide();
+            $("#img-file-box").hide();
+            $("#img-file").attr("required","false");
           }
         });
         var loadFile = function (event) {
@@ -90,9 +95,13 @@
         };
       </script>
       <div class="form-row mx-4">
-        <div class="col-md-10 mb-3">
+        <div class="col-md-8 mb-3">
           <label for="question">Question:</label>
-          <input name="question" class="form-control" required />
+          <input name="question" type="text" class="form-control" required />
+        </div>
+        <div class="col-md-2 mb-3">
+          <label for="points">Points:</label>
+          <input name="points" type="number" class="form-control" required />
         </div>
       </div>
       <div class="form-row mx-4">
@@ -124,6 +133,18 @@
             <option value="B">B</option>
             <option value="C">C</option>
             <option value="D">D</option>
+          </select>
+        </div>
+        <div class="col-md-5 mb-3">
+          <label for="time">Time Duration(in seconds)</label>
+          <select name="time" class="custom-select">
+            <option selected>---Select Time Duration---</option>
+            <option value="1">30 s</option>
+            <option value="2">60 s</option>
+            <option value="3">90 s</option>
+            <option value="4">120 s</option>
+            <option value="5">150 s</option>
+            <option value="6">180 s</option>
           </select>
         </div>
       </div>

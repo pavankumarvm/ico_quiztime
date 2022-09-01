@@ -8,9 +8,10 @@ from datetime import datetime, timezone
 from django.shortcuts import redirect
 
 from accounts.models import IcoUser
-from adminpanel.models import Quiz, Question
+from adminpanel.models import Participant, Quiz, Question
 from .serializers import QuestionSerializer, QuizSerializer
 from django.views.generic import TemplateView
+from rest_framework.permissions import IsAuthenticated
 from ico_quiztime.settings import BASE_DIR
 
 # Create your views here.
@@ -186,51 +187,49 @@ class QuizView(TemplateView):
 	quiz = []
 
 	def get(self, request, quiz):
-		# Question.objects.all().delete()
-		# if Question.objects.count() == 0:
-		# 	addQuestions(request)
-		# queryset = Question.objects.all()
-		# all_questions = []
-		# for query in queryset:
-		# 	serializer = QuestionSerializer(query)
-		# 	all_questions.append({**serializer.data})
-		# # print(all_questions)
-
-		user = IcoUser.objects.filter(user_id=request.user.user_id)
-		quiz_obj = Quiz.objects.first()
+		user = IcoUser.objects.get(user_id=request.user.user_id)
+		quiz_obj = Quiz.objects.get(id=quiz)
+		participant,_created = Participant.objects.get_or_create(quiz=quiz_obj)
+		participant.user = user
+		participant.save()
+		self.quiz = Question.objects.filter(quiz=quiz_obj).order_by('question_id')
 		data = {
-				'quiz' : self.quiz,
-				'quiz_id' : quiz_obj.id,
+				'question_index': 0,
+				'question': self.quiz[0],
+				'next_question': 1,
+				'quiz_id': quiz
 				}
 		return render(request, 'quiz.html', context=data)
-		# for quiz in Quiz.objects.filter(partiipant_id=user):
-		# 	if (datetime.now(timezone.utc) - quiz.date_appeared).total_seconds() < 1800:
-		# 		quiz_obj = quiz
-		# if quiz_obj== None:
-		# 	quiz_obj = Quiz.objects.create(user_id=user,quiz_no = Quiz.objects.all().count() + 1)
-		quiz_id = quiz_obj.id
-		Quiz.objects.all().delete()
-		# while len(self.quiz)<30 and len(all_questions)>0:
-		# 	i = random.randint(0, len(all_questions)-1)
-		# 	self.quiz.append(all_questions[i])
-		# 	all_questions.remove(all_questions[i])
-		# 	# print(self.quiz)
 
-	def post(self, request):
-		result = 0
-		quiz_id = request.POST.get('quiz_id')
-		for question in self.quiz:
-			answered = request.POST.get(question['question_id'])
-			correct_answer = str(question['answer']).upper()
-			# print(answered, correct_answer)
-			if answered == correct_answer:
-				result += 1
-		quiz_obj = Quiz.objects.get(quiz_id=quiz_id)
-		quiz_obj.result = result
-		quiz_obj.save()
-		# print(result)
+	def post(self, request, quiz):
+		question = request.POST.get('question_index')
+		if question is not None:
+			question = int(question)
+		next_question = request.POST.get('next_question_index')
+		if next_question is not None:
+			next_question = int(next_question)
+		chosen_answer = request.POST.get('answer')
+		bonus_points = request.POST.get('bonus')
+		user = IcoUser.objects.get(user_id=request.user.user_id)
+		quiz_obj = Quiz.objects.get(id=quiz)
+		participant = Participant.objects.get(quiz=quiz_obj,user=user)
+		self.quiz = Question.objects.filter(quiz=quiz_obj).order_by('question_id')
+		question = self.quiz[question]
+		if question.answer == chosen_answer:
+			participant.score += question.points
+			participant.score += (bonus_points//4)
 
-		return redirect('/user/personal_scores/')
+		if next_question + 1 >= len(self.quiz):
+			next_question = 0
+		else:
+			next_question += 1
+		data = {
+				'question_index': next_question,
+				'question': self.quiz[next_question],
+				'next_question':  next_question,
+				'quiz_id': quiz
+				}
+		return render(request, 'quiz.html', context=data)
 
 class QuestionView(TemplateView):
 	# this view is for question page
@@ -251,7 +250,12 @@ class QuestionView(TemplateView):
 		option_D = request.POST.get('option_D')
 		answer = request.POST.get('answer')
 		answer = str(answer).lower()
-		explanation = request.POST.get('explanation')
+		points = request.POST.get('points')
+		if points is not None:
+			points = int(points)
+		else:
+			points = 1
+		time = request.POST.get('time')
 		user = request.user
 		quiz_obj = Quiz.objects.get(id=quiz_id)
 		question_obj = Question.objects.create(
@@ -262,7 +266,8 @@ class QuestionView(TemplateView):
 					option_C=option_C,
 					option_D=option_D,
 					answer=answer,
-					explanation=explanation,
+					points=points,
+					time=time,
 					given_by= user,
 					)
 		if questionType == 'img':
