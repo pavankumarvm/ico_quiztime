@@ -107,7 +107,9 @@
           >
             <span class="navbar-toggler-icon"></span>
           </button>
-          <a class="navbar-brand d-flex flex-row justify-content-start" href="/"
+          <a
+            class="navbar-brand d-flex flex-row justify-content-start"
+            href="/bajajauto/"
             ><img
               src="{% static 'images\lets_quiz.jpeg' %}"
               class="logoimg"
@@ -128,7 +130,7 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto nav-pills">
               <!-- <li class="nav-item active">
-                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/bajajauto/">Home</a>
               </li> -->
               {% if user.is_active %}
               <li class="nav-item">
@@ -136,7 +138,7 @@
               </li>
               {% if user.is_admin %}
               <li class="nav-item">
-                <a class="nav-link" href="/adminpanel/dashboard/"
+                <a class="nav-link" href="/bajajauto/adminpanel/dashboard/"
                   >Admin Dashboard</a
                 >
               </li>
@@ -159,17 +161,21 @@
                   aria-labelledby="navbarDropdown"
                   style="background-color: gray; color: white"
                 >
-                  <a class="dropdown-item" href="/accounts/logout/">Logout</a>
+                  <a class="dropdown-item" href="/bajajauto/accounts/logout/"
+                    >Logout</a
+                  >
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="/feedback/">Feedback</a>
                 </div>
               </li>
               {% else %}
               <li class="nav-item">
-                <a class="nav-link" href="/accounts/login/">Login</a>
+                <a class="nav-link" href="/bajajauto/accounts/login/">Login</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/accounts/adminlogin/">Admin Login</a>
+                <a class="nav-link" href="/bajajauto/accounts/adminlogin/"
+                  >Admin Login</a
+                >
               </li>
               {% endif %}
             </ul>
@@ -179,7 +185,7 @@
       <div class="ico_sidebar_container" id="ico_nav_sidebar">
         <div class="d-flex flex-column flex-shrink-0 p-3 bg-light ico_sidebar">
           <a
-            href="/"
+            href="/bajajauto/"
             class="d-flex flex-column align-items-center mb-3 link-dark text-decoration-none"
           >
             <img
@@ -193,7 +199,7 @@
           <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
               <a
-                href="/adminpanel/dashboard/"
+                href="/bajajauto/adminpanel/dashboard/"
                 class="nav-link link-dark"
                 id="dashboard"
                 aria-current="page"
@@ -206,7 +212,7 @@
             </li>
             <li class="nav-item">
               <a
-                href="/adminpanel/create_quiz/"
+                href="/bajajauto/adminpanel/create_quiz/"
                 class="nav-link link-dark"
                 id="create_quiz"
                 aria-current="page"
@@ -219,7 +225,7 @@
             </li>
             <li class="nav-item">
               <a
-                href="/adminpanel/edit_quiz/"
+                href="/bajajauto/adminpanel/edit_quiz/"
                 class="nav-link link-dark"
                 id="edit_quiz"
                 aria-current="page"
@@ -232,7 +238,7 @@
             </li>
             <li class="nav-item">
               <a
-                href="/adminpanel/delete_quiz/"
+                href="/bajajauto/adminpanel/delete_quiz/"
                 class="nav-link link-dark"
                 id="delete_quiz"
                 aria-current="page"
@@ -245,7 +251,7 @@
             </li>
             <li class="nav-item">
               <a
-                href="/adminpanel/new_user/"
+                href="/bajajauto/adminpanel/new_user/"
                 class="nav-link link-dark"
                 id="new_user"
                 aria-current="page"
@@ -280,16 +286,20 @@
               aria-labelledby="dropdownUser1"
             >
               <li>
-                <a class="dropdown-item" href="/adminpanel/profile/">Profile</a>
+                <a class="dropdown-item" href="/bajajauto/adminpanel/profile/"
+                  >Profile</a
+                >
               </li>
               <li>
-                <a class="dropdown-item" href="/adminpanel/new_admin/"
+                <a class="dropdown-item" href="/bajajauto/adminpanel/new_admin/"
                   >New Admin</a
                 >
               </li>
               <li><hr class="dropdown-divider" /></li>
               <li>
-                <a class="dropdown-item" href="/accounts/logout/">Log Out</a>
+                <a class="dropdown-item" href="/bajajauto/accounts/logout/"
+                  >Log Out</a
+                >
               </li>
             </ul>
           </div>

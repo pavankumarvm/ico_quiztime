@@ -13,7 +13,10 @@
   </div>
   <div class="col mx-2">
     <div class="row my-2">
-      <a href="/adminpanel/create_quiz/" class="d-flex flex-row-reverse">
+      <a
+        href="/bajajauto/adminpanel/create_quiz/"
+        class="d-flex flex-row-reverse"
+      >
         <button type="button" class="btn btn-primary mx-2">Add New Quiz</button>
       </a>
     </div>
@@ -33,7 +36,7 @@
           {% for quiz in quizes %}
           <tr id="{{quiz.id}}">
             <th scope="row">{{quiz.srno}}</th>
-            <form method="POST" action="/adminpanel/edit_quiz/">
+            <form method="POST" action="/bajajauto/adminpanel/edit_quiz/">
               {% csrf_token %}
               <input type="hidden" name="quiz_id" value="{{quiz.id}}" />
               <td>

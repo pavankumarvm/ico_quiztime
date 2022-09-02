@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-2bp#@$#!%pwm-!1uvf=rxvo-k2tq(&m45wqh%@#mhp0l(!c0-d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['3.110.84.157', '*']
 
@@ -147,7 +147,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT =  '/var/www/ico_quiztime/assets/'
+STATIC_ROOT =  os.path.join(BASE_DIR, 'assets')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
