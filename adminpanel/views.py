@@ -16,16 +16,16 @@ from ico_quiztime.settings import BASE_DIR
 
 # Create your views here.
 def index(request):
-	return redirect('/accounts/login/')
+	return render(request, template_name='index.html')
 
-@user_passes_test(lambda u: u.is_admin, login_url='/accounts/adminlogin/')
+@user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
 def adminpanel(request):
 	data = {
 		'user': request.user,
 	}
 	return render(request, template_name='admindashboard.html', context=data)
 
-@user_passes_test(lambda u: u.is_admin, login_url='/accounts/adminlogin/')
+@user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
 def adminprofile(request):
 	data = {
 		'user': request.user,
@@ -33,7 +33,7 @@ def adminprofile(request):
 	return render(request, template_name='adminprofile.html', context=data)
 
 
-@user_passes_test(lambda u: u.is_admin, login_url='/accounts/adminlogin/')
+@user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
 def create_quiz(request):
 		try:
 				if request.method == "POST":
@@ -48,7 +48,7 @@ def create_quiz(request):
 						)
 						quiz.save()
 						messages.success(request, "Quiz Successfully saved.")
-						return redirect('/adminpanel/edit_quiz/')
+						return redirect('/bajajauto/adminpanel/edit_quiz/')
 				elif request.method=='GET':
 						quizes = Quiz.objects.all()
 						for i in range(len(quizes)):
@@ -59,10 +59,10 @@ def create_quiz(request):
 						return render(request, 'create_quiz.html', context=data)
 		except:
 				messages.error(request, "Quiz not saved.Try Again.")
-				return redirect('/adminpanel/dashboard/')
+				return redirect('/bajajauto/adminpanel/dashboard/')
 
 
-@user_passes_test(lambda u: u.is_admin, login_url='/accounts/adminlogin/')
+@user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
 def edit_quiz(request):
 		try:
 				if request.method == "POST":
@@ -79,7 +79,7 @@ def edit_quiz(request):
 						quiz.name = quizName
 						quiz.save()
 						messages.success(request, "Quiz Details Successfully Edited.")
-						return redirect('/adminpanel/edit_quiz/')
+						return redirect('/bajajauto/adminpanel/edit_quiz/')
 				elif request.method=='GET':
 						quizes = Quiz.objects.all()
 						for i in range(len(quizes)):
@@ -90,10 +90,10 @@ def edit_quiz(request):
 						return render(request, 'edit_quiz.html', context=data)
 		except:
 				messages.error(request, "Quiz not saved.Try Again.")
-				return redirect('/adminpanel/dashboard/')
+				return redirect('/bajajauto/adminpanel/dashboard/')
 
 
-@user_passes_test(lambda u: u.is_admin, login_url='/accounts/adminlogin/')
+@user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
 def delete_quiz(request):
 		try:
 				if request.method == "POST":
@@ -104,7 +104,7 @@ def delete_quiz(request):
 						)
 						quiz.delete()
 						messages.success(request, "Quiz Successfully deleted.")
-						return redirect('/adminpanel/delete_quiz/')
+						return redirect('/bajajauto/adminpanel/delete_quiz/')
 				elif request.method=='GET':
 						quizes = Quiz.objects.all()
 						for i in range(len(quizes)):
@@ -115,43 +115,43 @@ def delete_quiz(request):
 						return render(request, 'delete_quiz.html', context=data)
 		except:
 				messages.error(request, "Quiz not deleted.Try Again.")
-				return redirect('/adminpanel/dashboard/')
+				return redirect('/bajajauto/adminpanel/dashboard/')
 
-@user_passes_test(lambda u: u.is_admin, login_url='/accounts/adminlogin/')
+@user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
 def add_new_admin(request):
 	return render(request, template_name='new_admin.html')
 
-@user_passes_test(lambda u: u.is_admin, login_url='/accounts/adminlogin/')
+@user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
 def add_new_user(request):
 	return render(request, template_name='new_user.html')
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/bajajauto/accounts/login/')
 def dashboard(request):
 	data = {
 		'user': request.user,
 	}
 	return render(request, template_name='dashboard.html',context=data)
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/bajajauto/accounts/login/')
 def profile(request):
 	data = {
 		'user': request.user,
 	}
 	return render(request, template_name='profile.html',context=data)
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/bajajauto/accounts/login/')
 def leaderboard(request):
 	return render(request, template_name='leaderboard.html')
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/bajajauto/accounts/login/')
 def personal_scores(request):
 	return render(request, template_name='personal_scores.html')
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/bajajauto/accounts/login/')
 def user_rules(request, quiz):
 	return render(request, template_name='user_rules.html',context= {'quiz_id':int(quiz)})
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/bajajauto/accounts/login/')
 def take_quiz(request):
 	quizes = Quiz.objects.all()
 	for i in range(len(quizes)):

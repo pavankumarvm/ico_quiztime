@@ -79,7 +79,7 @@
           >
             <span class="navbar-toggler-icon"></span>
           </button>
-          <a class="navbar-brand d-flex flex-row" href="/"
+          <a class="navbar-brand d-flex flex-row" href="/bajajauto/"
             ><img
               src="{% static 'images\lets_quiz.jpeg' %}"
               class="logoimg"
@@ -100,7 +100,7 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto nav-pills">
               <!-- <li class="nav-item active">
-                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/bajajauto/">Home</a>
               </li> -->
               {% if user.is_active %}
               <li class="nav-item">
@@ -108,7 +108,7 @@
               </li>
               {% if user.is_admin %}
               <li class="nav-item">
-                <a class="nav-link" href="/adminpanel/dashboard/"
+                <a class="nav-link" href="/bajajauto/adminpanel/dashboard/"
                   >Admin Dashboard</a
                 >
               </li>
@@ -131,19 +131,25 @@
                   aria-labelledby="navbarDropdown"
                 >
                   <a class="dropdown-item" href="/feedback/">Feedback</a>
-                  <a class="dropdown-item" href="/accounts/change_password/"
+                  <a
+                    class="dropdown-item"
+                    href="/bajajauto/accounts/change_password/"
                     >Change Password</a
                   >
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="/accounts/logout/">Logout</a>
+                  <a class="dropdown-item" href="/bajajauto/accounts/logout/"
+                    >Logout</a
+                  >
                 </div>
               </li>
               {% else %}
               <li class="nav-item">
-                <a class="nav-link" href="/accounts/login/">Login</a>
+                <a class="nav-link" href="/bajajauto/accounts/login/">Login</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/accounts/adminlogin/">Admin Login</a>
+                <a class="nav-link" href="/bajajauto/accounts/adminlogin/"
+                  >Admin Login</a
+                >
               </li>
               {% endif %}
             </ul>
@@ -153,7 +159,7 @@
       <div class="ico_sidebar_container" id="ico_nav_sidebar">
         <div class="d-flex flex-column flex-shrink-0 p-3 bg-light ico_sidebar">
           <a
-            href="/"
+            href="/bajajauto/"
             class="d-flex flex-column align-items-center mb-3 link-dark text-decoration-none"
           >
             <img
@@ -258,13 +264,17 @@
                 <a class="dropdown-item" href="/user/profile/">Profile</a>
               </li>
               <li>
-                <a class="dropdown-item" href="/accounts/change_password/"
+                <a
+                  class="dropdown-item"
+                  href="/bajajauto/accounts/change_password/"
                   >Change Password</a
                 >
               </li>
               <li><hr class="dropdown-divider" /></li>
               <li>
-                <a class="dropdown-item" href="/accounts/logout/">Log Out</a>
+                <a class="dropdown-item" href="/bajajauto/accounts/logout/"
+                  >Log Out</a
+                >
               </li>
             </ul>
           </div>

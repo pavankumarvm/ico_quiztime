@@ -43,7 +43,7 @@ def register_user(request):
                     email=email,
                     usertype=usertype)
                 messages.success(request, 'User registered successfully.')
-                return redirect("/adminpanel/dashboard/")
+                return redirect("/bajajauto/adminpanel/dashboard/")
     else:
         return render(request,
                       template_name='new_admin.html')
@@ -58,7 +58,7 @@ def login_user(request):
             login(request, user)
             messages.success(request, 'Logged in successfully.')
             if user.is_admin and login_type == 'admin':
-                return redirect('/adminpanel/dashboard/')
+                return redirect('/bajajauto/adminpanel/dashboard/')
             else:
                 return redirect('/user/dashboard/')
         else:
@@ -158,7 +158,7 @@ def reset_password(request):
                 user.save()
                 otp_obj.delete()
                 messages.success(request, 'Password Changed Succesfully.')
-                return redirect('/accounts/login')
+                return redirect('/bajajauto/accounts/login')
             else:
                 messages.error(request, 'OTP expired. Regenrate OTP.')
                 return render(request, 'forgot_password.html', data)

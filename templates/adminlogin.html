@@ -89,7 +89,9 @@
         <nav
           class="navbar navbar-expand-lg navbar-light py-2 fixed-top ico_navbar"
         >
-          <a class="navbar-brand d-flex flex-row justify-content-start" href="/"
+          <a
+            class="navbar-brand d-flex flex-row justify-content-start"
+            href="/bajajauto/"
             ><img
               src="{% static 'images\lets_quiz.jpeg' %}"
               class="logoimg"
@@ -111,7 +113,7 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto nav-pills">
               <!-- <!-- <li class="nav-item active">
-                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/bajajauto/">Home</a>
               </li> -->
               --> {% if user.is_active %}
               <li class="nav-item">
@@ -119,7 +121,7 @@
               </li>
               {% if user.is_admin %}
               <li class="nav-item">
-                <a class="nav-link" href="/adminpanel/dashboard/"
+                <a class="nav-link" href="/bajajauto/adminpanel/dashboard/"
                   >Admin Dashboard</a
                 >
               </li>
@@ -142,17 +144,21 @@
                   aria-labelledby="navbarDropdown"
                   style="background-color: gray; color: white"
                 >
-                  <a class="dropdown-item" href="/accounts/logout/">Logout</a>
+                  <a class="dropdown-item" href="/bajajauto/accounts/logout/"
+                    >Logout</a
+                  >
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="/feedback/">Feedback</a>
                 </div>
               </li>
               {% else %}
               <li class="nav-item">
-                <a class="nav-link" href="/accounts/login/">Login</a>
+                <a class="nav-link" href="/bajajauto/accounts/login/">Login</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/accounts/adminlogin/">Admin Login</a>
+                <a class="nav-link" href="/bajajauto/accounts/adminlogin/"
+                  >Admin Login</a
+                >
               </li>
               {% endif %}
             </ul>
@@ -160,7 +166,11 @@
         </nav>
       </section>
       <div class="text-center">
-        <form class="form-signin my-2" method="POST" action="/accounts/login/">
+        <form
+          class="form-signin my-2"
+          method="POST"
+          action="/bajajauto/accounts/login/"
+        >
           {% csrf_token %}
           <input type="hidden" value="admin" name="login_type" />
           <div id="adminlogin_logo">
