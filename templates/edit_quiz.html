@@ -100,4 +100,24 @@
   </div>
 </div>
 
+<script>
+  edit = document.getElementsByClassName("editBtn");
+
+  Array.from(edit).forEach((e) => {
+    e.addEventListener("click", () => {
+      // get card root
+      row = e.parentElement.parentElement.parentElement;
+
+      inp = row.getElementsByTagName("input");
+      // remove disabled attribute from each inp tag of this card
+      Array.from(inp).forEach((el, index) => {
+        if (index != 5) el.removeAttribute("disabled");
+      });
+
+      save = row.getElementsByClassName("saveBtn")[0];
+      save.removeAttribute("disabled");
+    });
+  });
+</script>
+
 {% endblock body %}

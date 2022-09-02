@@ -20,7 +20,7 @@ from django.shortcuts import redirect
 from django.conf import settings
 
 def redirectToBajaj(request):
-    return redirect(request, '/bajajauto/')
+    return redirect('/bajajauto/')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

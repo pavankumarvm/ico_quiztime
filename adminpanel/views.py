@@ -20,8 +20,12 @@ def index(request):
 
 @user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
 def adminpanel(request):
+	users = IcoUser.objects.all().order_by('is_admin','last_login')
+	for i in range(len(users)):
+		users[i].srno = i+1
 	data = {
 		'user': request.user,
+		'users': users,
 	}
 	return render(request, template_name='admindashboard.html', context=data)
 
