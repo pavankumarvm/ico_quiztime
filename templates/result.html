@@ -47,10 +47,10 @@
     <link
       rel="stylesheet"
       type="text/css"
-      href="{% static 'css/register.css' %}"
+      href="{% static 'css/result.css' %}"
     />
     <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}" />
-    <title>Login | ICO QuizTime</title>
+    <title>Result | ICO QuizTime</title>
   </head>
   <body>
     {% if messages %} {% for message in messages %}
@@ -152,68 +152,6 @@
         </div>
       </nav>
     </section>
-    <div class="register-section">
-      <form method="POST" class="register-form">
-        <div class="register-box col-md-12">
-          <div class="avatar-box">
-            <img src="{% static 'images/bajaj.jpeg' %}" height="80" />
-            <img src="{% static 'images/avatar.png' %}" class="avatar" />
-            <img src="{% static 'images/engquiz.jpeg' %}" height="80" />
-          </div>
-          <h1>Register</h1>
-
-          {% csrf_token %}
-          <p>Username</p>
-          <input
-            type="text"
-            class="username"
-            name="username"
-            placeholder="Enter Username"
-          />
-          <div class="name">
-            <div>
-              <p>First Name</p>
-              <input
-                type="text"
-                name="first_name"
-                placeholder="Enter Firstname"
-              />
-            </div>
-            <div>
-              <p>Last Name</p>
-              <input
-                type="text"
-                name="last_name"
-                placeholder="Enter lastname"
-              />
-            </div>
-          </div>
-          <p>E-mail</p>
-          <input type="text" name="email" placeholder="Enter E-mail" />
-          <div class="password">
-            <div>
-              <p>Password</p>
-              <input
-                type="password"
-                name="password1"
-                placeholder="Enter Password"
-              />
-            </div>
-            <div>
-              <p>Confirm Password</p>
-              <input
-                type="password"
-                name="password2"
-                placeholder="Enter Password"
-              />
-            </div>
-          </div>
-          <input type="submit" value="Register" />
-          <a href="/bajajauto/accounts/login/" class="tag-followed"
-            >Already an User? Login.</a
-          >
-        </div>
-      </form>
-    </div>
+    <div class="result-section mx-4"></div>
   </body>
 </html>

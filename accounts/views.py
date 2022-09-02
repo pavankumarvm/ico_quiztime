@@ -16,37 +16,78 @@ from .models import IcoUser,Otp
 def register_user(request):
     if request.method == 'POST':
         usertype = request.POST.get('usertype')
+        username = request.POST.get('username')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
         email = request.POST.get('email')
-        password = request.POST.get('password1')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
 
         if usertype == None or usertype == "":
             usertype = 'S'
 
-        if not (email and password):
+        if not (first_name and last_name and email and password1 and password2):
             messages.error(request, 'Fill the Empty Fields.')
-            if usertype=='A':
-                return render(request, template_name='new_admin.html')
-            else:
-                return render(request, template_name='new_user.html')
-        else:
-            if IcoUser.objects.filter(email=email):
+            return render(request,
+                          template_name='register.html')
+        elif password1 == password2:
+            if IcoUser.objects.filter(username=username):
+                messages.error(
+                    request, 'Username already exists.Try another.')
+                return render(request, 'register.html')
+            elif IcoUser.objects.filter(email=email):
                 messages.error(
                     request, 'Email Address already exists.Try another.')
-                if usertype=='A':
-                    return render(request, template_name='new_admin.html')
-                else:
-                    return render(request, template_name='new_user.html')
+                return render(request, 'register.html')
             else:
                 user = IcoUser.objects.create_user(
-                    username=str(email).split('@')[0] + random_otp()[:4],
+                    username=username,
+                    email=email,
+                    password=password1,
+                    first_name=first_name,
+                    last_name=last_name,
+                    usertype=usertype)
+                messages.success(request, 'User registered successfully.')
+                return redirect("/bajajauto/user/dashboard/")
+        else:
+            messages.error(request, "Passwords doesn't match")
+            return render(request, 'register.html')
+    else:
+        return render(request,
+                      template_name='register.html')
+
+def new_admin(request):
+    if request.method == 'POST':
+        usertype = request.POST.get('usertype')
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password1')
+
+        if not (username and email and password):
+            messages.error(request, 'Fill the Empty Fields.')
+            return render(request, template_name='new_admin.html')
+        else:
+            if IcoUser.objects.filter(username=username):
+                messages.error(
+                    request, 'Username already exists.Try another.')
+                return render(request, 'new_admin.html')
+            elif IcoUser.objects.filter(email=email):
+                messages.error(
+                    request, 'Email Address already exists.Try another.')
+                return render(request, template_name='new_admin.html')
+            else:
+                user = IcoUser.objects.create_user(
+                    username=username,
                     password=password,
                     email=email,
+                    first_name="Admin",
+                    last_name="",
                     usertype=usertype)
                 messages.success(request, 'User registered successfully.')
                 return redirect("/bajajauto/adminpanel/dashboard/")
     else:
         return render(request,
-                      template_name='register.html')
+                      template_name='new_admin.html')
 
 def login_user(request):
     if request.method == 'POST':
