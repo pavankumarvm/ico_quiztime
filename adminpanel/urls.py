@@ -37,4 +37,5 @@ urlpatterns = [
   path('quiz/rules/<int:quiz>/',user_rules,name='user_rules'),
   path('quiz/<int:quiz>/', QuizView.as_view(), name='quiz_question'),
   path('quiz/add_question/<int:quiz>/', QuestionView.as_view(), name='add_question' ),
+  path('quiz/result/<int:quiz>/', result, name="result"),
 ]

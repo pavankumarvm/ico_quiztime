@@ -186,55 +186,6 @@ def addQuestionsFromXL(request):
 				given_by=request.user
 			)
 
-class QuizView(TemplateView):
-	template_name = 'quiz.html'
-	quiz = []
-
-	def get(self, request, quiz):
-		user = IcoUser.objects.get(user_id=request.user.user_id)
-		quiz_obj = Quiz.objects.get(id=quiz)
-		participant,_created = Participant.objects.get_or_create(quiz=quiz_obj)
-		participant.user = user
-		participant.save()
-		self.quiz = Question.objects.filter(quiz=quiz_obj).order_by('question_id')
-		data = {
-				'question_index': 0,
-				'question': self.quiz[0],
-				'next_question': 1,
-				'quiz_id': quiz
-				}
-		return render(request, 'quiz.html', context=data)
-
-	def post(self, request, quiz):
-		question = request.POST.get('question_index')
-		if question is not None:
-			question = int(question)
-		next_question = request.POST.get('next_question_index')
-		if next_question is not None:
-			next_question = int(next_question)
-		chosen_answer = request.POST.get('answer')
-		bonus_points = request.POST.get('bonus')
-		user = IcoUser.objects.get(user_id=request.user.user_id)
-		quiz_obj = Quiz.objects.get(id=quiz)
-		participant = Participant.objects.get(quiz=quiz_obj,user=user)
-		self.quiz = Question.objects.filter(quiz=quiz_obj).order_by('question_id')
-		question = self.quiz[question]
-		if question.answer == chosen_answer:
-			participant.score += question.points
-			participant.score += (bonus_points//4)
-
-		if next_question + 1 >= len(self.quiz):
-			next_question = 0
-		else:
-			next_question += 1
-		data = {
-				'question_index': next_question,
-				'question': self.quiz[next_question],
-				'next_question':  next_question,
-				'quiz_id': quiz
-				}
-		return render(request, 'quiz.html', context=data)
-
 class QuestionView(TemplateView):
 	# this view is for question page
 	# on which college admin can suggest questions
@@ -278,7 +229,14 @@ class QuestionView(TemplateView):
 			question_obj.img = img
 		question_obj.save()
 		messages.success(request, "Question added successfully to " + str(quiz_obj.name))
-		return render(request, template_name = 'new_question.html')
+		quizes = Quiz.objects.all()
+		for i in range(len(quizes)):
+			quizes[i].srno = i+1
+		data = {
+			'quizes' : quizes,
+			'quiz_id':quiz
+		}
+		return render(request, template_name = 'new_question.html', context=data)
 
 	def get(self, request, quiz):
 		quizes = Quiz.objects.all()
@@ -289,3 +247,73 @@ class QuestionView(TemplateView):
 			'quiz_id':quiz
 		}
 		return render(request, template_name= 'new_question.html', context=data)
+
+
+class QuizView(TemplateView):
+	template_name = 'quiz.html'
+	quiz = []
+
+	def get(self, request, quiz):
+		user = IcoUser.objects.get(user_id=request.user.user_id)
+		quiz_obj = Quiz.objects.get(id=quiz)
+		participant,_created = Participant.objects.get_or_create(quiz=quiz_obj)
+		participant.user = user
+		participant.save()
+		self.quiz = Question.objects.filter(quiz=quiz_obj).order_by('question_id')
+		data = {
+				'question_index': 0,
+				'question': self.quiz[0],
+				'next_question': 1,
+				'quiz_id': quiz
+				}
+		return render(request, 'quiz.html', context=data)
+
+	def post(self, request, quiz):
+		question = request.POST.get('question_index')
+		if question is not None:
+			question = int(question)
+		next_question = request.POST.get('next_question_index')
+		if next_question is not None:
+			next_question = int(next_question)
+		chosen_answer = request.POST.get('answer')
+		bonus = request.POST.get('bonus')
+		user = IcoUser.objects.get(user_id=request.user.user_id)
+		quiz_obj = Quiz.objects.get(id=quiz)
+		participant = Participant.objects.get(quiz=quiz_obj,user=user)
+		self.quiz = Question.objects.filter(quiz=quiz_obj).order_by('question_id')
+		question = self.quiz[question]
+		if question.answer == str(chosen_answer).lower():
+			participant.score = participant.score + question.points
+			participant.score = participant.score + (question.points * int(bonus)) // (question.time * 30)
+		print(participant.score)
+		participant.save()
+
+		if next_question == len(self.quiz):
+			all_participants = Participant.objects.filter(quiz=quiz_obj).order_by('score')
+			for i in range(len(all_participants)):
+				all_participants[i].rank = i+1
+				all_participants[i].save()
+			return redirect('/bajajauto/quiz/result/' + str(quiz) + '/')
+		else:
+			next_question += 1
+		data = {
+				'question_index': next_question,
+				'question': self.quiz[next_question],
+				'next_question':  next_question,
+				'quiz_id': quiz
+				}
+		return render(request, 'quiz.html', context=data)
+
+
+def result(request,quiz):
+	user = IcoUser.objects.get(user_id=request.user.user_id)
+	quiz_obj = Quiz.objects.get(id=quiz)
+	participant = Participant.objects.get(quiz=quiz_obj,user=user)
+	score = participant.score
+	rank = participant.rank
+	data = {
+		'quiz':quiz,
+		'score':score, 
+		'rank':rank,
+	}
+	return render(request, 'result.html', context=data)

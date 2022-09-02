@@ -33,12 +33,11 @@
   font-weight: bold;
   color: green;
 }
-.card > .card-body > .img {
-  max-height: 220px;
+.card > .card-body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 }
 .card > .card-body > .img > img {
   height: 100%;
@@ -49,7 +48,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  color: blue !important;
+  color: black !important;
 }
 .card > .card-footer {
   background-color: black;
@@ -59,7 +58,8 @@
   font-weight: bold;
 }
 .card.answer {
-  background-color: #ffc82f;
+  background-color: #00154a;
+  cursor: pointer;
 }
 .card.answer > .card-body {
   display: flex;
@@ -67,7 +67,7 @@
   justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
-  color: black;
+  color: white;
   font-weight: bold;
   font-size: 22px;
 }
