@@ -114,7 +114,9 @@
               </li> -->
               {% if user.is_active %}
               <li class="nav-item">
-                <a class="nav-link" href="/user/dashboard/">Dashboard</a>
+                <a class="nav-link" href="/bajajauto/user/dashboard/"
+                  >Dashboard</a
+                >
               </li>
               {% if user.is_admin %}
               <li class="nav-item">
@@ -163,7 +165,7 @@
         </nav>
       </section>
       <div class="container">
-        <form id="quizform" method="POST" action="/quiz/{{quiz_id}}/">
+        <form id="quizform" method="POST" action="/bajajauto/quiz/{{quiz_id}}/">
           {% csrf_token %}
           <input
             type="hidden"

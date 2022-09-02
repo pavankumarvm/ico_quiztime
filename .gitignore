@@ -1,5 +1,5 @@
 # Settings for Deploy must not be changed
-ico_quiztime/settings.py
+*/settings.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

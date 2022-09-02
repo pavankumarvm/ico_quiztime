@@ -46,7 +46,7 @@ def register_user(request):
                 return redirect("/bajajauto/adminpanel/dashboard/")
     else:
         return render(request,
-                      template_name='new_admin.html')
+                      template_name='register.html')
 
 def login_user(request):
     if request.method == 'POST':
@@ -60,7 +60,7 @@ def login_user(request):
             if user.is_admin and login_type == 'admin':
                 return redirect('/bajajauto/adminpanel/dashboard/')
             else:
-                return redirect('/user/dashboard/')
+                return redirect('/bajajauto/user/dashboard/')
         else:
             messages.error(request, 'Wrong username or password.')
             return render(request,
