@@ -29,7 +29,7 @@ urlpatterns = [
   # User APIS
   path('user/dashboard/', dashboard, name='dashboard'),
   path('user/profile/', profile, name='profile'),
-  path('user/leaderboard/', leaderboard, name='leaderboard'),
+  path('user/leaderboard/<int:quiz>/', leaderboard, name='leaderboard'),
   path('user/personal_scores/', personal_scores, name='personal_scores'),
   path('user/rules/',user_rules,name='user_rules'),
   path('user/take_quiz/', take_quiz, name='take_quiz'),

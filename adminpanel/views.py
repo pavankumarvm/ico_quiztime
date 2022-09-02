@@ -144,12 +144,48 @@ def profile(request):
 	return render(request, template_name='profile.html',context=data)
 
 @login_required(login_url='/bajajauto/accounts/login/')
-def leaderboard(request):
-	return render(request, template_name='leaderboard.html')
+def leaderboard(request, quiz):
+	quizes = Quiz.objects.all()
+	for i in range(len(quizes)):
+		quizes[i].srno = i+1
+	all_participants = None
+	score = 0
+	rank = 0
+	all_p = True
+	if quiz != 0:
+		all_p = False
+		quiz_obj = Quiz.objects.get(id=quiz)
+		all_participants = Participant.objects.filter(quiz=quiz_obj).order_by('rank')
+		participant = Participant.objects.get(quiz=quiz_obj,user=request.user)
+		score = participant.score
+		rank = participant.rank
+	else:
+		all_participants = list(IcoUser.objects.all().order_by('total_score'))[::-1]
+		for i in range(len(all_participants)):
+			all_participants[i].rank = i+1
+			all_participants[i].score = all_participants[i].total_score
+			if all_participants[i] == request.user:
+				score = all_participants[i].score
+				rank = all_participants[i].rank
+	data = {
+		'all_p': all_p,
+		'quiz_id': quiz,
+		'quizes' : quizes,
+		'leaderboard': all_participants,
+		'rank': rank,
+		'score': score
+	}
+	return render(request, template_name='leaderboard.html', context=data)
 
 @login_required(login_url='/bajajauto/accounts/login/')
 def personal_scores(request):
-	return render(request, template_name='personal_scores.html')
+	quizes = Participant.objects.filter(user=request.user).order_by('time_appeared')
+	for i in range(len(quizes)):
+		quizes[i].srno = i+1
+	data = {
+		'quizboard': quizes
+	}
+	return render(request, template_name='personal_scores.html',context=data)
 
 @login_required(login_url='/bajajauto/accounts/login/')
 def user_rules(request, quiz):
@@ -285,7 +321,6 @@ class QuizView(TemplateView):
 		if question.answer == str(chosen_answer).lower():
 			participant.score = participant.score + question.points
 			participant.score = participant.score + (question.points * int(bonus)) // (question.time * 30)
-		print(participant.score)
 		participant.save()
 
 		if next_question == len(self.quiz):
@@ -293,6 +328,8 @@ class QuizView(TemplateView):
 			for i in range(len(all_participants)):
 				all_participants[i].rank = i+1
 				all_participants[i].save()
+			user.total_score = user.total_score + participant.score
+			user.save()
 			return redirect('/bajajauto/quiz/result/' + str(quiz) + '/')
 		else:
 			next_question += 1

@@ -17,6 +17,9 @@ class Quiz(models.Model):
     start_time = models.DateTimeField(null=False)
     end_time = models.DateTimeField(null=False)
 
+    def __str__(self) -> str:
+        return self.name
+
 class Participant(models.Model):
     user = models.ForeignKey(IcoUser, null=True, on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz, null=True,on_delete=models.CASCADE)

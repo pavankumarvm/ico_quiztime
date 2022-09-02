@@ -31,8 +31,19 @@
                     <h6 style="text-align: left">
                       Name: {{user.first_name}} {{user.last_name}}
                     </h6>
-                    <h6 style="text-align: left">Total Score: 500</h6>
-                    <h6 style="text-align: left">Rank:3</h6>
+                    <h6 style="text-align: left">
+                      Total Score: {{user.total_score}}
+                    </h6>
+                    {% if not all_p %}
+                    <h6>
+                      Score in Quiz#{{quiz_id}}: {{score}}
+                    </h6>
+                    <h6>
+                      Rank in Quiz#{{quiz_id}}: {{rank}}
+                    </h6>
+                    {% else %}
+                    <h6 style="text-align: left">Overall Rank:{{rank}}</h6>
+                    {% endif %}
                   </div>
                 </div>
               </div>
@@ -47,92 +58,44 @@
           </div>
         </div>
       </div>
+      <div class="col-md-3 mb-3">
+        <label for="validationGender">For Quiz:</label>
+        <form method="POST" id="quiz_select_form">
+          {% csrf_token %}
+          <select class="custom-select" id="quiz_select" name="quiz_id_select">
+            <option>-----Select Quiz-----</option>
+            <option value="0" {% if all_p %}selected="selected"{% endif %}>All Quizes</option>
+            {% for quiz in quizes %}
+            <option value="{{quiz.id}}" {% if quiz.id == quiz_id %}selected="selected"{% endif %}>
+              {{quiz.id}}-{{quiz.name}}
+            </option>
+            {% endfor %}
+          </select>
+        </form>
+        <script>
+          $('#quiz_select').change(()=>{
+            $('#quiz_select_form').attr("action", "/bajajauto/user/leaderboard/" + $("select[name='quiz_id_select']").val() + "/").submit();
+          })
+        </script>
+      </div>
       <div class="tablefixhead">
         <table class="table table-striped">
           <tr>
             <th id="rank" class="col-4">Rank</th>
             <th id="name" class="col-9">Name</th>
             <th id="score" class="col-4">Score</th>
-            <th id="time" class="col-5">Time</th>
           </tr>
+          {% for user in leaderboard %}
           <tr>
-            <td>1</td>
-            <td>Mark</td>
-            <td>600</td>
-            <td>200s</td>
+            <td>{{user.rank}}</td>
+            {% if all_p %}
+            <td>{{user.username}}</td>
+            {% else %}
+            <td>{{user.user}}</td>
+            {% endif %}
+            <td>{{user.score}}</td>
           </tr>
-          <tr>
-            <td>2</td>
-            <td>Jacob</td>
-            <td>550</td>
-            <td>21 min 10 s</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
+          {% endfor %}
         </table>
       </div>
       <div class="row">
@@ -140,7 +103,7 @@
           <div class="quiz">
             <a href="/bajajauto/user/take_quiz/">
               <button class="but2" type="button" onclick="alert('Lets Go')">
-                Take the Quiz!
+                Take More Quizes!
               </button>
             </a>
           </div>

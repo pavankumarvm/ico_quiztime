@@ -37,6 +37,7 @@ class IcoUser(AbstractBaseUser, PermissionsMixin):
 
     age = models.CharField(max_length=4,null=True)
     gender = models.CharField(max_length=1,null=True)
+    total_score = models.BigIntegerField(default=0)
 
     objects = UserManager()
 
@@ -44,7 +45,7 @@ class IcoUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['username']
 
     def __str__(self):
-        return f'{self.first_name} - ({self.email})'
+        return f'{self.username}'
 
     def has_perm(self, perm, obj=None):
         return self.is_staff
