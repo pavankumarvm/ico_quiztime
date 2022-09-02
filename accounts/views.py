@@ -285,10 +285,26 @@ def make_admin(request):
 		user.is_admin = bool(user.is_admin) ^ True
 		user.save()
 		if user.is_admin:
-			messages.success('User status changed to admin')
+			messages.success(request, 'User status changed to admin')
 		else:
-			messages.success('Admin demoted to regular user')
+			messages.success(request, 'Admin demoted to regular user')
 		return redirect('/bajajauto/adminpanel/dashboard/')
 	except:
-		messages.error("No such User Found")
+		messages.error(request, "No such User Found")
+		return redirect('/bajajauto/adminpanel/dashboard/')
+
+@user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
+def change_status(request):
+	user_id = request.POST.get('user_id')
+	try:
+		user = IcoUser.objects.get(user_id=user_id)
+		user.is_active = bool(user.is_active) ^ True
+		user.save()
+		if user.is_active:
+			messages.success(request, 'User is now active')
+		else:
+			messages.success(request, 'User deactivated')
+		return redirect('/bajajauto/adminpanel/dashboard/')
+	except:
+		messages.error(request, "No such User Found")
 		return redirect('/bajajauto/adminpanel/dashboard/')

@@ -83,10 +83,10 @@
           var val = $('input[name="questionType"]:checked').val();
           if (val == "img") {
             $("#img-file-box").show();
-            $("#img-file").attr("required","true");
+            $("#img-file").attr("required",true);
           } else {
             $("#img-file-box").hide();
-            $("#img-file").attr("required","false");
+            $("#img-file").attr("required",false);
             console.log($("#img-file"));
           }
         });
