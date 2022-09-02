@@ -1,0 +1,155 @@
+{% extends 'adminpanel.html' %} {% load static %} {% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'css/new_question.css' %}"
+/>
+<title>Quiz | ICO Quiz Time</title>
+{% endblock head %}{% block body %}
+<div class="container mb-4">
+  <div class="row mx-4 mt-4">
+    <h2>Quiz {{quiz_id}}</h2>
+    <hr />
+  </div>
+  <div class="row mx-4">
+    <form
+      method="POST"
+      class="question-form col-md-12"
+      action="/quiz/add_question/{{quiz_id}}/"
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+      <div class="form-row mx-4">
+        <div class="col-md-3 mb-3">
+          <label for="validationGender">For Quiz:</label>
+          <select class="custom-select" id="quiz_select" name="quiz_id">
+            <option>-----Select Quiz-----</option>
+            {% for quiz in quizes %}
+            <option value="{{quiz.id}}" {% if quiz.id == quiz_id %}selected="selected"{% endif %}>
+              {{quiz.id}}-{{quiz.name}}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="form-check">
+            <label class="form-check-label" for="questionType1">
+              <input
+                class="form-check-input img-radio"
+                type="radio"
+                name="questionType"
+                value="img"
+                checked
+                id="questionType1"
+              />
+              With Image
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label" for="questionType2">
+              <input
+                class="form-check-input img-radio"
+                type="radio"
+                name="questionType"
+                value="txt"
+                id="questionType2"
+              />
+              Without Image
+            </label>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="img-file" id="img-file-box">
+            <input
+              id="img-file"
+              type="file"
+              name="image"
+              onchange="loadFile(event)"
+              accept="image/*"
+              required="true"
+            />
+            <img
+              src=""
+              id="output"
+              width="200"
+              height="200"
+              alt="Preview Image"
+            />
+          </label>
+        </div>
+      </div>
+      <script>
+        $(".img-radio").click(() => {
+          var val = $('input[name="questionType"]:checked').val();
+          if (val == "img") {
+            $("#img-file-box").show();
+            $("#img-file").attr("required","true");
+          } else {
+            $("#img-file-box").hide();
+            $("#img-file").attr("required","false");
+          }
+        });
+        var loadFile = function (event) {
+          var image = document.getElementById("output");
+          image.src = URL.createObjectURL(event.target.files[0]);
+        };
+      </script>
+      <div class="form-row mx-4">
+        <div class="col-md-8 mb-3">
+          <label for="question">Question:</label>
+          <input name="question" type="text" class="form-control" required />
+        </div>
+        <div class="col-md-2 mb-3">
+          <label for="points">Points:</label>
+          <input name="points" type="number" class="form-control" required />
+        </div>
+      </div>
+      <div class="form-row mx-4">
+        <div class="col-md-5 mb-3">
+          <label for="option_A">Option A:</label>
+          <input name="option_A" class="form-control" required />
+        </div>
+        <div class="col-md-5 mb-3">
+          <label for="option_B">Option B:</label>
+          <input name="option_B" class="form-control" required />
+        </div>
+      </div>
+      <div class="form-row mx-4">
+        <div class="col-md-5 mb-3">
+          <label for="option_C">Option C:</label>
+          <input name="option_C" class="form-control" />
+        </div>
+        <div class="col-md-5 mb-3">
+          <label for="option_D">Option D:</label>
+          <input name="option_D" class="form-control" />
+        </div>
+      </div>
+      <div class="form-row mx-4">
+        <div class="col-md-5 mb-3">
+          <label for="answer">Correct Answer:</label>
+          <select name="answer" class="custom-select">
+            <option selected>-- Select an Answer---</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+          </select>
+        </div>
+        <div class="col-md-5 mb-3">
+          <label for="time">Time Duration(in seconds)</label>
+          <select name="time" class="custom-select">
+            <option selected>---Select Time Duration---</option>
+            <option value="1">30 s</option>
+            <option value="2">60 s</option>
+            <option value="3">90 s</option>
+            <option value="4">120 s</option>
+            <option value="5">150 s</option>
+            <option value="6">180 s</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary mx-4">Add Question</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

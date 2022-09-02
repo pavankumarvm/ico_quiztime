@@ -46,9 +46,23 @@
   margin-left: 280px;
 }
 
+.navbar-brand > img {
+  width: auto;
+  height: 40px;
+}
+
 @media screen and (max-width: 600px) {
   .alert {
     width: 320px;
+  }
+
+  .navbar-brand {
+    margin-right: 0px;
+  }
+
+  .navbar-brand > img {
+    width: 180px;
+    height: auto;
   }
 
   .navbar-brand > h2 {
@@ -68,6 +82,8 @@
     border-right: 1px solid rgb(221, 221, 221);
     border-bottom: 1px solid rgb(221, 221, 221);
     z-index: 1000;
+    top: 54px;
+    height: calc(100vh - 54px);
   }
 
   .main_content {

@@ -52,6 +52,7 @@
       type="text/css"
       href="{% static 'css/adminpanel.css' %}"
     />
+    {% block head %}{% endblock %}
     <style>
       main {
         display: flex;
@@ -111,7 +112,6 @@
               src="{% static 'images\lets_quiz.jpeg' %}"
               class="logoimg"
               alt="logo"
-              style="width: auto; height: 40px"
             />
           </a>
           <button
@@ -127,9 +127,9 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto nav-pills">
-              <li class="nav-item active">
+              <!-- <li class="nav-item active">
                 <a class="nav-link" href="/">Home</a>
-              </li>
+              </li> -->
               {% if user.is_active %}
               <li class="nav-item">
                 <a class="nav-link" href="/user/dashboard/">Dashboard</a>
@@ -227,7 +227,7 @@
                 <span class="bi me-2" width="16" height="16">
                   <i class="fa fa-pencil-square" aria-hidden="true"></i>
                 </span>
-                Edit Quiz
+                View/Edit Quiz
               </a>
             </li>
             <li class="nav-item">
@@ -243,19 +243,19 @@
                 Delete Quiz
               </a>
             </li>
-            <!-- <li class="nav-item">
-            <a
-              href="/adminpanel/rules/"
-              class="nav-link link-dark"
-              id="rules"
-              aria-current="page"
-            >
-              <span class="bi me-2" width="16" height="16">
-                <i class="fa fa-tasks" aria-hidden="true"></i>
-              </span>
-              Rules and Format
-            </a>
-          </li> -->
+            <li class="nav-item">
+              <a
+                href="/adminpanel/new_user/"
+                class="nav-link link-dark"
+                id="new_user"
+                aria-current="page"
+              >
+                <span class="bi me-2" width="16" height="16">
+                  <i class="fa fa-user" aria-hidden="true"></i>
+                </span>
+                New User Registration
+              </a>
+            </li>
           </ul>
           <hr />
           <div class="dropdown">
@@ -295,7 +295,7 @@
           </div>
         </div>
       </div>
-      <div class="main_content">{% block content %} {% endblock %}</div>
+      <div class="main_content">{% block body %} {% endblock %}</div>
     </main>
 
     <script>

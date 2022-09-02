@@ -35,9 +35,17 @@
   width: 155px;
   height: 45px;
 }
-
+.company_logo {
+  justify-content: flex-end;
+  height: auto;
+}
+.company_logo > .ico_logo {
+  height: 60px;
+}
 @media screen and (max-width: 600px) {
   .company_logo {
     display: none;
+    height: 40px;
+    justify-content: flex-start;
   }
 }

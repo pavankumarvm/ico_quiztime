@@ -2,11 +2,151 @@
 <link
   rel="stylesheet"
   type="text/css"
-  href="{% static 'css/dashboard.css' %}"
+  href="{% static 'css/leaderboard.css' %}"
 />
-<title>Dashboard | ICO Quiz Time</title>
+<title>Personal Scores| ICO Quiz Time</title>
 {% endblock head %} {% block body %}
-<div class="dashboard">
-  <h1>Personal Scores</h1>
+<div class="container mb-3">
+  <div class="row">
+    <div class="col">
+      <div class="row mx-4 mt-4">
+        <h2>Your Quiz Scores</h2>
+        <hr />
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="row justify-content-center">
+            <div class="col-md-5">
+              <div class="row px-2">
+                <div class="col-3">
+                  <img
+                    src="/static/images/avatar.png"
+                    class="img-circle"
+                    width="80"
+                    alt="User Photo"
+                  />
+                </div>
+                <div class="col-9">
+                  <div class="info">
+                    <h6 style="text-align: left">
+                      Name: {{user.first_name}} {{user.last_name}}
+                    </h6>
+                    <h6 style="text-align: left">Total Score: 500</h6>
+                    <h6 style="text-align: left">Rank:3</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5 company_logo">
+              <img
+                src="/static/images/lets_quiz.jpeg"
+                class="ico_logo"
+                alt="logo"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tablefixhead">
+        <table class="table table-striped">
+          <tr>
+            <th id="rank" class="col-4">Rank</th>
+            <th id="name" class="col-9">Name</th>
+            <th id="score" class="col-4">Score</th>
+            <th id="time" class="col-5">Time</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Mark</td>
+            <td>600</td>
+            <td>200s</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Jacob</td>
+            <td>550</td>
+            <td>21 min 10 s</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Larry</td>
+            <td>500</td>
+            <td>22 min 50 s</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Larry</td>
+            <td>500</td>
+            <td>22 min 50 s</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Larry</td>
+            <td>500</td>
+            <td>22 min 50 s</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Larry</td>
+            <td>500</td>
+            <td>22 min 50 s</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Larry</td>
+            <td>500</td>
+            <td>22 min 50 s</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Larry</td>
+            <td>500</td>
+            <td>22 min 50 s</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Larry</td>
+            <td>500</td>
+            <td>22 min 50 s</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Larry</td>
+            <td>500</td>
+            <td>22 min 50 s</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Larry</td>
+            <td>500</td>
+            <td>22 min 50 s</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Larry</td>
+            <td>500</td>
+            <td>22 min 50 s</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Larry</td>
+            <td>500</td>
+            <td>22 min 50 s</td>
+          </tr>
+        </table>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="quiz">
+            <a href="/user/take_quiz/">
+              <button class="but2" type="button" onclick="alert('Lets Go')">
+                Take More Quizes!
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock body %}

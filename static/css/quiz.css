@@ -12,6 +12,9 @@
 .card > .card-header > .client_logo {
   height: 50px;
 }
+.card > .card-header > .exam {
+  height: 50px;
+}
 
 .card > .card-header > .q_no {
   font-size: 28px;
@@ -46,6 +49,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  color: blue !important;
 }
 .card > .card-footer {
   background-color: black;

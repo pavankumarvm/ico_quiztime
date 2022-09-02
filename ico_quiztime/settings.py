@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-2bp#@$#!%pwm-!1uvf=rxvo-k2tq(&m45wqh%@#mhp0l(!c0-d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['3.110.84.157', '*']
 
 
 # Application definition
@@ -97,6 +97,18 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'ico_quiz_database',
+#         'USER': 'ico_admin',
+#         'PASSWORD': 'ico_admin_pavan',
+#         'HOST': 'ico-quiz-cluster.cluster-ceygtmojrix9.ap-south-1.rds.amazonaws.com',
+#         'PORT':  '5432',
+#     }
+# }
+
+
 AUTH_USER_MODEL = 'accounts.IcoUser'
 
 # Password validation
@@ -135,10 +147,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'assets/')
+STATIC_ROOT =  '/var/www/ico_quiztime/assets/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static/'),
+    os.path.join(BASE_DIR, 'static'),
 )
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -165,3 +177,6 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'success',
     messages.ERROR: 'danger'
 }
+
+
+APPEND_SLASH = True

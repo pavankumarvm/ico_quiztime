@@ -79,12 +79,11 @@
           >
             <span class="navbar-toggler-icon"></span>
           </button>
-          <a class="navbar-brand d-flex flex-row justify-content-start" href="/"
+          <a class="navbar-brand d-flex flex-row" href="/"
             ><img
               src="{% static 'images\lets_quiz.jpeg' %}"
               class="logoimg"
               alt="logo"
-              style="width: auto; height: 40px"
             />
           </a>
           <button
@@ -100,9 +99,9 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto nav-pills">
-              <li class="nav-item active">
+              <!-- <li class="nav-item active">
                 <a class="nav-link" href="/">Home</a>
-              </li>
+              </li> -->
               {% if user.is_active %}
               <li class="nav-item">
                 <a class="nav-link" href="/user/dashboard/">Dashboard</a>
@@ -130,11 +129,13 @@
                 <div
                   class="dropdown-menu dropdown-menu-right"
                   aria-labelledby="navbarDropdown"
-                  style="background-color: gray; color: white"
                 >
-                  <a class="dropdown-item" href="/accounts/logout/">Logout</a>
-                  <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="/feedback/">Feedback</a>
+                  <a class="dropdown-item" href="/accounts/change_password/"
+                    >Change Password</a
+                  >
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="/accounts/logout/">Logout</a>
                 </div>
               </li>
               {% else %}
@@ -219,7 +220,7 @@
             </li>
             <li class="nav-item">
               <a
-                href="/user/rules/"
+                href="/quiz/rules/0/"
                 class="nav-link link-dark"
                 id="rules"
                 aria-current="page"
@@ -255,6 +256,11 @@
             >
               <li>
                 <a class="dropdown-item" href="/user/profile/">Profile</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="/accounts/change_password/"
+                  >Change Password</a
+                >
               </li>
               <li><hr class="dropdown-divider" /></li>
               <li>

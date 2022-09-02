@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/rules.css' %}" />
 <title>Rules | ICO QuizTime</title>
 {% endblock head %} {% block body %}
-<div class="containe mb-3">
+<div class="containee mb-3">
   <div class="col">
     <div class="row mx-4 mt-4">
       <h2>Rules of the Quiz</h2>
@@ -29,7 +29,13 @@
         </li>
       </ul>
     </div>
-    <input type="submit" value="Start The Quiz" />
+    {% if quiz_id %}
+    <a href="/quiz/{{quiz_id}}/" class="d-flex justidy-self-center">
+      <button type="button" class="btn btn-success mx-1 start_quiz_btn">
+        Start The Quiz
+      </button>
+    </a>
+    {% endif %}
   </div>
 </div>
 {% endblock body %}

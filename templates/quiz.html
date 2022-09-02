@@ -107,9 +107,9 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto nav-pills">
-              <li class="nav-item active">
+              <!-- <li class="nav-item active">
                 <a class="nav-link" href="/">Home</a>
-              </li>
+              </li> -->
               {% if user.is_active %}
               <li class="nav-item">
                 <a class="nav-link" href="/user/dashboard/">Dashboard</a>
@@ -157,29 +157,43 @@
         </nav>
       </section>
       <div class="container">
-        <form
-          id="answers"
-          method="POST"
-          onsubmit="return confirm('Are you sure you want to submit quiz?');"
-        >
+        <form id="quizform" method="POST" action="/quiz/{{quiz_id}}/">
           {% csrf_token %}
+          <input
+            type="hidden"
+            value="{{question_index}}"
+            name="question_index"
+          />
+          <input
+            type="hidden"
+            value="{{next_question}}"
+            name="next_question_index"
+          />
+          <input type="hidden" value="" name="bonus" />
           <div class="questions">
             <div id="{{ question.question_id }}" class="slide">
               <div class="card mb-2">
                 <div class="card-header">
-                  <div class="client_logo">
+                  <div class="client_logo mr-0">
                     <img src="{% static 'images/bajaj.jpeg' %}" height="50" />
                   </div>
-                  <div class="q_no">1</div>
-                  <div class="timer">00:59 Left</div>
-                </div>
-                <div class="card-body row">
-                  <div class="col-md-4 img">
-                    <img
-                      src="https://media.istockphoto.com/vectors/vector-illustration-of-a-archimedes-in-bath-thumbs-up-eureka-ancient-vector-id1202900421"
-                    />
+                  <div class="exam">
+                    <img src="{% static 'images/engquiz.jpeg' %}" height="50" />
                   </div>
-                  <h3 class="col-md-8 question">Who is he?</h3>
+                  <div class="q_no">1</div>
+                  <div class="timer" id="timer"></div>
+                  <script></script>
+                </div>
+                <div class="card-body row justify-content-center">
+                  {% if question.img %}
+                  <div class="col-md-4 img">
+                    <img src="/media/{{question.img}}" />
+                  </div>
+                  {% endif %}
+                  <h3 class="col-md-8 question">
+                    {{question.question}}
+                    <span>{{question.points}}</span>
+                  </h3>
                 </div>
                 <div class="card-footer">Click on Correct Answer</div>
               </div>
@@ -190,59 +204,77 @@
                 <label class="card col-md-5 answer">
                   <div class="card-body">
                     <input
-                      class="form-check-input"
+                      class="form-check-input answer-{{ question.question_id }}"
                       type="radio"
-                      name="{{ question.question_id }}"
+                      name="answer"
                       value="A"
                     />
-                    <strong>A.&nbsp;</strong> Archimedes
+                    <strong>A.&nbsp;</strong> {{question.option_A}}
                   </div> </label
                 ><label class="card col-md-5 answer">
                   <div class="card-body">
                     <input
-                      class="form-check-input"
+                      class="form-check-input answer-{{ question.question_id }}"
                       type="radio"
-                      name="{{ question.question_id }}"
+                      name="answer"
                       value="A"
                     /><strong>B.&nbsp;</strong>
-                    Pythogoras
+                    {{question.option_B}}
                   </div> </label
                 ><label class="card col-md-5 answer">
                   <div class="card-body">
                     <input
-                      class="form-check-input"
+                      class="form-check-input answer-{{ question.question_id }}"
                       type="radio"
-                      name="{{ question.question_id }}"
+                      name="answer"
                       value="A"
                     /><strong>C.&nbsp;</strong>
-                    Aristotle
+                    {{question.option_C}}
                   </div> </label
                 ><label class="card col-md-5 answer">
                   <div class="card-body">
                     <input
-                      class="form-check-input"
+                      class="form-check-input answer-{{ question.question_id }}"
                       type="radio"
-                      name="{{ question.question_id }}"
+                      name="answer"
                       value="A"
                     /><strong>D.&nbsp;</strong>
-                    Aryabhatta
+                    {{question.option_D}}
                   </div>
                 </label>
               </div>
+              <script>
+                var time = parseInt("{{question.time}}") * 30;
+                var countDownTime = new Date().getTime() + time * 1000;
+                var distance;
+                var x = setInterval(() => {
+                  var now = new Date().getTime();
+                  distance = countDownTime - now;
+                  var minutes = Math.floor(
+                    (distance % (1000 * 60 * 60)) / (1000 * 60)
+                  );
+                  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                  document.getElementById("timer").innerHTML =
+                    minutes + ":" + seconds + " Left";
+
+                  if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("timer").innerHTML = "EXPIRED";
+                  }
+                }, 1000);
+                $(".answer-{{question.question_id}}").click(() => {
+                  minutes = Math.floor(
+                    (distance % (1000 * 60 * 60)) / (1000 * 60)
+                  );
+                  seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                  var bonus = seconds + minutes * 60;
+                  $("input[name='bonus']").val(bonus);
+                  clearInterval(x);
+                  console.log("Bonus Earned", bonus);
+                  $("#quizform").submit();
+                });
+              </script>
             </div>
-          </div>
-          <div class="submit-container">
-            <!-- <button type="button" id="previous" class="button">
-              Previous Question
-            </button> -->
-            <!-- <button
-              type="submit"
-              id="submit"
-              name="quiz_id"
-              value="{{ quiz_id }}"
-            >
-              End Quiz
-            </button> -->
           </div>
         </form>
       </div>

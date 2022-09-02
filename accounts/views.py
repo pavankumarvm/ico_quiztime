@@ -16,42 +16,37 @@ from .models import IcoUser,Otp
 def register_user(request):
     if request.method == 'POST':
         usertype = request.POST.get('usertype')
-        phone_no = request.POST.get('phone_no')
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
         email = request.POST.get('email')
-        password1 = request.POST.get('password1')
-        password2 = request.POST.get('password2')
+        password = request.POST.get('password1')
 
         if usertype == None or usertype == "":
             usertype = 'S'
 
-        if not (phone_no and first_name and last_name and email and password1 and password2):
+        if not (email and password):
             messages.error(request, 'Fill the Empty Fields.')
-            return render(request,
-                          template_name='newadmin.html')
-        elif password1 == password2:
+            if usertype=='A':
+                return render(request, template_name='new_admin.html')
+            else:
+                return render(request, template_name='new_user.html')
+        else:
             if IcoUser.objects.filter(email=email):
                 messages.error(
                     request, 'Email Address already exists.Try another.')
-                return render(request, 'newadmin.html')
+                if usertype=='A':
+                    return render(request, template_name='new_admin.html')
+                else:
+                    return render(request, template_name='new_user.html')
             else:
                 user = IcoUser.objects.create_user(
                     username=str(email).split('@')[0] + random_otp()[:4],
-                    phone_no=phone_no,
-                    password=password1,
+                    password=password,
                     email=email,
-                    first_name=first_name,
-                    last_name=last_name,
                     usertype=usertype)
                 messages.success(request, 'User registered successfully.')
                 return redirect("/adminpanel/dashboard/")
-        else:
-            messages.error(request, "Passwords doesn't match")
-            return render(request, 'newadmin.html')
     else:
         return render(request,
-                      template_name='newadmin.html')
+                      template_name='new_admin.html')
 
 def login_user(request):
     if request.method == 'POST':
@@ -172,3 +167,65 @@ def reset_password(request):
         return render(request, 'reset_password.html', data)
     else:
         return render(request, 'reset_password.html')
+
+def update_details(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        phone_no = request.POST.get('phone_no')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        age = request.POST.get('age')
+        gender = request.POST.get('gender')
+        files = request.FILES.getlist('image')
+        avatar = None
+        if len(files) != 0:
+            avatar = files[0]
+
+        if not (first_name and last_name and email):
+            messages.error(request, 'Fill the Empty Fields.')
+            return render(request,
+                          template_name='profile.html')
+        else:
+            user = IcoUser.objects.get(email=email)
+            user.first_name = first_name
+            user.last_name = last_name
+            user.phone_no = phone_no
+            user.age = age
+            user.gender = gender
+            if avatar:
+                user.avatar = avatar
+            messages.success(request, 'User Details updated successfully.')
+            return redirect("/admin_panel/dashboard/")
+    else:
+        return render(request,
+                      template_name='profile.html')
+
+
+def change_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        user = authenticate(email=email, password=password)
+        if user is not None:
+            if password1 == password2:
+                print(password1)
+                user.set_password(password1)
+                user.save()
+                messages.success(
+                    request, "Password updated Successfully.Login Again.")
+                return render(request, template_name='login.html')
+            else:
+                messages.error(request, "Passwords doesn't match")
+                return render(request, 'change_password.html')
+        else:
+            messages.error(request, 'Wrong Current Password.')
+
+            return render(request,
+                          template_name='change_password.html',
+                          )
+    else:
+        return render(request,
+                      template_name='change_password.html',
+                      )
