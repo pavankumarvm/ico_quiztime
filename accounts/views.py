@@ -2,6 +2,8 @@ from email import message
 import random
 import http
 from datetime import datetime, timezone
+import re
+import pandas as pd
 
 from django.shortcuts import render
 from django.contrib.auth import authenticate,login, logout
@@ -100,11 +102,10 @@ def login_user(request):
 		login_type = request.POST.get('login_type')
 		user = authenticate(username=username, password=password)
 		if user is not None:
-			if not user.is_active:
-				messages.warning(request, 'Your account has been deactivated.Contact the Administator.')
-				return redirect('/bajajauto/accounts/login/')
 			login(request, user)
 			messages.success(request, 'Logged in successfully.')
+			if not (user.phone_no and user.age and user.gender):
+				return redirect('/bajajauto/user/profile/')
 			if user.is_admin and login_type == 'admin':
 				return redirect('/bajajauto/adminpanel/dashboard/')
 			else:
@@ -222,6 +223,7 @@ def update_details(request):
 		print(request.POST)
 		email = request.POST.get('email')
 		phone_no = request.POST.get('phone_no')
+		username = request.POST.get('username')
 		first_name = request.POST.get('first_name')
 		last_name = request.POST.get('last_name')
 		age = request.POST.get('age')
@@ -231,12 +233,17 @@ def update_details(request):
 		if len(files) != 0:
 			avatar = files[0]
 
-		if not (first_name and last_name and email and age and gender and phone_no):
+		if not (first_name and last_name and email and age and gender and phone_no and username):
 			messages.error(request, 'Fill the Empty Fields.')
 			return render(request,
 						  template_name='profile.html')
+		elif username!= request.user.username and IcoUser.objects.filter(username=username):
+			messages.error(
+				request, 'Username already exists.Try another.')
+			return render(request, 'profile.html')
 		else:
 			user = IcoUser.objects.get(email=email)
+			user.username = username
 			user.first_name = first_name
 			user.last_name = last_name
 			user.phone_no = phone_no
@@ -246,7 +253,7 @@ def update_details(request):
 				user.avatar = avatar
 			user.save()
 			messages.success(request, 'User Details updated successfully.')
-			return redirect("/bajajauto/adminpanel/dashboard/")
+			return redirect("/bajajauto/user/dashboard/")
 	else:
 		return render(request,
 					  template_name='profile.html')
@@ -312,3 +319,50 @@ def change_status(request):
 	except:
 		messages.error(request, "No such User Found")
 		return redirect('/bajajauto/adminpanel/dashboard/')
+
+@login_required(login_url='/bajajauto/accounts/login/')
+@user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
+def add_bulk_users(request):
+	if request.method=='POST':
+		file = request.FILES.getlist('file')[0]
+		if str(file).split('.')[-1] in ['xlsx', 'xls']:
+			df = pd.read_excel(file)
+		elif str(file).split('.')[-1] == 'csv':
+			df = pd.read_csv(file)
+		else:
+			messages.error(request, "File Format not supported")
+			return render(request, 'add_bulk_users.html')
+		print(df)
+		users_added = []
+		users_not_added = []
+		try:
+			for i in range(len(df)):
+				row = df.loc[i,:]
+				# print(row)
+				email = row['Email']
+				password = row['Password']
+				username = str(email).split('@')[0] + random_otp()[:4]
+				if len(IcoUser.objects.filter(email=email))==0:
+					user = IcoUser.objects.create(
+						username=username,
+						email=email,
+						password=password,
+						first_name="User",
+						last_name="",
+						)
+					user.save()
+					users_added.append({'srno' :len(users_added) +1 ,'email': email})
+				else:
+					users_not_added.append({'srno' :len(users_not_added) +1 ,'email': email, 'reason': 'Already Present'})
+			messages.success(request, "File Upload Successfully")
+			data = {
+				'users_added': users_added,
+				'users_not_added': users_not_added,
+				'total_count': len(df) - 1,
+			}
+		except:
+			data={}
+			messages.error(request, "File could not be proccessed. Check Format")
+		return render(request, template_name='add_bulk_users.html', context=data)
+	elif request.method=='GET':
+		return render(request, template_name='add_bulk_users.html')

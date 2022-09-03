@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
+from accounts.views import add_bulk_users
 
 from adminpanel.views import *
 
@@ -26,6 +27,7 @@ urlpatterns = [
   path('adminpanel/delete_quiz/', delete_quiz, name='adminpanel'),
   path('adminpanel/new_admin/', add_new_admin, name='add_new_admin'),
   path('adminpanel/new_user/', add_new_user, name='add_new_user'),
+  path('adminpanel/add_bulk_users/', add_bulk_users, name='add_bulk_users'),
   # User APIS
   path('user/dashboard/', dashboard, name='dashboard'),
   path('user/profile/', profile, name='profile'),

@@ -208,27 +208,6 @@ def take_quiz(request):
 	}
 	return render(request, template_name='take_quiz.html', context=data)
 
-
-def addQuestionsFromXL(request):
-	path = os.path.join(BASE_DIR , 'questions.xlsx')
-	# print(path)
-	df = pd.read_excel(path)
-	# print(df)
-	for i in range(len(df)):
-		row = df.loc[i,:]
-		# print(row)
-		_, created = Question.objects.get_or_create(
-				category= row['category'],
-				question= row['question'],
-				option_A= row['option_A'],
-				option_B= row['option_B'],
-				option_C= row['option_C'],
-				option_D= row['option_D'],
-				answer= row['answer'],
-				explanation= row['explanation'],
-				given_by=request.user
-			)
-
 class QuestionView(TemplateView):
 	# this view is for question page
 	# on which college admin can suggest questions
