@@ -1,3 +1,5 @@
+import json
+from multiprocessing import context
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render
 from django.contrib import messages
@@ -6,6 +8,9 @@ import pandas as pd
 import os
 from datetime import datetime, timezone
 from django.shortcuts import redirect
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 from accounts.models import IcoUser
 from adminpanel.models import Participant, Quiz, Question
@@ -249,6 +254,7 @@ class QuestionView(TemplateView):
 					)
 		if questionType == 'img':
 			question_obj.img = img
+		question.sequence_no = Question.objects.all().count() + 1
 		question_obj.save()
 		messages.success(request, "Question added successfully to " + str(quiz_obj.name))
 		quizes = Quiz.objects.all()
@@ -341,3 +347,79 @@ def result(request,quiz):
 		'rank':rank,
 	}
 	return render(request, 'result.html', context=data)
+
+
+@login_required(login_url='/bajajauto/accounts/login/')
+@user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
+def view_question(request, quiz):
+		if request.method == "POST":
+			if quiz==0:
+				quizes = Quiz.objects.all()
+				for i in range(len(quizes)):
+					quizes[i].srno = i+1
+				data = {
+					'quizes' : quizes,
+				}
+				return render(request, 'view_question.html', context=data)
+			quiz_obj = Quiz.objects.get(id=quiz)
+			questions = Question.objects.filter(quiz=quiz_obj).order_by('sequence_no')
+			for i in range(len(questions)):
+				questions[i].srno = i+1
+			quizes = Quiz.objects.all()
+			for i in range(len(quizes)):
+				quizes[i].srno = i+1
+			data = {
+				'questions' : questions,
+				'quiz_id': quiz,
+				'quizes': quizes,
+			}
+			return render(request,'view_question.html', context=data)
+		elif request.method=='GET':
+			quizes = Quiz.objects.all()
+			for i in range(len(quizes)):
+				quizes[i].srno = i+1
+			data = {
+				'quizes' : quizes,
+				'quiz_id': quiz
+			}
+			return render(request, 'view_question.html', context=data)
+
+
+@login_required(login_url='/bajajauto/accounts/login/')
+@user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
+def delete_question(request):
+	if request.method == "POST":		
+		quiz_id = request.POST.get('quiz_id')
+		question_id = request.POST.get('question_id')
+		try:
+					question = Question.objects.get(
+							question_id=question_id
+					)
+					question.delete()
+					messages.success(request, "Question Successfully deleted.")
+					return redirect('/bajajauto/adminpanel/view_question/' + quiz_id + '/')
+		except:
+			messages.error(request, "Question not found.Try Again.")
+			return redirect('/bajajauto/adminpanel/view_question/' + quiz_id + "/")
+	else:
+		return redirect('/bajajauto/')
+
+@api_view(('POST',))
+@login_required(login_url='/bajajauto/accounts/login/')
+@user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
+def change_sequence(request):
+	if request.method == 'POST':
+		data = request.data
+		quiz_id = data.get('quiz_id')
+		array = data.get('array')
+		for item in array:
+			question = Question.objects.get(question_id = item.get('id'))
+			question.sequence_no = item.get('sequence_no')
+			question.save()
+		messages.success(request, "Question Sequence Updated.")
+		return  Response(
+            {
+                'message': 'sequence changed successfully',
+            },
+            status=status.HTTP_200_OK
+        )

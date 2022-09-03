@@ -54,44 +54,50 @@
           </div>
         </div>
       </div>
-      <div class="col-md-3 mb-3">
-        <label for="validationGender">For Quiz:</label>
-        <form method="POST" id="quiz_select_form">
-          {% csrf_token %}
-          <select class="custom-select" id="quiz_select" name="quiz_id_select">
-            <option>-----Select Quiz-----</option>
-            <option value="0" {% if all_p %}selected="selected" {% endif %}>
-              All Quizes
-            </option>
-            {% for quiz in quizes %}
-            <option
-              value="{{quiz.id}}"
-              {%
-              ifequal
-              quiz.id
-              quiz_id
-              %}selected="selected"
-              {%
-              endifequal
-              %}
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <label for="validationGender">For Quiz:</label>
+          <form method="POST" id="quiz_select_form">
+            {% csrf_token %}
+            <select
+              class="custom-select"
+              id="quiz_select"
+              name="quiz_id_select"
             >
-              {{quiz.id}}-{{quiz.name}}
-            </option>
-            {% endfor %}
-          </select>
-        </form>
-        <script>
-          $("#quiz_select").change(() => {
-            $("#quiz_select_form")
-              .attr(
-                "action",
-                "/bajajauto/user/leaderboard/" +
-                  $("select[name='quiz_id_select']").val() +
-                  "/"
-              )
-              .submit();
-          });
-        </script>
+              <option>-----Select Quiz-----</option>
+              <option value="0" {% if all_p %}selected="selected" {% endif %}>
+                All Quizes
+              </option>
+              {% for quiz in quizes %}
+              <option
+                value="{{quiz.id}}"
+                {%
+                ifequal
+                quiz.id
+                quiz_id
+                %}selected="selected"
+                {%
+                endifequal
+                %}
+              >
+                {{quiz.id}}-{{quiz.name}}
+              </option>
+              {% endfor %}
+            </select>
+          </form>
+          <script>
+            $("#quiz_select").change(() => {
+              $("#quiz_select_form")
+                .attr(
+                  "action",
+                  "/bajajauto/user/leaderboard/" +
+                    $("select[name='quiz_id_select']").val() +
+                    "/"
+                )
+                .submit();
+            });
+          </script>
+        </div>
       </div>
       <div class="tablefixhead">
         <table class="table table-striped">
