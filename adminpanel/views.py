@@ -1,11 +1,7 @@
-import json
 from multiprocessing import context
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render
 from django.contrib import messages
-import random
-import pandas as pd
-import os
 from datetime import datetime, timezone
 from django.shortcuts import redirect
 from rest_framework import status
@@ -18,6 +14,11 @@ from .serializers import QuestionSerializer, QuizSerializer
 from django.views.generic import TemplateView
 from rest_framework.permissions import IsAuthenticated
 from ico_quiztime.settings import BASE_DIR
+from django.utils.timezone import make_aware, make_naive
+from datetime import datetime
+import pytz
+
+utc=pytz.UTC
 
 # Create your views here.
 def index(request):
@@ -52,10 +53,13 @@ def create_quiz(request):
 						start_time = request.POST.get('start_time')
 						end_time = request.POST.get('end_time')
 						quizName = request.POST.get('quizName')
-
+						
+						if start_time > end_time:
+							messages.error(request, "Start Time cannot be after End Time")
+							return redirect('/bajajauto/adminpanel/create_quiz/')
 						quiz = Quiz.objects.create(
 								start_time = start_time,
-								end_time=end_time,
+								end_time= end_time,
 								name=quizName,
 						)
 						quiz.save()
@@ -71,7 +75,7 @@ def create_quiz(request):
 						return render(request, 'create_quiz.html', context=data)
 		except:
 				messages.error(request, "Quiz not saved.Try Again.")
-				return redirect('/bajajauto/adminpanel/dashboard/')
+				return redirect('/bajajauto/adminpanel/create_quiz/')
 
 
 @login_required(login_url='/bajajauto/accounts/login/')
@@ -91,6 +95,9 @@ def edit_quiz(request):
 						quiz.end_time = end_time
 						quiz.name = quizName
 						quiz.save()
+						if start_time > end_time:
+							messages.error(request, "Start Time cannot be after End Time")
+							return redirect('/bajajauto/adminpanel/create_quiz/')
 						messages.success(request, "Quiz Details Successfully Edited.")
 						return redirect('/bajajauto/adminpanel/edit_quiz/')
 				elif request.method=='GET':
@@ -103,7 +110,7 @@ def edit_quiz(request):
 						return render(request, 'edit_quiz.html', context=data)
 		except:
 				messages.error(request, "Quiz not saved.Try Again.")
-				return redirect('/bajajauto/adminpanel/dashboard/')
+				return redirect('/bajajauto/adminpanel/create_quiz/')
 
 
 @login_required(login_url='/bajajauto/accounts/login/')
@@ -219,9 +226,18 @@ def user_rules(request, quiz):
 
 @login_required(login_url='/bajajauto/accounts/login/')
 def take_quiz(request):
-	quizes = Quiz.objects.all()
+	quizes = list(Quiz.objects.all().order_by('end_time'))[::-1]
+	timenow = make_aware(datetime.now(), utc)
 	for i in range(len(quizes)):
 		quizes[i].srno = i+1
+		endtime = quizes[i].end_time
+		starttime = quizes[i].start_time
+		if timenow > endtime:
+			quizes[i].status = "E"  # Ended
+		elif timenow < endtime and timenow > starttime:
+			quizes[i].status = "S" # Started
+		else:
+			quizes[i].status = "N" # Not Started
 	data = {
 		'quizes' : quizes,
 	}
@@ -268,7 +284,7 @@ class QuestionView(TemplateView):
 					)
 		if questionType == 'img':
 			question_obj.img = img
-		question.sequence_no = Question.objects.all().count() + 1
+		question_obj.sequence_no = Question.objects.filter(quiz=quiz_obj).count()
 		question_obj.save()
 		messages.success(request, "Question added successfully to " + str(quiz_obj.name))
 		quizes = Quiz.objects.all()
@@ -301,38 +317,52 @@ class QuizView(TemplateView):
 		participant,_created = Participant.objects.get_or_create(quiz=quiz_obj)
 		participant.user = user
 		participant.save()
-		self.quiz = Question.objects.filter(quiz=quiz_obj).order_by('question_id')
+		q_index = 0
+		self.quiz = Question.objects.filter(quiz=quiz_obj).order_by('sequence_no')
+		if not _created:
+			if participant.last_visited >= len(self.quiz):
+				messages.success(request, "You have already took part in this quiz.")
+				return redirect('/bajajauto/quiz/result/' + str(quiz) + '/')
+			timenow = make_aware(datetime.now())
+			delta = timenow - participant.time_appeared
+			print([timenow, participant.time_appeared, delta.total_seconds()])
+			if delta.seconds > 30*60:
+				messages.error(request, "You have left the quiz for more than 30 minutes.")
+				return redirect('/bajajauto/user/dashboard/')
+			else:
+				messages.success(request, "Welcome back!! Please complete the quiz this time.")
+				q_index = participant.last_visited + 1
+		if q_index >= len(self.quiz):
+			messages.success(request, "You have already took part in this quiz.")
+			return redirect('/bajajauto/quiz/result/' + str(quiz) + '/')
 		data = {
-				'question_index': 0,
-				'question': self.quiz[0],
-				'next_question': 1,
-				'quiz_id': quiz
+				'question_index': q_index,
+				'question': self.quiz[q_index],
+				'quiz_id': quiz,
+				'total_q': len(self.quiz)
 				}
 		return render(request, 'quiz.html', context=data)
 
 	def post(self, request, quiz):
-		question = request.POST.get('question_index')
-		if question is not None:
-			question = int(question)
-		next_question = request.POST.get('next_question_index')
-		if next_question is not None:
-			next_question = int(next_question)
+		question_i = request.POST.get('question_index')
+		if question_i is not None:
+			question_i = int(question_i)
 		chosen_answer = request.POST.get('answer')
 		bonus = request.POST.get('bonus')
 		user = IcoUser.objects.get(user_id=request.user.user_id)
 		quiz_obj = Quiz.objects.get(id=quiz)
 		participant = Participant.objects.get(quiz=quiz_obj,user=user)
-		self.quiz = Question.objects.filter(quiz=quiz_obj).order_by('question_id')
-		question = self.quiz[question]
+		self.quiz = Question.objects.filter(quiz=quiz_obj).order_by('sequence_no')
+		question = self.quiz[question_i]
 		if question.answer == str(chosen_answer).lower():
 			participant.score = participant.score + question.points
 			participant.score = participant.score + (question.points * int(bonus)) // (question.time * 30)
 			participant.correct = participant.correct + 1
 		else:
 			participant.incorrect = participant.incorrect + 1
+		participant.last_visited = question_i + 1
 		participant.save()
-
-		if next_question == len(self.quiz):
+		if (question_i + 1) >= len(self.quiz):
 			all_participants = Participant.objects.filter(quiz=quiz_obj).order_by('score')
 			for i in range(len(all_participants)):
 				all_participants[i].rank = i+1
@@ -341,12 +371,12 @@ class QuizView(TemplateView):
 			user.save()
 			return redirect('/bajajauto/quiz/result/' + str(quiz) + '/')
 		else:
-			next_question += 1
+			question_i += 1
 		data = {
-				'question_index': next_question,
-				'question': self.quiz[next_question],
-				'next_question':  next_question,
-				'quiz_id': quiz
+				'question_index': question_i,
+				'question': self.quiz[question_i],
+				'quiz_id': quiz,
+				'total_q': len(self.quiz)
 				}
 		return render(request, 'quiz.html', context=data)
 
@@ -380,8 +410,6 @@ def view_question(request, quiz):
 				return render(request, 'view_question.html', context=data)
 			quiz_obj = Quiz.objects.get(id=quiz)
 			questions = Question.objects.filter(quiz=quiz_obj).order_by('sequence_no')
-			for i in range(len(questions)):
-				questions[i].srno = i+1
 			quizes = Quiz.objects.all()
 			for i in range(len(quizes)):
 				quizes[i].srno = i+1
@@ -399,6 +427,10 @@ def view_question(request, quiz):
 				'quizes' : quizes,
 				'quiz_id': quiz
 			}
+			if quiz != 0:
+				quiz_obj = Quiz.objects.get(id=quiz)
+				questions = Question.objects.filter(quiz=quiz_obj).order_by('sequence_no')
+				data['questions'] = questions
 			return render(request, 'view_question.html', context=data)
 
 

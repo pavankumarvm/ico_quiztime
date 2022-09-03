@@ -1,3 +1,4 @@
+from datetime import datetime
 import uuid
 from django.db import models
 from accounts.models import IcoUser
@@ -27,7 +28,8 @@ class Participant(models.Model):
     correct = models.IntegerField(default=0)
     incorrect = models.IntegerField(default=0)
     rank = models.IntegerField(null=True, blank=True,)
-    time_appeared = models.DateTimeField(auto_now_add=True)
+    last_visited = models.IntegerField(default=0)
+    time_appeared = models.DateTimeField(default=datetime.now(),editable=False)
 
     class Meta:
         db_table = 'quiz'

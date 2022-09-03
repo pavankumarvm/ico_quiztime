@@ -38,6 +38,10 @@
   position: absolute;
   left: 10px;
   top: 65px;
+  z-index: 1;
+}
+.card > .card-body > .img {
+  height: 250px;
 }
 .card > .card-body > .img > img {
   height: 100%;
