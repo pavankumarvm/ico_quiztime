@@ -15,7 +15,7 @@
     >
       {% csrf_token %}
       <div class="form-row mx-4">
-        <div class="profile-pic">
+        <div class="col-md-5 profile-pic mb-3">
           <label class="-label" for="file">
             <span class="glyphicon glyphicon-camera"></span>
             <span>Change Image</span>
@@ -25,6 +25,7 @@
             type="file"
             onchange="loadFile(event)"
             accept="image/*"
+            name="image"
             disabled
           />
           {% if user.avatar %}
@@ -42,13 +43,27 @@
             height="80"
           />
           {% endif %}
+          <script>
+            var loadFile = function (event) {
+              var image = document.getElementById("output");
+              image.src = URL.createObjectURL(event.target.files[0]);
+            };
+          </script>
         </div>
-        <script>
-          var loadFile = function (event) {
-            var image = document.getElementById("output");
-            image.src = URL.createObjectURL(event.target.files[0]);
-          };
-        </script>
+        <div class="col-md-5 mb-3">
+          <label for="validation01">Username</label>
+          <input
+            type="text"
+            class="form-control"
+            id="validation01"
+            placeholder="Username"
+            name="username"
+            value="{{ user.username }}"
+            disabled
+            required
+          />
+          <div class="valid-feedback">Looks good!</div>
+        </div>
       </div>
       <div class="form-row mx-4">
         <div class="col-md-5 mb-3">
@@ -114,6 +129,7 @@
               disabled
               required
             />
+            <input type="hidden" value="{{user.email}}" name="email" />
             <div class="valid-feedback">
               Looks good!.You cannot update this.
             </div>
@@ -143,11 +159,15 @@
         </div>
         <div class="col-md-5 mb-3">
           <label for="validationGender">Gender</label>
-          <select class="custom-select" disabled value="{{user.gender}}">
-            <option>-----Select Gender-----</option>
-            <option value="M">Male</option>
-            <option value="F">Female</option>
-            <option value="O">Others</option>
+          <select
+            class="custom-select"
+            disabled
+            value="{{user.gender}}"
+            name="gender"
+          >
+            <option value="M" {% ifequal user.gender 'M' %}selected="selected"{% endifequal %}>Male</option>
+            <option value="F" {% ifequal user.gender 'F' %}selected="selected"{% endifequal %}>Female</option>
+            <option value="O" {% ifequal user.gender 'O' %}selected="selected"{% endifequal %}>Others</option>
           </select>
         </div>
       </div>
@@ -180,10 +200,10 @@
       inp = row.getElementsByTagName("input");
       // remove disabled attribute from each inp tag of this card
       Array.from(inp).forEach((el, index) => {
-        if (index != 4) el.removeAttribute("disabled");
+        if (index != 6) el.removeAttribute("disabled");
       });
 
-      sel.getElementsByTagName("select");
+      sel = row.getElementsByTagName("select");
 
       Array.from(sel).forEach((sel) => {
         sel.removeAttribute("disabled");

@@ -18,6 +18,7 @@ from ico_quiztime.settings import BASE_DIR
 def index(request):
 	return render(request, template_name='index.html')
 
+@login_required(login_url='/bajajauto/accounts/login/')
 @user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
 def adminpanel(request):
 	users = IcoUser.objects.all().order_by('is_admin','last_login')
@@ -29,6 +30,7 @@ def adminpanel(request):
 	}
 	return render(request, template_name='admindashboard.html', context=data)
 
+@login_required(login_url='/bajajauto/accounts/login/')
 @user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
 def adminprofile(request):
 	data = {
@@ -37,6 +39,7 @@ def adminprofile(request):
 	return render(request, template_name='adminprofile.html', context=data)
 
 
+@login_required(login_url='/bajajauto/accounts/login/')
 @user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
 def create_quiz(request):
 		try:
@@ -66,6 +69,7 @@ def create_quiz(request):
 				return redirect('/bajajauto/adminpanel/dashboard/')
 
 
+@login_required(login_url='/bajajauto/accounts/login/')
 @user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
 def edit_quiz(request):
 		try:
@@ -97,6 +101,7 @@ def edit_quiz(request):
 				return redirect('/bajajauto/adminpanel/dashboard/')
 
 
+@login_required(login_url='/bajajauto/accounts/login/')
 @user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
 def delete_quiz(request):
 		try:
@@ -121,10 +126,12 @@ def delete_quiz(request):
 				messages.error(request, "Quiz not deleted.Try Again.")
 				return redirect('/bajajauto/adminpanel/dashboard/')
 
+@login_required(login_url='/bajajauto/accounts/login/')
 @user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
 def add_new_admin(request):
 	return render(request, template_name='new_admin.html')
 
+@login_required(login_url='/bajajauto/accounts/login/')
 @user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
 def add_new_user(request):
 	return render(request, template_name='new_user.html')
@@ -342,6 +349,7 @@ class QuizView(TemplateView):
 		return render(request, 'quiz.html', context=data)
 
 
+@login_required(login_url='/bajajauto/accounts/login/')
 def result(request,quiz):
 	user = IcoUser.objects.get(user_id=request.user.user_id)
 	quiz_obj = Quiz.objects.get(id=quiz)

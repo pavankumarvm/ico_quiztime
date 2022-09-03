@@ -9,35 +9,35 @@
   align-items: center;
   color: black;
 }
-.card > .card-header > .client_logo {
-  height: 50px;
-}
-.card > .card-header > .exam {
-  height: 50px;
+.card > .card-header > img {
+  /* height: 50px; */
+  width: 40px;
 }
 
-.card > .card-header > .q_no {
-  font-size: 28px;
-  font-weight: bold;
-  background-color: #ffc82f;
-  color: white;
-  border-radius: 50%;
-  height: 50px;
-  width: 50px;
-  border: 1px solid #f7b603;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .card > .card-header > .timer {
   font-weight: bold;
   color: green;
 }
+
 .card > .card-body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+}
+
+.card > .card-body > .q_no {
+  font-size: 22px;
+  font-weight: bold;
+  color: black;
+  height: 50px;
+  width: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: absolute;
+  left: 10px;
+  top: 65px;
 }
 .card > .card-body > .img > img {
   height: 100%;

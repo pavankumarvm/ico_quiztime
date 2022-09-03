@@ -58,6 +58,7 @@ def register_user(request):
 		return render(request,
 					  template_name='register.html')
 
+@login_required(login_url='/bajajauto/accounts/login/')
 @user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
 def new_admin(request):
 	if request.method == 'POST':
@@ -215,8 +216,10 @@ def reset_password(request):
 	else:
 		return render(request, 'reset_password.html')
 
+@login_required(login_url='/bajajauto/accounts/login/')
 def update_details(request):
 	if request.method == 'POST':
+		print(request.POST)
 		email = request.POST.get('email')
 		phone_no = request.POST.get('phone_no')
 		first_name = request.POST.get('first_name')
@@ -228,7 +231,7 @@ def update_details(request):
 		if len(files) != 0:
 			avatar = files[0]
 
-		if not (first_name and last_name and email):
+		if not (first_name and last_name and email and age and gender and phone_no):
 			messages.error(request, 'Fill the Empty Fields.')
 			return render(request,
 						  template_name='profile.html')
@@ -238,11 +241,12 @@ def update_details(request):
 			user.last_name = last_name
 			user.phone_no = phone_no
 			user.age = age
-			user.gender = gender
+			user.gender = str(gender).upper()
 			if avatar:
 				user.avatar = avatar
+			user.save()
 			messages.success(request, 'User Details updated successfully.')
-			return redirect("/admin_panel/dashboard/")
+			return redirect("/bajajauto/adminpanel/dashboard/")
 	else:
 		return render(request,
 					  template_name='profile.html')

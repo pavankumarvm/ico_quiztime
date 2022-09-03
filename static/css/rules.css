@@ -3,3 +3,7 @@ h1 {
   font-size: 25px;
   background-color: burlywood;
 }
+
+a {
+  text-decoration: none;
+}

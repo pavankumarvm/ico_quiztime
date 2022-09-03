@@ -1,10 +1,5 @@
 {% extends 'adminpanel.html' %} {% load static %} {% block head %}
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="{% static 'css/dashboard.css' %}"
-/>
-<title>Dashboard | ICO Quiz Time</title>
+<title>Edit Quiz | ICO Quiz Time</title>
 {% endblock head %} {% block body %}
 <div class="container-fluid">
   <div class="row mx-4 mt-4">
@@ -20,7 +15,7 @@
         <button type="button" class="btn btn-primary mx-2">Add New Quiz</button>
       </a>
     </div>
-    <div class="row">
+    <div class="row mx-2">
       <table class="table table-bordered">
         <thead class="thead-dark">
           <tr>

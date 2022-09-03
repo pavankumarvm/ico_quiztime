@@ -13,4 +13,5 @@ urlpatterns = [
     path('new_admin/', views.new_admin, name='register_user'),
     path('make_admin/', views.make_admin, name='make_admin'),
     path('change_status/', views.change_status, name='change_status'),
+    path('update_details/', views.update_details, name='update_details'),
 ]

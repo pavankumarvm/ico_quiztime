@@ -35,12 +35,8 @@
                       Total Score: {{user.total_score}}
                     </h6>
                     {% if not all_p %}
-                    <h6>
-                      Score in Quiz#{{quiz_id}}: {{score}}
-                    </h6>
-                    <h6>
-                      Rank in Quiz#{{quiz_id}}: {{rank}}
-                    </h6>
+                    <h6>Score in Quiz#{{quiz_id}}: {{score}}</h6>
+                    <h6>Rank in Quiz#{{quiz_id}}: {{rank}}</h6>
                     {% else %}
                     <h6 style="text-align: left">Overall Rank:{{rank}}</h6>
                     {% endif %}
@@ -64,18 +60,37 @@
           {% csrf_token %}
           <select class="custom-select" id="quiz_select" name="quiz_id_select">
             <option>-----Select Quiz-----</option>
-            <option value="0" {% if all_p %}selected="selected"{% endif %}>All Quizes</option>
+            <option value="0" {% if all_p %}selected="selected" {% endif %}>
+              All Quizes
+            </option>
             {% for quiz in quizes %}
-            <option value="{{quiz.id}}" {% if quiz.id == quiz_id %}selected="selected"{% endif %}>
+            <option
+              value="{{quiz.id}}"
+              {%
+              ifequal
+              quiz.id
+              quiz_id
+              %}selected="selected"
+              {%
+              endifequal
+              %}
+            >
               {{quiz.id}}-{{quiz.name}}
             </option>
             {% endfor %}
           </select>
         </form>
         <script>
-          $('#quiz_select').change(()=>{
-            $('#quiz_select_form').attr("action", "/bajajauto/user/leaderboard/" + $("select[name='quiz_id_select']").val() + "/").submit();
-          })
+          $("#quiz_select").change(() => {
+            $("#quiz_select_form")
+              .attr(
+                "action",
+                "/bajajauto/user/leaderboard/" +
+                  $("select[name='quiz_id_select']").val() +
+                  "/"
+              )
+              .submit();
+          });
         </script>
       </div>
       <div class="tablefixhead">
@@ -102,9 +117,7 @@
         <div class="col">
           <div class="quiz">
             <a href="/bajajauto/user/take_quiz/">
-              <button class="but2" type="button" onclick="alert('Lets Go')">
-                Take More Quizes!
-              </button>
+              <button class="but2" type="button">Take More Quizes!</button>
             </a>
           </div>
         </div>

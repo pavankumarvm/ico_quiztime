@@ -146,8 +146,6 @@
                   <a class="dropdown-item" href="/bajajauto/accounts/logout/"
                     >Logout</a
                   >
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="/feedback/">Feedback</a>
                 </div>
               </li>
               {% else %}
@@ -182,30 +180,23 @@
             <div id="{{ question.question_id }}" class="slide">
               <div class="card mb-2">
                 <div class="card-header">
-                  <div class="q_no">{{next_question}}</div>
-                  <div class="timer" id="timer"></div>
-                  <script></script>
+                  <img src="{% static 'images/bajaj.jpeg' %}" />
+                  <div class="timer">{{question.points}} points</div>
+                  <img src="{% static 'images/engquiz.jpeg' %}" />
                 </div>
                 <div class="card-body">
-                  <img
-                    src="{% static 'images/bajaj.jpeg' %}"
-                    class="col-md-2"
-                  />
+                  <div class="q_no">{{next_question}} / 10</div>
                   {% if question.img %}
                   <div class="col-md-4 img">
                     <img src="/media/{{question.img}}" />
                   </div>
                   {% endif %}
-                  <h3 class="col-md-4 question">
-                    {{question.question}}
-                    <span>{{question.points}}</span>
-                  </h3>
-                  <img
-                    src="{% static 'images/engquiz.jpeg' %}"
-                    class="col-md-2"
-                  />
+                  <h3 class="col-md-4 question">{{question.question}}</h3>
                 </div>
-                <div class="card-footer">Click on Correct Answer</div>
+                <div class="card-footer">
+                  Click on Correct Answer
+                  <div class="timer" id="timer"></div>
+                </div>
               </div>
 
               <div
@@ -269,7 +260,8 @@
 
                   if (distance < 0) {
                     clearInterval(x);
-                    document.getElementById("timer").innerHTML = "EXPIRED";
+                    $("input[name='bonus']").val(0);
+                    $("#quizform").submit();
                   }
                 }, 1000);
                 $(".answer-{{question.question_id}}").click(() => {
