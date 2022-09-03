@@ -143,8 +143,22 @@ def add_new_user(request):
 
 @login_required(login_url='/bajajauto/accounts/login/')
 def dashboard(request):
+	participants = Participant.objects.filter(user=request.user).order_by('time_appeared')
+	xValues, yValues = [], []
+	correct, incorrect = 0, 0
+	for p in participants:
+		xValues.append(str(p.quiz))
+		yValues.append(p.score)
+		correct += p.correct
+		incorrect += p.incorrect
+	total_score = request.user.total_score
 	data = {
-		'user': request.user,
+		'xValues' : xValues,
+		'yValues': yValues,
+		'correct': correct,
+		'incorrect': incorrect,
+		'total_score': total_score,
+		'quizes': len(participants),
 	}
 	return render(request, template_name='dashboard.html',context=data)
 
@@ -313,6 +327,9 @@ class QuizView(TemplateView):
 		if question.answer == str(chosen_answer).lower():
 			participant.score = participant.score + question.points
 			participant.score = participant.score + (question.points * int(bonus)) // (question.time * 30)
+			participant.correct = participant.correct + 1
+		else:
+			participant.incorrect = participant.incorrect + 1
 		participant.save()
 
 		if next_question == len(self.quiz):
