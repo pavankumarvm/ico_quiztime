@@ -9,36 +9,39 @@
   align-items: center;
   color: black;
 }
-.card > .card-header > .client_logo {
-  height: 50px;
-}
-.card > .card-header > .exam {
-  height: 50px;
+.card > .card-header > img {
+  /* height: 50px; */
+  width: 40px;
 }
 
-.card > .card-header > .q_no {
-  font-size: 28px;
-  font-weight: bold;
-  background-color: #ffc82f;
-  color: white;
-  border-radius: 50%;
-  height: 50px;
-  width: 50px;
-  border: 1px solid #f7b603;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .card > .card-header > .timer {
   font-weight: bold;
   color: green;
 }
-.card > .card-body > .img {
-  max-height: 220px;
+
+.card > .card-body {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+}
+
+.card > .card-body > .q_no {
+  font-size: 22px;
+  font-weight: bold;
+  color: black;
+  height: 50px;
+  width: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: absolute;
+  left: 10px;
+  top: 65px;
+  z-index: 1;
+}
+.card > .card-body > .img {
+  height: 250px;
 }
 .card > .card-body > .img > img {
   height: 100%;
@@ -49,7 +52,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  color: blue !important;
+  color: black !important;
 }
 .card > .card-footer {
   background-color: black;
@@ -59,7 +62,8 @@
   font-weight: bold;
 }
 .card.answer {
-  background-color: #ffc82f;
+  background-color: #00154a;
+  cursor: pointer;
 }
 .card.answer > .card-body {
   display: flex;
@@ -67,7 +71,7 @@
   justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
-  color: black;
+  color: white;
   font-weight: bold;
   font-size: 22px;
 }

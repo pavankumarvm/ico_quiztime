@@ -114,7 +114,9 @@
               </li> -->
               {% if user.is_active %}
               <li class="nav-item">
-                <a class="nav-link" href="/user/dashboard/">Dashboard</a>
+                <a class="nav-link" href="/bajajauto/user/dashboard/"
+                  >Dashboard</a
+                >
               </li>
               {% if user.is_admin %}
               <li class="nav-item">
@@ -144,8 +146,6 @@
                   <a class="dropdown-item" href="/bajajauto/accounts/logout/"
                     >Logout</a
                   >
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="/feedback/">Feedback</a>
                 </div>
               </li>
               {% else %}
@@ -163,45 +163,37 @@
         </nav>
       </section>
       <div class="container">
-        <form id="quizform" method="POST" action="/quiz/{{quiz_id}}/">
+        <form id="quizform" method="POST" action="/bajajauto/quiz/{{quiz_id}}/">
           {% csrf_token %}
           <input
             type="hidden"
             value="{{question_index}}"
             name="question_index"
           />
-          <input
-            type="hidden"
-            value="{{next_question}}"
-            name="next_question_index"
-          />
           <input type="hidden" value="" name="bonus" />
           <div class="questions">
             <div id="{{ question.question_id }}" class="slide">
               <div class="card mb-2">
                 <div class="card-header">
-                  <div class="client_logo mr-0">
-                    <img src="{% static 'images/bajaj.jpeg' %}" height="50" />
-                  </div>
-                  <div class="exam">
-                    <img src="{% static 'images/engquiz.jpeg' %}" height="50" />
-                  </div>
-                  <div class="q_no">1</div>
+                  <img src="{% static 'images/bajaj.jpeg' %}" />
                   <div class="timer" id="timer"></div>
-                  <script></script>
+                  <img src="{% static 'images/engquiz.jpeg' %}" />
                 </div>
-                <div class="card-body row justify-content-center">
+                <div class="card-body">
+                  <div class="col-md-2 q_no">
+                    {{question.sequence_no}} / {{total_q}}
+                  </div>
                   {% if question.img %}
                   <div class="col-md-4 img">
                     <img src="/media/{{question.img}}" />
                   </div>
                   {% endif %}
-                  <h3 class="col-md-8 question">
-                    {{question.question}}
-                    <span>{{question.points}}</span>
-                  </h3>
+                  <h3 class="col-md-6 question">{{question.question}}</h3>
                 </div>
-                <div class="card-footer">Click on Correct Answer</div>
+                <div class="card-footer">
+                  Click on Correct Answer
+                  <div>{{question.points}} points</div>
+                </div>
               </div>
 
               <div
@@ -216,38 +208,44 @@
                       value="A"
                     />
                     <strong>A.&nbsp;</strong> {{question.option_A}}
-                  </div> </label
-                ><label class="card col-md-5 answer">
+                  </div>
+                </label>
+                <label class="card col-md-5 answer">
                   <div class="card-body">
                     <input
                       class="form-check-input answer-{{ question.question_id }}"
                       type="radio"
                       name="answer"
-                      value="A"
+                      value="B"
                     /><strong>B.&nbsp;</strong>
                     {{question.option_B}}
-                  </div> </label
-                ><label class="card col-md-5 answer">
+                  </div>
+                </label>
+                {% if question.option_C %}
+                <label class="card col-md-5 answer">
                   <div class="card-body">
                     <input
                       class="form-check-input answer-{{ question.question_id }}"
                       type="radio"
                       name="answer"
-                      value="A"
+                      value="C"
                     /><strong>C.&nbsp;</strong>
                     {{question.option_C}}
-                  </div> </label
-                ><label class="card col-md-5 answer">
+                  </div>
+                </label>
+                {% endif %} {% if question.option_D %}
+                <label class="card col-md-5 answer">
                   <div class="card-body">
                     <input
                       class="form-check-input answer-{{ question.question_id }}"
                       type="radio"
                       name="answer"
-                      value="A"
+                      value="D"
                     /><strong>D.&nbsp;</strong>
                     {{question.option_D}}
                   </div>
                 </label>
+                {% endif %}
               </div>
               <script>
                 var time = parseInt("{{question.time}}") * 30;
@@ -265,7 +263,8 @@
 
                   if (distance < 0) {
                     clearInterval(x);
-                    document.getElementById("timer").innerHTML = "EXPIRED";
+                    $("input[name='bonus']").val(0);
+                    $("#quizform").submit();
                   }
                 }, 1000);
                 $(".answer-{{question.question_id}}").click(() => {
@@ -274,9 +273,9 @@
                   );
                   seconds = Math.floor((distance % (1000 * 60)) / 1000);
                   var bonus = seconds + minutes * 60;
-                  $("input[name='bonus']").val(bonus);
+                  if (bonus > 0) $("input[name='bonus']").val(bonus);
+                  else $("input[name='bonus']").val(0);
                   clearInterval(x);
-                  console.log("Bonus Earned", bonus);
                   $("#quizform").submit();
                 });
               </script>

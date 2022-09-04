@@ -1,0 +1,151 @@
+{% extends 'adminpanel.html' %} {% load static %} {% block head %}
+<link rel="stylesheet" href="{% static 'css/view_question.css' %}" type="text/css">
+<title>Edit Question | ICO Quiz Time</title>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+{% endblock head %} {% block body %}
+<div class="container">
+  <div class="col">
+    <div class="row mx-4 mt-4">
+      <h2>Quiz Question</h2>
+      <hr />
+    </div>
+    <div class="row mx-1 my-2 d-flex flex-row justify-content-between">
+      <div class="col-md-4">
+        <form method="POST" id="quiz_select_form">
+          {% csrf_token %}
+          <label for="validationGender"
+            >For Quiz:
+            <select
+              class="custom-select"
+              id="quiz_select"
+              name="quiz_id_select"
+            >
+              <option value="0" {% ifequal quiz_id '0' %}selected="selected"{% endifequal %}>-----Select Quiz-----</option>
+              {% for quiz in quizes %}
+              <option value="{{quiz.id}}" {% ifequal quiz.id quiz_id %}selected="selected"{% endifequal %}>
+                {{quiz.id}}-{{quiz.name}}
+              </option>
+              {% endfor %}
+            </select>
+          </label>
+        </form>
+        <script>
+          $("#quiz_select").change(() => {
+            $("#quiz_select_form")
+              .attr(
+                "action",
+                "/bajajauto/adminpanel/view_question/" +
+                  $("select[name='quiz_id_select']").val() +
+                  "/"
+              )
+              .submit();
+          });
+        </script>
+      </div>
+      <div class="col-md-8 d-flex justify-content-end align-items-end gap-2 my-1">
+          <button type="button" class="btn btn-warning" onclick="save_sequence()">
+            Save Sequence
+          </button>
+        <a href="/bajajauto/quiz/add_question/{{quiz_id}}/">
+          <button type="button" class="btn btn-primary">
+            Add New Question
+          </button>
+        </a>
+      </div>
+    </div>
+    <div class="row mx-2">
+      <table class="table table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col" class="col-md-1">#</th>
+            <th scope="col" class="col-md-9">Question</th>
+            <th scope="col" class="col-md-2">Delete</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+          {% for question in questions %}
+          <tr id="{{question.question_id}}" class="table-row">
+            <th scope="row">{{question.sequence_no}}</th>
+            <td class="flex-wrap">{{question.question}}</td>
+            <td>
+              <form
+                method="POST"
+                action="/bajajauto/adminpanel/delete_question/"
+              >
+                {% csrf_token %}
+                <input type="hidden" name="quiz_id" value="{{quiz_id}}" />
+                <input
+                  type="hidden"
+                  name="question_id"
+                  value="{{question.question_id}}"
+                />
+                <button type="submit" class="btn btn-danger mx-1">
+                  Delete
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script>  
+    getCookie = (name) => {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) === name + "=") {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+
+    const csrftoken = getCookie("csrftoken");
+
+    $('#table-body').sortable();
+    save_sequence = ()=>{
+      var array_to_send = [];
+      $('#table-body').children().map((index, item)=>{
+        array_to_send.push({'id': item.id, 'sequence_no': index + 1});
+      });
+      data = {
+        'array' : array_to_send,
+        'quiz_id': $("select[name='quiz_id_select']").val(),
+      };
+      data = JSON.stringify(data);
+      $.ajax({
+        type: "POST",
+        async: false,
+        url: '/bajajauto/quiz/change_sequence/',
+        data: data,
+        contentType: "application/json; charset=utf-8",
+        headers: {
+          Accept: "application/json; charset=utf-8",
+          "Content-Type": "application/json; charset=utf-8",
+          "X-CSRFToken": csrftoken,
+        },
+        crossDomain: true,
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+          console.log(data);
+          window.location.reload();
+        },
+        error: function (xhr, status, error) {
+          message = xhr.responseText;
+          console.log("error", message);
+          // window.location.reload();
+        },
+      });
+    }
+</script>
+
+{% endblock body %}

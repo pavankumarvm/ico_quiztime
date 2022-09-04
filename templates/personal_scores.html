@@ -31,8 +31,9 @@
                     <h6 style="text-align: left">
                       Name: {{user.first_name}} {{user.last_name}}
                     </h6>
-                    <h6 style="text-align: left">Total Score: 500</h6>
-                    <h6 style="text-align: left">Rank:3</h6>
+                    <h6 style="text-align: left">
+                      Total Score: {{user.total_score}}
+                    </h6>
                   </div>
                 </div>
               </div>
@@ -47,101 +48,30 @@
           </div>
         </div>
       </div>
-      <div class="tablefixhead">
+      <div class="tablefixhead mt-3">
         <table class="table table-striped">
           <tr>
-            <th id="rank" class="col-4">Rank</th>
-            <th id="name" class="col-9">Name</th>
+            <th id="rank" class="col-4">Sr.No.</th>
+            <th id="name" class="col-9">Quiz Name</th>
+            <th id="score" class="col-4">Rank</th>
             <th id="score" class="col-4">Score</th>
-            <th id="time" class="col-5">Time</th>
           </tr>
+
+          {% for quiz in quizboard %}
           <tr>
-            <td>1</td>
-            <td>Mark</td>
-            <td>600</td>
-            <td>200s</td>
+            <td>{{quiz.srno}}</td>
+            <td>{{quiz.quiz}}</td>
+            <td>{{quiz.rank}}</td>
+            <td>{{quiz.score}}</td>
           </tr>
-          <tr>
-            <td>2</td>
-            <td>Jacob</td>
-            <td>550</td>
-            <td>21 min 10 s</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Larry</td>
-            <td>500</td>
-            <td>22 min 50 s</td>
-          </tr>
+          {% endfor %}
         </table>
       </div>
       <div class="row">
         <div class="col">
           <div class="quiz">
-            <a href="/user/take_quiz/">
-              <button class="but2" type="button" onclick="alert('Lets Go')">
-                Take More Quizes!
-              </button>
+            <a href="/bajajauto/user/take_quiz/">
+              <button class="but2" type="button">Take More Quizes!</button>
             </a>
           </div>
         </div>

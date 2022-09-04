@@ -104,7 +104,9 @@
               </li> -->
               {% if user.is_active %}
               <li class="nav-item">
-                <a class="nav-link" href="/user/dashboard/">Dashboard</a>
+                <a class="nav-link" href="/bajajauto/user/dashboard/"
+                  >Dashboard</a
+                >
               </li>
               {% if user.is_admin %}
               <li class="nav-item">
@@ -130,7 +132,6 @@
                   class="dropdown-menu dropdown-menu-right"
                   aria-labelledby="navbarDropdown"
                 >
-                  <a class="dropdown-item" href="/feedback/">Feedback</a>
                   <a
                     class="dropdown-item"
                     href="/bajajauto/accounts/change_password/"
@@ -174,7 +175,7 @@
           <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
               <a
-                href="/user/dashboard/"
+                href="/bajajauto/user/dashboard/"
                 class="nav-link link-dark"
                 id="dashboard"
                 aria-current="page"
@@ -187,7 +188,7 @@
             </li>
             <li class="nav-item">
               <a
-                href="/user/leaderboard/"
+                href="/bajajauto/user/leaderboard/0/"
                 class="nav-link link-dark"
                 id="leaderboard"
                 aria-current="page"
@@ -200,7 +201,7 @@
             </li>
             <li class="nav-item">
               <a
-                href="/user/personal_scores/"
+                href="/bajajauto/user/personal_scores/"
                 class="nav-link link-dark"
                 id="personal_leaderboard"
                 aria-current="page"
@@ -213,7 +214,7 @@
             </li>
             <li class="nav-item">
               <a
-                href="/user/take_quiz/"
+                href="/bajajauto/user/take_quiz/"
                 class="nav-link link-dark"
                 id="take_quiz"
                 aria-current="page"
@@ -226,7 +227,7 @@
             </li>
             <li class="nav-item">
               <a
-                href="/quiz/rules/0/"
+                href="/bajajauto/quiz/rules/0/"
                 class="nav-link link-dark"
                 id="rules"
                 aria-current="page"
@@ -247,6 +248,15 @@
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
+              {% if user.avatar %}
+              <img
+                src="/media/{{user.avatar}}"
+                alt="admin"
+                width="32"
+                height="32"
+                class="rounded-circle me-2"
+              />
+              {% else %}
               <img
                 src="{% static 'images/avatar.png' %}"
                 alt="admin"
@@ -254,6 +264,7 @@
                 height="32"
                 class="rounded-circle me-2"
               />
+              {% endif %}
               <strong>{{ user.username }}</strong>
             </a>
             <ul
@@ -261,7 +272,9 @@
               aria-labelledby="dropdownUser1"
             >
               <li>
-                <a class="dropdown-item" href="/user/profile/">Profile</a>
+                <a class="dropdown-item" href="/bajajauto/user/profile/"
+                  >Profile</a
+                >
               </li>
               <li>
                 <a

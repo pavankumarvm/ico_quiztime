@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
+from accounts.views import add_bulk_users
 
 from adminpanel.views import *
 
@@ -26,15 +27,20 @@ urlpatterns = [
   path('adminpanel/delete_quiz/', delete_quiz, name='adminpanel'),
   path('adminpanel/new_admin/', add_new_admin, name='add_new_admin'),
   path('adminpanel/new_user/', add_new_user, name='add_new_user'),
+  path('adminpanel/add_bulk_users/', add_bulk_users, name='add_bulk_users'),
+  path('adminpanel/view_question/<int:quiz>/', view_question, name='view_question'),
+  path('adminpanel/delete_question/', delete_question, name='delete_question'),
   # User APIS
   path('user/dashboard/', dashboard, name='dashboard'),
   path('user/profile/', profile, name='profile'),
-  path('user/leaderboard/', leaderboard, name='leaderboard'),
+  path('user/leaderboard/<int:quiz>/', leaderboard, name='leaderboard'),
   path('user/personal_scores/', personal_scores, name='personal_scores'),
   path('user/rules/',user_rules,name='user_rules'),
   path('user/take_quiz/', take_quiz, name='take_quiz'),
   # Quiz APIS
+  path('quiz/change_sequence/', change_sequence, name="change_sequence"),
   path('quiz/rules/<int:quiz>/',user_rules,name='user_rules'),
   path('quiz/<int:quiz>/', QuizView.as_view(), name='quiz_question'),
   path('quiz/add_question/<int:quiz>/', QuestionView.as_view(), name='add_question' ),
+  path('quiz/result/<int:quiz>/', result, name="result"),
 ]

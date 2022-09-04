@@ -1,41 +1,64 @@
 {% extends 'base.html' %} {% load static %} {% block head %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/rules.css' %}" />
+<link rel="stylesheet" href="{% static 'css/rules.css' %}" type="text/css" />
 <title>Rules | ICO QuizTime</title>
 {% endblock head %} {% block body %}
-<div class="containee mb-3">
-  <div class="col">
-    <div class="row mx-4 mt-4">
-      <h2>Rules of the Quiz</h2>
-      <hr />
+<div class="container mb-3">
+  <div class="row">
+    <div class="col">
+      <div class="row mx-4 mt-4">
+        <h2>Rules of the Quiz</h2>
+        <hr />
+      </div>
+      <div class="row mx-4">
+        <ul type="square">
+          <li>
+            All questions are Multiple Choice Questions with four options.
+          </li>
+          <li>
+            Once you click on ‘Take Quiz’ the quiz for that particular day will
+            start.
+          </li>
+          <li>You cannot attempt the same quiz again.</li>
+          <li>
+            The quiz for one particular day is valid from 8.30 AM to 4.30 PM
+            Every question has a time limit of 30 secs.
+          </li>
+          <li>A live timer will appear just above the question.</li>
+          <li>
+            Please click on the right answer from the four options before time
+            runs out.
+          </li>
+          <li>
+            On clicking an answer, the next question will appear In case of no
+            response, the next question will automatically appear after the time
+            limit is over Each question has a certain number of points for the
+            right answer which will be made known in the question itself.
+          </li>
+          <li>
+            This quiz does not have any negative points, so attempt all
+            questions The faster you click on the correct answer, the more bonus
+            points you will collect.
+          </li>
+          <li>
+            Your score for a particular quiz is the total of points scored for
+            all questions inclusive of the bonus points Your final rank is based
+            on the cumulative score earned by you across all the quizzes.
+          </li>
+          <li>
+            The Top 15 participants will qualify for the Finals, which will be
+            held on-stage on the 14th of September.
+          </li>
+          <li>Exact details will be communicated to you via email</li>
+        </ul>
+      </div>
+      {% if quiz_id %}
+      <a href="/bajajauto/quiz/{{quiz_id}}/" class="start_quiz">
+        <button type="button" class="btn btn-success mx-1 start_quiz_btn">
+          Start The Quiz
+        </button>
+      </a>
+      {% endif %}
     </div>
-    <div class="row mx-4">
-      <ul>
-        <li>You must use a functioning webcam and microphone</li>
-        <li>
-          No cell phones or other secondary devices in the room or quiz area
-        </li>
-        <li>
-          Your desk/table must be clear or any materials except your quiz-taking
-          device
-        </li>
-        <li>No one else can be in the room with you</li>
-        <li>There is specific time for each question</li>
-        <li>
-          There is relative marking for each question , which is based on time
-        </li>
-        <li>
-          You will awarded from bonus marks ,if you submit the answer early
-          within the time
-        </li>
-      </ul>
-    </div>
-    {% if quiz_id %}
-    <a href="/quiz/{{quiz_id}}/" class="d-flex justidy-self-center">
-      <button type="button" class="btn btn-success mx-1 start_quiz_btn">
-        Start The Quiz
-      </button>
-    </a>
-    {% endif %}
   </div>
 </div>
 {% endblock body %}

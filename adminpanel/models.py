@@ -17,12 +17,21 @@ class Quiz(models.Model):
     start_time = models.DateTimeField(null=False)
     end_time = models.DateTimeField(null=False)
 
+    def __str__(self) -> str:
+        return self.name
+
 class Participant(models.Model):
     user = models.ForeignKey(IcoUser, null=True, on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz, null=True,on_delete=models.CASCADE)
     score = models.IntegerField(null=False, blank=False, default=0)
+    correct = models.IntegerField(default=0)
+    incorrect = models.IntegerField(default=0)
     rank = models.IntegerField(null=True, blank=True,)
-    time_appeared = models.DateTimeField(auto_now_add=True)
+    last_visited = models.IntegerField(default=0)
+    time_appeared = models.DateTimeField(null=True)
+
+    def __str__(self) -> str:
+        return f'{self.user} in {self.quiz}'
 
     class Meta:
         db_table = 'quiz'
@@ -41,9 +50,13 @@ class Question(models.Model):
     answer = models.CharField(max_length=1, choices=ANSWER, null=True, blank=True)
     points = models.IntegerField(default=1,null=False)
     time = models.IntegerField(default=1,null=False)
+    sequence_no = models.IntegerField(default=1,null=False)
     given_by = models.ForeignKey(IcoUser, on_delete=models.SET_NULL, related_name='author',null=True)
 
-    
+    def __str__(self) -> str:
+        return f"{self.sequence_no}. {self.question}({self.points} points) ==>{self.quiz}"
+
+
     def delete(self):
         self.img.delete()
         super(Question, self).delete()

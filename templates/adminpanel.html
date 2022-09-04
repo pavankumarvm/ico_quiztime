@@ -134,7 +134,9 @@
               </li> -->
               {% if user.is_active %}
               <li class="nav-item">
-                <a class="nav-link" href="/user/dashboard/">Dashboard</a>
+                <a class="nav-link" href="/bajajauto/user/dashboard/"
+                  >Dashboard</a
+                >
               </li>
               {% if user.is_admin %}
               <li class="nav-item">
@@ -164,8 +166,6 @@
                   <a class="dropdown-item" href="/bajajauto/accounts/logout/"
                     >Logout</a
                   >
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="/feedback/">Feedback</a>
                 </div>
               </li>
               {% else %}
@@ -251,7 +251,20 @@
             </li>
             <li class="nav-item">
               <a
-                href="/bajajauto/adminpanel/new_user/"
+                href="/bajajauto/adminpanel/view_question/0/"
+                class="nav-link link-dark"
+                id="edit_question"
+                aria-current="page"
+              >
+                <span class="bi me-2" width="16" height="16">
+                  <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                </span>
+                View/Delete Question
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/bajajauto/adminpanel/add_bulk_users/"
                 class="nav-link link-dark"
                 id="new_user"
                 aria-current="page"
@@ -259,7 +272,7 @@
                 <span class="bi me-2" width="16" height="16">
                   <i class="fa fa-user" aria-hidden="true"></i>
                 </span>
-                New User Registration
+                Bulk User Registration
               </a>
             </li>
           </ul>
@@ -272,6 +285,15 @@
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
+              {% if user.avatar %}
+              <img
+                src="/media/{{user.avatar}}"
+                alt="admin"
+                width="32"
+                height="32"
+                class="rounded-circle me-2"
+              />
+              {% else %}
               <img
                 src="{% static 'images/avatar.png' %}"
                 alt="admin"
@@ -279,6 +301,7 @@
                 height="32"
                 class="rounded-circle me-2"
               />
+              {% endif  %}
               <strong>{{ user.username }}</strong>
             </a>
             <ul

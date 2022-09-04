@@ -4,134 +4,102 @@
   type="text/css"
   href="{% static 'css/dashboard.css' %}"
 />
+<script src="{% static 'js/main.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <title>Dashboard | ICO Quiz Time</title>
 {% endblock head %} {% block body %}
-<div class="col">
-  <div class="row mx-4 mt-4">
-    <h2>Dashboard</h2>
-    <hr />
+<div class="container">
+  <div class="col">
+    <div class="row mx-4 mt-4">
+      <h2>Dashboard</h2>
+      <hr />
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-xl-8">
+        <script>
+          var xValues = [];
+          var yValues = [];
+        </script>
+        {% for x in xValues %}
+        <script>
+          xValues.push("{{x}}");
+        </script>
+        {% endfor %} {% for y in yValues %}
+        <script>
+          yValues.push("{{y}}");
+        </script>
+        {% endfor %}
+        <canvas id="barChart" style="width: 100%; max-width: 700px"></canvas>
+        <script>
+          new Chart("barChart", {
+            type: "bar",
+            data: {
+              labels: xValues,
+              datasets: [
+                {
+                  backgroundColor: "#ffc82f",
+                  data: yValues,
+                },
+              ],
+            },
+            options: {
+              legend: { display: false },
+              title: {
+                display: true,
+                text: "Your Scores across Quizes",
+              },
+            },
+          });
+        </script>
+      </div>
+      <div class="col-lg-4">
+        <div class="list_counter_wrapper white_box mb_30 p-0 card_height_100">
+          <div class="single_list_counter">
+            <p>Total Quiz Participated</p>
+            <h3 class="deep_blue_2">
+              <span class="counter deep_blue_2">{{quizes}}</span>
+            </h3>
+          </div>
+          <div class="single_list_counter">
+            <p>Your Quiz Total Score</p>
+            <h3 class="deep_blue_2">
+              <span class="counter deep_blue_2">{{total_score}}</span>
+            </h3>
+          </div>
+          <div class="single_list_counter">
+            <h3 class="deep_blue_2">
+              <span class="counter deep_blue_2">Accuracy</span>
+            </h3>
+            <input type="hidden" id="correct" value="{{correct}}" />
+            <input type="hidden" id="incorrect" value="{{incorrect}}" />
+            <canvas id="pieChart" style="width: 100%"></canvas>
+            <script>
+              var correct = $("#correct").val();
+              var incorrect = $("#incorrect").val();
+              new Chart("pieChart", {
+                type: "pie",
+                data: {
+                  labels: ["Correct", "Incorrect"],
+                  datasets: [
+                    {
+                      backgroundColor: ["green", "red"],
+                      data: [correct, incorrect],
+                    },
+                  ],
+                },
+                options: {
+                  title: {
+                    display: true,
+                    text: "Accuracy Ratio",
+                  },
+                },
+              });
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="row">
-    <form method="POST" action="/bajajauto/accounts/update_details/">
-      {% csrf_token %}
-      <div class="form-row mx-4">
-        <div class="col-md-5 mb-3">
-          <label for="validation01">First name</label>
-          <input
-            type="text"
-            class="form-control"
-            id="validation01"
-            placeholder="First name"
-            name="first_name"
-            value="{{ user.first_name }}"
-            disabled
-            required
-          />
-          <div class="valid-feedback">Looks good!</div>
-        </div>
-        <div class="col-md-5 mb-3">
-          <label for="validation02">Last name</label>
-          <input
-            type="text"
-            class="form-control"
-            id="validation02"
-            placeholder="Last name"
-            disabled
-            value="{{ user.last_name }}"
-            name="last_name"
-          />
-          <div class="valid-feedback">Looks good!</div>
-        </div>
-      </div>
-      <div class="form-row mx-4">
-        <div class="col-md-5 mb-3">
-          <label for="validationPhone">Phone Number</label>
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="inputGroupPrepend3">+91</span>
-            </div>
-            <input
-              type="number"
-              class="form-control"
-              id="validationPhone"
-              placeholder="Phone Number"
-              name="phone_no"
-              value="{{ user.phone_no }}"
-              aria-describedby="inputGroupPrepend3"
-              disabled
-              required
-            />
-            <div class="valid-feedback">Looks good!.</div>
-            <div class="invalid-feedback">Please enter Valid Phone Number.</div>
-          </div>
-        </div>
-        <div class="col-md-5 mb-3">
-          <label for="validationPhone">Email Address</label>
-          <div class="input-group">
-            <input
-              type="email"
-              class="form-control is-valid"
-              id="validationEmail"
-              value="{{ user.email }}"
-              placeholder="Email Address"
-              name="email"
-              disabled
-              required
-            />
-            <div class="valid-feedback">
-              Looks good!.You cannot update this.
-            </div>
-          </div>
-        </div>
-        <div class="col-md-5 mb-3">
-          <label for="validationAge">Age</label>
-          <div class="input-group">
-            <input
-              type="number"
-              class="form-control"
-              id="validationAge"
-              placeholder="Age"
-              name="age"
-              value="{{ user.age }}"
-              aria-describedby="inputGroupAppend"
-              min="1"
-              disabled
-              required
-            />
-            <div class="input-group-append">
-              <span class="input-group-text" id="inputGroupAppend"> years</span>
-            </div>
-            <div class="valid-feedback">Looks good!.</div>
-            <div class="invalid-feedback">Please enter Valid Phone Number.</div>
-          </div>
-        </div>
-        <div class="col-md-5 mb-3">
-          <label for="validationGender">Gender</label>
-          <select class="custom-select" disabled>
-            <option selected>Select Your Gender</option>
-            <option value="1">Male</option>
-            <option value="2">Female</option>
-            <option value="3">Others</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row mx-4">
-        <div class="d-flex flex-row">
-          <button type="button" class="btn btn-outline-warning mx-1 editBtn">
-            Edit Details
-          </button>
-
-          <button
-            type="submit"
-            class="btn btn-outline-success mx-1 saveBtn"
-            disabled
-          >
-            Save Details
-          </button>
-        </div>
-      </div>
-    </form>
-  </div>
-
-  {% endblock body %}
 </div>
+
+{% endblock body %}

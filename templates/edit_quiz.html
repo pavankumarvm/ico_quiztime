@@ -1,10 +1,5 @@
 {% extends 'adminpanel.html' %} {% load static %} {% block head %}
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="{% static 'css/dashboard.css' %}"
-/>
-<title>Dashboard | ICO Quiz Time</title>
+<title>Edit Quiz | ICO Quiz Time</title>
 {% endblock head %} {% block body %}
 <div class="container-fluid">
   <div class="row mx-4 mt-4">
@@ -20,14 +15,14 @@
         <button type="button" class="btn btn-primary mx-2">Add New Quiz</button>
       </a>
     </div>
-    <div class="row">
+    <div class="row mx-2">
       <table class="table table-bordered">
         <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Quiz Name</th>
-            <th scope="col">Start Date</th>
-            <th scope="col">End Date</th>
+            <th scope="col">Start Time</th>
+            <th scope="col">End Time</th>
             <th scope="col">Add Questions</th>
             <th scope="col">Edit Quiz Details</th>
           </tr>
@@ -53,7 +48,7 @@
                   type="datetime-local"
                   class="form-control"
                   name="start_time"
-                  value="{{quiz.start_time|date:'Y-m-d'}}T{{quiz.end_time|time:'H:i:s'}}"
+                  value="{{quiz.start_time|date:'Y-m-d'}}T{{quiz.start_time|time:'H:i:s'}}"
                   disabled
                 />
               </td>
@@ -67,7 +62,7 @@
                 />
               </td>
               <td>
-                <a href="/quiz/add_question/{{quiz.id}}/">
+                <a href="/bajajauto/quiz/add_question/{{quiz.id}}/">
                   <button type="button" class="btn btn-outline-primary mx-1">
                     Add Questions
                   </button>
@@ -99,5 +94,25 @@
     </div>
   </div>
 </div>
+
+<script>
+  edit = document.getElementsByClassName("editBtn");
+
+  Array.from(edit).forEach((e) => {
+    e.addEventListener("click", () => {
+      // get card root
+      row = e.parentElement.parentElement.parentElement;
+
+      inp = row.getElementsByTagName("input");
+      // remove disabled attribute from each inp tag of this card
+      Array.from(inp).forEach((el, index) => {
+        if (index != 5) el.removeAttribute("disabled");
+      });
+
+      save = row.getElementsByClassName("saveBtn")[0];
+      save.removeAttribute("disabled");
+    });
+  });
+</script>
 
 {% endblock body %}

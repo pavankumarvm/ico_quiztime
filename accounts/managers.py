@@ -6,7 +6,7 @@ class UserManager(BaseUserManager):
     """
         Creates and saves a User with given username,email and password
     """
-    def create_user(self, username, password, email, usertype):
+    def create_user(self, username, password, email, first_name, last_name, usertype):
         if not username:
             raise ValueError("Users must provide username")
         if not email:
@@ -16,6 +16,8 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         if usertype == 'A':
             user.is_admin = True
+        user.first_name = first_name
+        user.last_name = last_name
         user.save(using=self._db)
         return user
 

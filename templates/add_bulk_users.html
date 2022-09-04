@@ -1,0 +1,103 @@
+{% extends 'adminpanel.html' %} {% load static %} {% block head %}
+<!-- <link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'css/dashboard.css' %}"
+/> -->
+<title>Admin Dashboard | ICO Quiz Time</title>
+{% endblock head %} {% block body %}
+<div class="container">
+  <div class="col">
+    <div class="row mx-4 mt-4">
+      <h2>Add Multiple Users</h2>
+      <hr />
+    </div>
+    <div class="row">
+      <form
+        method="POST"
+        action="/bajajauto/adminpanel/add_bulk_users/"
+        enctype="multipart/form-data"
+        class="col-md-12 d-flex flex-column align-items-center justify-content-center my-2"
+      >
+        {% csrf_token %}
+        <div class="col-md-6 mb-3">
+          <label for="formFile" class="form-label"> Choose Upload File:</label>
+          <input
+            id="formfile"
+            type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            name="file"
+            class="form-control"
+          />
+          <script>
+            $("#formfile").change(function () {
+              var fileExtension = ["csv", "xlsx", "xls"];
+              if (
+                $.inArray(
+                  $(this).val().split(".").pop().toLowerCase(),
+                  fileExtension
+                ) == -1
+              ) {
+                alert("Only formats are allowed : " + fileExtension.join(", "));
+                $("#upload").attr("disabled", true);
+              } else {
+                $("#upload").attr("disabled", false);
+              }
+            });
+          </script>
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          disabled="true"
+          id="upload"
+        >
+          Upload File
+        </button>
+      </form>
+    </div>
+    <div class="row mx-2">
+      <div class="col-md-7">
+        <h3>Users Not Added</h3>
+        <table class="table table-bordered table-sm">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Sr. No.</th>
+              <th scope="col">Email</th>
+              <th scope="col">Reason</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in users_not_added %}
+            <tr>
+              <td>{{user.srno}}</td>
+              <td>{{user.email}}</td>
+              <td>{{user.reason}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-5">
+        <h3>Users Added</h3>
+        <table class="table table-bordered table-sm">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Sr. No.</th>
+              <th scope="col">Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in users_added %}
+            <tr>
+              <td>{{user.srno}}</td>
+              <td>{{user.email}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock body %}
