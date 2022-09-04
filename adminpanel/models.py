@@ -1,4 +1,3 @@
-from datetime import datetime
 import uuid
 from django.db import models
 from accounts.models import IcoUser
@@ -29,7 +28,10 @@ class Participant(models.Model):
     incorrect = models.IntegerField(default=0)
     rank = models.IntegerField(null=True, blank=True,)
     last_visited = models.IntegerField(default=0)
-    time_appeared = models.DateTimeField(default=datetime.now(),editable=False)
+    time_appeared = models.DateTimeField(null=True)
+
+    def __str__(self) -> str:
+        return f'{self.user} in {self.quiz}'
 
     class Meta:
         db_table = 'quiz'
@@ -51,7 +53,10 @@ class Question(models.Model):
     sequence_no = models.IntegerField(default=1,null=False)
     given_by = models.ForeignKey(IcoUser, on_delete=models.SET_NULL, related_name='author',null=True)
 
-    
+    def __str__(self) -> str:
+        return f"{self.sequence_no}. {self.question}({self.points} points) ==>{self.quiz}"
+
+
     def delete(self):
         self.img.delete()
         super(Question, self).delete()

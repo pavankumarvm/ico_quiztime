@@ -316,24 +316,25 @@ class QuizView(TemplateView):
 		quiz_obj = Quiz.objects.get(id=quiz)
 		participant,_created = Participant.objects.get_or_create(quiz=quiz_obj)
 		participant.user = user
-		participant.save()
 		q_index = 0
 		self.quiz = Question.objects.filter(quiz=quiz_obj).order_by('sequence_no')
 		if not _created:
 			if participant.last_visited >= len(self.quiz):
-				messages.success(request, "You have already took part in this quiz.")
+				messages.success(request, "You have already participated in this Quiz.")
 				return redirect('/bajajauto/quiz/result/' + str(quiz) + '/')
 			timenow = make_aware(datetime.now())
 			delta = timenow - participant.time_appeared
-			print([timenow, participant.time_appeared, delta.total_seconds()])
-			if delta.seconds > 30*60:
-				messages.error(request, "You have left the quiz for more than 30 minutes.")
+			if delta.seconds > 2*60:
+				messages.error(request, "You have left the quiz for more than " + str(delta.seconds // 60) + "minutes.")
 				return redirect('/bajajauto/user/dashboard/')
 			else:
 				messages.success(request, "Welcome back!! Please complete the quiz this time.")
 				q_index = participant.last_visited + 1
+		else:
+			participant.time_appeared = datetime.now()
+			participant.save()
 		if q_index >= len(self.quiz):
-			messages.success(request, "You have already took part in this quiz.")
+			messages.success(request, "You have already participated in this Quiz.")
 			return redirect('/bajajauto/quiz/result/' + str(quiz) + '/')
 		data = {
 				'question_index': q_index,

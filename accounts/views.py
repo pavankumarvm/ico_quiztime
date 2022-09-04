@@ -332,13 +332,11 @@ def add_bulk_users(request):
 		else:
 			messages.error(request, "File Format not supported")
 			return render(request, 'add_bulk_users.html')
-		print(df)
 		users_added = []
 		users_not_added = []
 		try:
 			for i in range(len(df)):
 				row = df.loc[i,:]
-				# print(row)
 				email = row['Email']
 				password = row['Password']
 				username = str(email).split('@')[0] + random_otp()[:4]

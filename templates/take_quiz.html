@@ -6,16 +6,13 @@
 />
 <title>Quiz | ICO Quiz Time</title>
 {% endblock head %} {% block body %}
-<div class="conatainer mb-3">
-  <div class="col">
-    <div class="row mx-4 my-2">
-      <h1 style="width: 100%">Take The Quiz</h1>
-      <hr />
-    </div>
-    <div class="row">
-      <h2>Quiz</h2>
-      <div class="container">
-        
+<div class="container mb-3">
+  <div class="row">
+    <div class="col">
+      <div class="row mx-4 mt-4">
+        <h2 style="width: 100%">Take The Quiz</h2>
+        <hr />
+      </div>
       <table class="table table-bordered">
         <thead class="thead-dark">
           <tr>
@@ -33,12 +30,12 @@
             <form method="POST" action="/bajajauto/adminpanel/edit_quiz/">
               {% csrf_token %}
               <input type="hidden" name="quiz_id" value="{{quiz.id}}" />
-              <td>{{quiz.name}}
-              </td>
-              <td>{{quiz.start_time|date:'Y-m-d'}}T{{quiz.end_time|time:'H:i:s'}}
+              <td>{{quiz.name}}</td>
+              <td>
+                {{quiz.start_time|date:'M d, Y'}} {{quiz.start_time|time:'P'}}
               </td>
               <td>
-                  {{quiz.end_time|date:'Y-m-d'}}T{{quiz.end_time|time:'H:i:s'}}
+                {{quiz.end_time|date:'M d, Y'}} {{quiz.end_time|time:'P'}}
               </td>
               <td>
                 {% ifequal quiz.status "E" %}
@@ -51,16 +48,13 @@
                 </a>
                 {% else %}
                 <p class="text-secondary">Not Started Yet.</p>
-                {% endifequal %}
-                {% endifequal %}
+                {% endifequal %} {% endifequal %}
               </td>
             </form>
           </tr>
           {% endfor %}
         </tbody>
       </table>
-      </div>
-    </div>
     </div>
   </div>
 </div>

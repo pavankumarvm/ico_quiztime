@@ -285,6 +285,15 @@
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
+              {% if user.avatar %}
+              <img
+                src="/media/{{user.avatar}}"
+                alt="admin"
+                width="32"
+                height="32"
+                class="rounded-circle me-2"
+              />
+              {% else %}
               <img
                 src="{% static 'images/avatar.png' %}"
                 alt="admin"
@@ -292,6 +301,7 @@
                 height="32"
                 class="rounded-circle me-2"
               />
+              {% endif  %}
               <strong>{{ user.username }}</strong>
             </a>
             <ul

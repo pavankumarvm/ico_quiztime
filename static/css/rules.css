@@ -1,9 +1,9 @@
-h1 {
-  text-align: center;
-  font-size: 25px;
-  background-color: burlywood;
-}
-
-a {
+.start_quiz {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  margin: auto;
+  left: 0;
+  right: 0;
   text-decoration: none;
 }
