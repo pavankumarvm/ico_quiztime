@@ -2,7 +2,6 @@ from multiprocessing import context
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render
 from django.contrib import messages
-from datetime import datetime, timezone
 from django.shortcuts import redirect
 from rest_framework import status
 from rest_framework.response import Response
@@ -14,11 +13,7 @@ from .serializers import QuestionSerializer, QuizSerializer
 from django.views.generic import TemplateView
 from rest_framework.permissions import IsAuthenticated
 from ico_quiztime.settings import BASE_DIR
-from django.utils.timezone import make_aware, make_naive
-from datetime import datetime
-import pytz
-
-utc=pytz.UTC
+from django.utils import timezone
 
 # Create your views here.
 def index(request):
@@ -227,7 +222,7 @@ def user_rules(request, quiz):
 @login_required(login_url='/bajajauto/accounts/login/')
 def take_quiz(request):
 	quizes = list(Quiz.objects.all().order_by('end_time'))[::-1]
-	timenow = make_aware(datetime.now(), utc)
+	timenow = timezone.now()
 	for i in range(len(quizes)):
 		quizes[i].srno = i+1
 		endtime = quizes[i].end_time
@@ -322,7 +317,7 @@ class QuizView(TemplateView):
 			if participant.last_visited >= len(self.quiz):
 				messages.success(request, "You have already participated in this Quiz.")
 				return redirect('/bajajauto/quiz/result/' + str(quiz) + '/')
-			timenow = make_aware(datetime.now())
+			timenow = timezone.now()
 			delta = timenow - participant.time_appeared
 			if delta.seconds > 2*60:
 				messages.error(request, "You have left the quiz for more than " + str(delta.seconds // 60) + "minutes.")
@@ -331,7 +326,7 @@ class QuizView(TemplateView):
 				messages.success(request, "Welcome back!! Please complete the quiz this time.")
 				q_index = participant.last_visited + 1
 		else:
-			participant.time_appeared = datetime.now()
+			participant.time_appeared = timezone.now()
 			participant.save()
 		if q_index >= len(self.quiz):
 			messages.success(request, "You have already participated in this Quiz.")
