@@ -28,3 +28,5 @@ urlpatterns = [
     path('bajajauto/', include('adminpanel.urls')),
     path('bajajauto/accounts/',include('accounts.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = "adminpanel.views.page_not_found_view"

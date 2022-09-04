@@ -45,6 +45,7 @@
 }
 .card > .card-body > .img > img {
   height: 100%;
+  max-width: 100%;
 }
 .card > .card-body > .question {
   display: flex;

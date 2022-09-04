@@ -1,4 +1,3 @@
-from multiprocessing import context
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render
 from django.contrib import messages
@@ -9,10 +8,8 @@ from rest_framework.decorators import api_view
 
 from accounts.models import IcoUser
 from adminpanel.models import Participant, Quiz, Question
-from .serializers import QuestionSerializer, QuizSerializer
 from django.views.generic import TemplateView
 from rest_framework.permissions import IsAuthenticated
-from ico_quiztime.settings import BASE_DIR
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 
@@ -225,12 +222,10 @@ def user_rules(request, quiz):
 def take_quiz(request):
 	quizes = list(Quiz.objects.all().order_by('end_time'))[::-1]
 	timenow = timezone.now()
-	print(timenow)
 	for i in range(len(quizes)):
 		quizes[i].srno = i+1
 		endtime = quizes[i].end_time
 		starttime = quizes[i].start_time
-		print(quizes[i], '==>', starttime, endtime)
 		if timenow > endtime:
 			quizes[i].status = "E"  # Ended
 		elif timenow <= endtime and timenow >= starttime:
@@ -308,76 +303,84 @@ class QuestionView(TemplateView):
 
 class QuizView(TemplateView):
 	template_name = 'quiz.html'
+	permission_classes = [IsAuthenticated]
 	quiz = []
 
 	def get(self, request, quiz):
-		user = IcoUser.objects.get(user_id=request.user.user_id)
-		quiz_obj = Quiz.objects.get(id=quiz)
-		participant,_created = Participant.objects.get_or_create(quiz=quiz_obj)
-		participant.user = user
-		q_index = 0
-		self.quiz = Question.objects.filter(quiz=quiz_obj).order_by('sequence_no')
-		if not _created:
-			if participant.last_visited >= len(self.quiz):
+		data = {}
+		try:
+			user = request.user
+			quiz_obj = Quiz.objects.get(id=quiz)
+			participant,_created = Participant.objects.get_or_create(quiz=quiz_obj, user=user)
+			q_index = 0
+			self.quiz = Question.objects.filter(quiz=quiz_obj).order_by('sequence_no')
+			if not _created:
+				if participant.last_visited >= len(self.quiz):
+					messages.success(request, "You have already participated in this Quiz.")
+					return redirect('/bajajauto/quiz/result/' + str(quiz) + '/')
+				timenow = timezone.now()
+				delta = timenow - participant.time_appeared
+				if delta.seconds > 2*60:
+					messages.error(request, "You have left the quiz for more than " + str(delta.seconds // 60) + "minutes.")
+					return redirect('/bajajauto/user/dashboard/')
+				else:
+					messages.success(request, "Welcome back!! Please complete the quiz this time.")
+					q_index = participant.last_visited + 1
+			else:
+				participant.time_appeared = timezone.now()
+				participant.save()
+			if q_index >= len(self.quiz):
 				messages.success(request, "You have already participated in this Quiz.")
 				return redirect('/bajajauto/quiz/result/' + str(quiz) + '/')
-			timenow = timezone.now()
-			delta = timenow - participant.time_appeared
-			if delta.seconds > 2*60:
-				messages.error(request, "You have left the quiz for more than " + str(delta.seconds // 60) + "minutes.")
-				return redirect('/bajajauto/user/dashboard/')
-			else:
-				messages.success(request, "Welcome back!! Please complete the quiz this time.")
-				q_index = participant.last_visited + 1
-		else:
-			participant.time_appeared = timezone.now()
-			participant.save()
-		if q_index >= len(self.quiz):
-			messages.success(request, "You have already participated in this Quiz.")
-			return redirect('/bajajauto/quiz/result/' + str(quiz) + '/')
-		data = {
-				'question_index': q_index,
-				'question': self.quiz[q_index],
-				'quiz_id': quiz,
-				'total_q': len(self.quiz)
-				}
+			data = {
+					'question_index': q_index,
+					'question': self.quiz[q_index],
+					'quiz_id': quiz,
+					'total_q': len(self.quiz)
+					}
+		except:
+			messages.error("Something went wrong.")
 		return render(request, 'quiz.html', context=data)
 
 	def post(self, request, quiz):
-		question_i = request.POST.get('question_index')
-		if question_i is not None:
-			question_i = int(question_i)
-		chosen_answer = request.POST.get('answer')
-		bonus = request.POST.get('bonus')
-		user = IcoUser.objects.get(user_id=request.user.user_id)
-		quiz_obj = Quiz.objects.get(id=quiz)
-		participant = Participant.objects.get(quiz=quiz_obj,user=user)
-		self.quiz = Question.objects.filter(quiz=quiz_obj).order_by('sequence_no')
-		question = self.quiz[question_i]
-		if question.answer == str(chosen_answer).lower():
-			participant.score = participant.score + question.points
-			participant.score = participant.score + (question.points * int(bonus)) // (question.time * 30)
-			participant.correct = participant.correct + 1
-		else:
-			participant.incorrect = participant.incorrect + 1
-		participant.last_visited = question_i + 1
-		participant.save()
-		if (question_i + 1) >= len(self.quiz):
-			all_participants = Participant.objects.filter(quiz=quiz_obj).order_by('score')
-			for i in range(len(all_participants)):
-				all_participants[i].rank = i+1
-				all_participants[i].save()
-			user.total_score = user.total_score + participant.score
-			user.save()
-			return redirect('/bajajauto/quiz/result/' + str(quiz) + '/')
-		else:
-			question_i += 1
-		data = {
-				'question_index': question_i,
-				'question': self.quiz[question_i],
-				'quiz_id': quiz,
-				'total_q': len(self.quiz)
-				}
+		data = {}
+		try:
+			question_i = request.POST.get('question_index')
+			if question_i is not None:
+				question_i = int(question_i)
+			chosen_answer = request.POST.get('answer')
+			bonus = request.POST.get('bonus')
+			user = IcoUser.objects.get(user_id=request.user.user_id)
+			quiz_obj = Quiz.objects.get(id=quiz)
+			participant = Participant.objects.get(quiz=quiz_obj,user=user)
+			self.quiz = Question.objects.filter(quiz=quiz_obj).order_by('sequence_no')
+			question = self.quiz[question_i]
+			if question.answer == str(chosen_answer).lower():
+				participant.score = participant.score + question.points
+				participant.score = participant.score + (question.points * int(bonus)) // (question.time * 30)
+				participant.correct = participant.correct + 1
+			else:
+				participant.incorrect = participant.incorrect + 1
+			participant.last_visited = question_i + 1
+			participant.save()
+			if (question_i + 1) >= len(self.quiz):
+				all_participants = Participant.objects.filter(quiz=quiz_obj).order_by('score')
+				for i in range(len(all_participants)):
+					all_participants[i].rank = i+1
+					all_participants[i].save()
+				user.total_score = user.total_score + participant.score
+				user.save()
+				return redirect('/bajajauto/quiz/result/' + str(quiz) + '/')
+			else:
+				question_i += 1
+			data = {
+					'question_index': question_i,
+					'question': self.quiz[question_i],
+					'quiz_id': quiz,
+					'total_q': len(self.quiz)
+					}
+		except:
+			messages.error("Something went wrong.")
 		return render(request, 'quiz.html', context=data)
 
 
@@ -472,3 +475,6 @@ def change_sequence(request):
             },
             status=status.HTTP_200_OK
         )
+
+def page_not_found_view(request, exception):
+    return render(request, '404.html', status=404)
