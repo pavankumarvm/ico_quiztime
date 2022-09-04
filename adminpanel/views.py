@@ -86,7 +86,7 @@ def edit_quiz(request):
 						quiz = Quiz.objects.filter(
 								id=quiz_id
 						)[0]
-						quiz.start_time = start_time
+						quiz.start_time = make_aware(start_time
 						quiz.end_time = end_time
 						quiz.name = quizName
 						quiz.save()
@@ -223,13 +223,15 @@ def user_rules(request, quiz):
 def take_quiz(request):
 	quizes = list(Quiz.objects.all().order_by('end_time'))[::-1]
 	timenow = timezone.now()
+	print(timenow)
 	for i in range(len(quizes)):
 		quizes[i].srno = i+1
 		endtime = quizes[i].end_time
 		starttime = quizes[i].start_time
+		print(quizes[i], '==>', starttime, endtime)
 		if timenow > endtime:
 			quizes[i].status = "E"  # Ended
-		elif timenow < endtime and timenow > starttime:
+		elif timenow <= endtime and timenow >= starttime:
 			quizes[i].status = "S" # Started
 		else:
 			quizes[i].status = "N" # Not Started
