@@ -6,7 +6,11 @@
   </div>
   <div class="col mx-2">
     <div class="row p-4">
-      <form method="POST" action="/bajajauto/adminpanel/create_quiz/">
+      <form
+        method="POST"
+        action="/bajajauto/adminpanel/create_quiz/"
+        id="quizForm"
+      >
         {% csrf_token %}
         <div class="">
           <div class="form-group">
@@ -25,21 +29,21 @@
             >
           </div>
           <div class="form-group">
-            <label for="quizDate">Quiz Start Time</label>
+            <label for="quizTime">Quiz Start Time</label>
             <input
               type="datetime-local"
               class="form-control"
-              id="quizDate"
+              id="quizTime"
               name="start_time"
               required
             />
           </div>
           <div class="form-group">
-            <label for="quizDate">Quiz End Time</label>
+            <label for="quizTime">Quiz End Time</label>
             <input
               type="datetime-local"
               class="form-control"
-              id="quizDate"
+              id="quizTime"
               name="end_time"
               required
             />

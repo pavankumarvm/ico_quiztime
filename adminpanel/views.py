@@ -14,6 +14,7 @@ from django.views.generic import TemplateView
 from rest_framework.permissions import IsAuthenticated
 from ico_quiztime.settings import BASE_DIR
 from django.utils import timezone
+from django.utils.dateparse import parse_datetime
 
 # Create your views here.
 def index(request):
@@ -53,8 +54,8 @@ def create_quiz(request):
 							messages.error(request, "Start Time cannot be after End Time")
 							return redirect('/bajajauto/adminpanel/create_quiz/')
 						quiz = Quiz.objects.create(
-								start_time = start_time,
-								end_time= end_time,
+								start_time = timezone.make_aware(parse_datetime(start_time)),
+								end_time= timezone.make_aware(parse_datetime(end_time)),
 								name=quizName,
 						)
 						quiz.save()
@@ -83,16 +84,17 @@ def edit_quiz(request):
 						end_time = request.POST.get('end_time')
 						quizName = request.POST.get('quizName')
 
-						quiz = Quiz.objects.filter(
-								id=quiz_id
-						)[0]
-						quiz.start_time = make_aware(start_time
-						quiz.end_time = end_time
-						quiz.name = quizName
-						quiz.save()
 						if start_time > end_time:
 							messages.error(request, "Start Time cannot be after End Time")
 							return redirect('/bajajauto/adminpanel/create_quiz/')
+						quiz = Quiz.objects.filter(
+								id=quiz_id
+						)[0]
+						quiz.start_time = timezone.make_aware(parse_datetime(start_time))
+						quiz.end_time = timezone.make_aware(parse_datetime(end_time))
+						quiz.name = quizName
+						quiz.save()
+						print(quiz.start_time.tzinfo)
 						messages.success(request, "Quiz Details Successfully Edited.")
 						return redirect('/bajajauto/adminpanel/edit_quiz/')
 				elif request.method=='GET':
