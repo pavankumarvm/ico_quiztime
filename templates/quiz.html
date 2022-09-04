@@ -176,7 +176,7 @@
               <div class="card mb-2">
                 <div class="card-header">
                   <img src="{% static 'images/bajaj.jpeg' %}" />
-                  <div class="timer">{{question.points}} points</div>
+                  <div class="timer" id="timer"></div>
                   <img src="{% static 'images/engquiz.jpeg' %}" />
                 </div>
                 <div class="card-body">
@@ -192,7 +192,7 @@
                 </div>
                 <div class="card-footer">
                   Click on Correct Answer
-                  <div class="timer" id="timer"></div>
+                  <div>{{question.points}} points</div>
                 </div>
               </div>
 
