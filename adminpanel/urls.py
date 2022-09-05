@@ -30,6 +30,8 @@ urlpatterns = [
   path('adminpanel/add_bulk_users/', add_bulk_users, name='add_bulk_users'),
   path('adminpanel/view_question/<int:quiz>/', view_question, name='view_question'),
   path('adminpanel/delete_question/', delete_question, name='delete_question'),
+  path('adminpanel/reset_all/', reset_all, name='reset_all'),
+  path('adminpanel/reset_participants/', reset_participants, name='reset_participants'),
   # User APIS
   path('user/dashboard/', dashboard, name='dashboard'),
   path('user/profile/', profile, name='profile'),

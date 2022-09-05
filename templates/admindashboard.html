@@ -20,6 +20,7 @@
             <th scope="col">Name</th>
             <th scope="col">Last Login</th>
             <th scope="col">Block</th>
+            <th scope="col">Delete</th>
             <th scope="col">Make Admin</th>
           </tr>
         </thead>
@@ -27,7 +28,7 @@
           {% for user in users %}
           <tr id="{{user.user_id}}">
             <th scope="row">{{user.srno}}</th>
-            <td>{{user.username}}</td>
+            <td>{{user.email}}</td>
             <td>{{user.last_login}}</td>
             <td>
               <form method="POST" action="/bajajauto/accounts/change_status/">
@@ -38,6 +39,22 @@
                   class="btn btn-danger mx-1"
                 >
                   Block User</button
+                >{% else %}
+                <button type="submit" class="btn btn-success mx-1">
+                  Unblock User
+                </button>
+                {% endif %}
+              </form>
+            </td>
+            <td>
+              <form method="POST" action="/bajajauto/accounts/delete_user/">
+                {% csrf_token %}
+                <input type="hidden" name="user_id" value="{{user.user_id}}" />
+                {% if user.is_active %}<button
+                  type="submit"
+                  class="btn btn-danger mx-1"
+                >
+                  Delete User</button
                 >{% else %}
                 <button type="submit" class="btn btn-success mx-1">
                   Unblock User

@@ -320,6 +320,21 @@ def change_status(request):
 		messages.error(request, "No such User Found")
 		return redirect('/bajajauto/adminpanel/dashboard/')
 
+@user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
+def delete_user(request):
+	user_id = request.POST.get('user_id')
+	try:
+		user = IcoUser.objects.get(user_id=user_id)
+		user.delete()
+		if user.is_active:
+			messages.success(request, 'User is now active')
+		else:
+			messages.success(request, 'User deactivated')
+		return redirect('/bajajauto/adminpanel/dashboard/')
+	except:
+		messages.error(request, "No such User Found")
+		return redirect('/bajajauto/adminpanel/dashboard/')
+
 @login_required(login_url='/bajajauto/accounts/login/')
 @user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
 def add_bulk_users(request):

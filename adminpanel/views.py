@@ -1,3 +1,5 @@
+from datetime import datetime
+from re import I
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render
 from django.contrib import messages
@@ -220,7 +222,7 @@ def user_rules(request, quiz):
 
 @login_required(login_url='/bajajauto/accounts/login/')
 def take_quiz(request):
-	quizes = list(Quiz.objects.all().order_by('end_time'))[::-1]
+	quizes = list(Quiz.objects.all().order_by('end_time'))
 	timenow = timezone.now()
 	for i in range(len(quizes)):
 		quizes[i].srno = i+1
@@ -475,6 +477,52 @@ def change_sequence(request):
             },
             status=status.HTTP_200_OK
         )
+
+
+@login_required(login_url='/bajajauto/accounts/login/')
+@user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
+def reset_participants(request):
+	quizes = Quiz.objects.all().order_by('id')
+	data = {
+		'quizes' : quizes,
+	}
+	if request.method == 'POST':
+		try:
+			quiz = request.POST.get('quiz')
+			user = request.POST.get('user')
+			participant = Participant.objects.get(quiz=quiz,user=user)
+			user = IcoUser.objects.get(user_id=user)
+			user.total_score -= participant.score
+			user.save()
+			participant.delete()
+			messages.error(request, "Particpant was deleted.")
+		except:
+			messages.error(request, "Sorry the participant was not deleted.")
+		return redirect('/bajajauto/adminpanel/reset_participants/')
+	else:
+		users = {}
+		for quiz in quizes:
+			participants = Participant.objects.filter(quiz=quiz)
+			for p in participants:
+				if p.user not in users:
+					users[p.user] = []
+					users[p.user].append(p.quiz)
+				else:
+					users[p.user].append(p.quiz)
+		data['users'] = users
+		return render(request, 'reset_participants.html',context=data)
+
+@login_required(login_url='/bajajauto/accounts/login/')
+@user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
+def reset_all(request):
+	particpants = Participant.objects.all()
+	for p in particpants:
+		user = IcoUser.objects.get(username=p.user)
+		user.total_score = 0
+		user.save()
+		p.delete()
+	messages.error(request, "All Particpants were deleted.")
+	return redirect('/bajajauto/adminpanel/reset_participants/')
 
 def page_not_found_view(request, exception):
     return render(request, '404.html', status=404)
