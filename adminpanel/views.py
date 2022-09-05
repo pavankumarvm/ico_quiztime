@@ -15,10 +15,6 @@ from django.utils.dateparse import parse_datetime
 
 # Create your views here.
 def index(request):
-	q = Question.objects.all()
-	for i in q:
-		i.time = 1
-		i.save()
 	return render(request, template_name='index.html')
 
 @login_required(login_url='/bajajauto/accounts/login/')

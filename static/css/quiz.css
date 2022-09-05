@@ -86,4 +86,8 @@
   .card > .card-body{
     flex-direction: column;
   }
+  .card > .card-body > .img{
+    height: auto;
+    width: 100%;
+  }
 }
