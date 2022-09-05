@@ -320,7 +320,7 @@ class QuizView(TemplateView):
 					return redirect('/bajajauto/quiz/result/' + str(quiz) + '/')
 				timenow = timezone.now()
 				delta = timenow - participant.time_appeared
-				if delta.seconds > 2*60:
+				if delta.seconds > 30*60:
 					messages.error(request, "You have left the quiz for more than " + str(delta.seconds // 60) + "minutes.")
 					return redirect('/bajajauto/user/dashboard/')
 				else:

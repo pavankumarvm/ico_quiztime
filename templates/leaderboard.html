@@ -80,7 +80,7 @@
                 endifequal
                 %}
               >
-               	{{quiz.name}}
+                {{quiz.name}}
               </option>
               {% endfor %}
             </select>
@@ -109,9 +109,11 @@
           {% for user in leaderboard %}
           <tr>
             <td>{{user.rank}}</td>
-            {% if all_p %}
-            <td>{{user.username}}</td>
+            {% if all_p %} {% if user.first_name %}
+            <td>{{user.first_name}} {{user.last_name}}</td>
             {% else %}
+            <td>{{user.email}}</td>
+            {% endif %} {% else %}
             <td>{{user.user}}</td>
             {% endif %}
             <td>{{user.score}}</td>
