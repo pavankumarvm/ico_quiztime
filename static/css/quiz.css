@@ -24,6 +24,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  padding-top: 35px;
 }
 
 .card > .card-body > .q_no {
@@ -79,4 +80,10 @@
 
 .card.answer > .card-body > input[type="radio"] {
   visibility: hidden;
+}
+
+@media screen and (max-width:600px) {
+  .card > .card-body{
+    flex-direction: column;
+  }
 }

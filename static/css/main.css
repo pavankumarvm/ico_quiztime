@@ -34,6 +34,7 @@ main {
   width: 100%;
   display: flex;
   bottom: 0px;
+  justify-content: center;
 }
 
 @media screen and (max-width: 600px) {
