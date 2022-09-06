@@ -43,6 +43,10 @@ def register_user(request):
 				messages.error(
 					request, 'Email Address already exists.Try another.')
 				return render(request, 'register.html')
+			elif email.find('bajajauto.co.in') == -1:
+				messages.error(
+					request, 'Please register with your official mail id ( bajajauto.co.in )')
+				return render(request, 'register.html')
 			else:
 				user = IcoUser.objects.create_user(
 					username=username,
