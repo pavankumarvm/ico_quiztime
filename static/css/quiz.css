@@ -82,12 +82,26 @@
   visibility: hidden;
 }
 
-@media screen and (max-width:600px) {
-  .card > .card-body{
+@media screen and (max-width: 600px) {
+  .card > .card-body {
     flex-direction: column;
   }
-  .card > .card-body > .img{
+  .card > .card-body > .img {
     height: auto;
     width: 100%;
   }
+}
+
+.footer {
+  background-color: #ffc82f;
+  color: black;
+  padding: 10px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  position: sticky;
+  width: 100%;
+  display: flex;
+  bottom: 0px;
+  justify-content: center;
 }

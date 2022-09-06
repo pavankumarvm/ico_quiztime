@@ -123,3 +123,18 @@ input[type="password"]::placeholder {
   grid-template-columns: 48% 48%;
   column-gap: 4%;
 }
+
+.footer {
+  background-color: #ffc82f;
+  color: black;
+  padding: 10px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  position: sticky;
+  width: 100%;
+  display: flex;
+  bottom: 0px;
+  justify-content: center;
+  z-index: 10;
+}
