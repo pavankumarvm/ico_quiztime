@@ -330,10 +330,7 @@ def delete_user(request):
 	try:
 		user = IcoUser.objects.get(user_id=user_id)
 		user.delete()
-		if user.is_active:
-			messages.success(request, 'User is now active')
-		else:
-			messages.success(request, 'User deactivated')
+		messages.success(request, 'User is deleted')
 		return redirect('/bajajauto/adminpanel/dashboard/')
 	except:
 		messages.error(request, "No such User Found")
