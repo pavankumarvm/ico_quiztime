@@ -90,6 +90,10 @@
     height: auto;
     width: 100%;
   }
+  .card > .card-header > img {
+    height: 50px;
+    width: auto;
+  }
 }
 
 .footer {
