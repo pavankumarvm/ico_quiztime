@@ -174,7 +174,7 @@ def profile(request):
 	return render(request, template_name='profile.html',context=data)
 
 @login_required(login_url='/bajajauto/accounts/login/')
-def leaderboard(request, quiz):
+def leaderboard(request):
 	quizes = Quiz.objects.all()
 	for i in range(len(quizes)):
 		quizes[i].srno = i+1
@@ -182,24 +182,23 @@ def leaderboard(request, quiz):
 	score = 0
 	rank = 0
 	all_p = True
-	if quiz != 0:
-		all_p = False
-		quiz_obj = Quiz.objects.get(id=quiz)
-		all_participants = Participant.objects.filter(quiz=quiz_obj).order_by('rank')
-		participant = Participant.objects.get(quiz=quiz_obj,user=request.user)
-		score = participant.score
-		rank = participant.rank
-	else:
-		all_participants = list(IcoUser.objects.exclude(total_score=0).order_by('total_score'))[::-1]
-		for i in range(len(all_participants)):
-			all_participants[i].rank = i+1
-			all_participants[i].score = all_participants[i].total_score
-			if all_participants[i] == request.user:
-				score = all_participants[i].score
-				rank = all_participants[i].rank
+	# if quiz != 0:
+	# 	all_p = False
+	# 	quiz_obj = Quiz.objects.get(id=quiz)
+	# 	all_participants = Participant.objects.filter(quiz=quiz_obj).order_by('rank')
+	# 	participant = Participant.objects.get(quiz=quiz_obj,user=request.user)
+	# 	score = participant.score
+	# 	rank = participant.rank
+	# else:
+	all_participants = list(IcoUser.objects.exclude(total_score=0).order_by('total_score'))[::-1]
+	for i in range(len(all_participants)):
+		all_participants[i].rank = i+1
+		all_participants[i].score = all_participants[i].total_score
+		if all_participants[i] == request.user:
+			score = all_participants[i].score
+			rank = all_participants[i].rank
 	data = {
 		'all_p': all_p,
-		'quiz_id': quiz,
 		'quizes' : quizes,
 		'leaderboard': all_participants,
 		'rank': rank,
