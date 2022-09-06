@@ -515,12 +515,11 @@ def reset_participants(request):
 @login_required(login_url='/bajajauto/accounts/login/')
 @user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
 def reset_all(request):
-	particpants = Participant.objects.all()
-	for p in particpants:
-		user = IcoUser.objects.get(username=p.user)
+	Participant.objects.all().delete()
+	users = IcoUser.objects.all()
+	for user in users:
 		user.total_score = 0
 		user.save()
-		p.delete()
 	messages.error(request, "All Particpants were deleted.")
 	return redirect('/bajajauto/adminpanel/reset_participants/')
 

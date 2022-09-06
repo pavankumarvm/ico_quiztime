@@ -36,5 +36,6 @@ body {
 }
 
 .container {
+  min-height: auto !important;
   height: auto;
 }
