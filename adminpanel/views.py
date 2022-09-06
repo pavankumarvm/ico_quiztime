@@ -14,6 +14,7 @@ from django.views.generic import TemplateView
 from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
+from django.db.models import F
 
 # Create your views here.
 def index(request):
@@ -189,7 +190,7 @@ def leaderboard(request, quiz):
 		score = participant.score
 		rank = participant.rank
 	else:
-		all_participants = list(IcoUser.objects.all().order_by('total_score'))[::-1]
+		all_participants = list(IcoUser.objects.exclude(total_score=0).order_by('total_score'))[::-1]
 		for i in range(len(all_participants)):
 			all_participants[i].rank = i+1
 			all_participants[i].score = all_participants[i].total_score
