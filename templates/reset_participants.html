@@ -1,70 +1,76 @@
 {% extends 'adminpanel.html' %} {% load static %} {% block head %}
 <title>Reset | ICO Quiz Time</title>
 {% endblock head %} {% block body %}
-<div class="container-fluid">
-  <div class="row mx-4 mt-4">
-    <h2>Quiz</h2>
-    <hr />
-  </div>
-  <div class="col mx-2">
-    <div class="row my-2">
-      <div class="d-flex flex-row-reverse">
-        <button type="button" class="btn btn-warning mx-2" onclick="askAgain()">
-          Reset All
-        </button>
-        <form
-          method="POST"
-          action="/bajajauto/adminpanel/reset_all/"
-          id="resetAllForm"
-        >
-          {% csrf_token %}
-        </form>
-      </div>
-      <script>
-        askAgain = () => {
-          if (
-            confirm(
-              "Are you sure you want to delete all the particpants for all the quizes?\n\nClick on OK if you are sure about it."
-            ) == true
-          ) {
-            $("#resetAllForm").submit();
-          }
-        };
-      </script>
+<div class="container">
+  <div class="col">
+    <div class="row mx-4 mt-4">
+      <h2>Quiz</h2>
+      <hr />
     </div>
-    <div class="row mx-2">
-      <table class="table table-bordered">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">Participant</th>
-            {% for quiz in quizes %}
-            <th>{{quiz.name}}</th>
+    <div class="col mx-2">
+      <div class="row my-2">
+        <div class="d-flex flex-row-reverse">
+          <button
+            type="button"
+            class="btn btn-warning mx-2"
+            onclick="askAgain()"
+          >
+            Reset All
+          </button>
+          <form
+            method="POST"
+            action="/bajajauto/adminpanel/reset_all/"
+            id="resetAllForm"
+          >
+            {% csrf_token %}
+          </form>
+        </div>
+        <script>
+          askAgain = () => {
+            if (
+              confirm(
+                "Are you sure you want to delete all the particpants for all the quizes?\n\nClick on OK if you are sure about it."
+              ) == true
+            ) {
+              $("#resetAllForm").submit();
+            }
+          };
+        </script>
+      </div>
+      <div class="row mx-2">
+        <table class="table table-bordered">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Participant</th>
+              {% for quiz in quizes %}
+              <th>{{quiz.name}} - {{quiz.total}}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for user,user_quiz in users.items %}
+            <tr id="{{user}}">
+              <td>{{user.email}}</td>
+              {% for quiz in quizes %} {% if quiz in user_quiz %}
+              <td>
+                <form
+                  method="POST"
+                  action="/bajajauto/adminpanel/reset_participants/"
+                >
+                  {% csrf_token %}
+                  <input type="hidden" name="quiz" value="{{quiz.id}}" />
+                  <input type="hidden" name="user" value="{{user.user_id}}" />
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </td>
+              {% else %}
+              <td>Not Participated</td>
+              {% endif %} {% endfor %}
+            </tr>
             {% endfor %}
-          </tr>
-        </thead>
-        <tbody>
-          {% for user,user_quiz in users.items %}
-          <tr id="{{user}}">
-            <td>{{user.email}}</td>
-            {% for quiz in quizes %} {% if quiz in user_quiz %}
-            <td>
-              <form
-                method="POST"
-                action="/bajajauto/adminpanel/reset_participants/"
-              >
-                {% csrf_token %}
-                <input type="hidden" name="quiz" value="{{quiz.id}}" />
-                <input type="hidden" name="user" value="{{user.user_id}}" />
-                <button type="submit" class="btn btn-danger">Delete</button>
-              </form>
-            </td>
-            {% else %}
-            <td>Not Participated</td>
-            {% endif %} {% endfor %}
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>

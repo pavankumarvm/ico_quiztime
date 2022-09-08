@@ -29,6 +29,7 @@ def adminpanel(request):
 	data = {
 		'user': request.user,
 		'users': users,
+		'total_users': len(users),
 	}
 	return render(request, template_name='admindashboard.html', context=data)
 
@@ -503,6 +504,7 @@ def reset_participants(request):
 		users = {}
 		for quiz in quizes:
 			participants = Participant.objects.filter(quiz=quiz)
+			quiz.total=len(participants)
 			for p in participants:
 				if p.user not in users:
 					users[p.user] = []
