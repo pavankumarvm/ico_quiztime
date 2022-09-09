@@ -156,7 +156,7 @@ def adminleaderboard(request, quiz):
 	if quiz != 0:
 		all_p = False
 		quiz_obj = Quiz.objects.get(id=quiz)
-		all_participants = Participant.objects.filter(quiz=quiz_obj).order_by('rank')[::-1]
+		all_participants = Participant.objects.filter(quiz=quiz_obj).order_by('rank')
 	else:
 		all_participants = list(IcoUser.objects.exclude(total_score=0).order_by('total_score'))[::-1]
 		for i in range(len(all_participants)):
