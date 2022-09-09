@@ -147,6 +147,30 @@ def add_new_user(request):
 	return render(request, template_name='new_user.html')
 
 @login_required(login_url='/bajajauto/accounts/login/')
+def adminleaderboard(request, quiz):
+	quizes = Quiz.objects.all()
+	for i in range(len(quizes)):
+		quizes[i].srno = i+1
+	all_participants = None
+	all_p = True
+	if quiz != 0:
+		all_p = False
+		quiz_obj = Quiz.objects.get(id=quiz)
+		all_participants = Participant.objects.filter(quiz=quiz_obj).order_by('rank')
+	else:
+		all_participants = list(IcoUser.objects.exclude(total_score=0).order_by('total_score'))[::-1]
+		for i in range(len(all_participants)):
+			all_participants[i].rank = i+1
+			all_participants[i].score = all_participants[i].total_score
+	data = {
+		'all_p': all_p,
+		'quizes' : quizes,
+		'leaderboard': all_participants,
+		'quiz_id': quiz
+	}
+	return render(request, template_name='adminleaderboard.html', context=data)
+
+@login_required(login_url='/bajajauto/accounts/login/')
 def dashboard(request):
 	participants = Participant.objects.filter(user=request.user).order_by('time_appeared')
 	xValues, yValues = [], []

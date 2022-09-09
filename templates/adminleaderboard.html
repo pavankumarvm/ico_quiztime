@@ -1,0 +1,67 @@
+{% extends 'adminpanel.html' %} {% load static %} {% block head %}
+<title>Leaderboard | ICO Quiz Time</title>
+{% endblock head %} {% block body %}
+<div class="container mb-3">
+  <div class="row">
+    <div class="col">
+      <div class="row mx-4 mt-4">
+        <h2>Leaderboard</h2>
+        <hr />
+      </div>
+      <div class="row mx-4">
+        <div class="col-md-3 mb-3">
+          <label for="validationGender">For Quiz:</label>
+          <form method="POST" id="quiz_select_form">
+            {% csrf_token %}
+            <select class="custom-select" id="quiz_select" name="quiz_id_select">
+              <option>-----Select Quiz-----</option>
+              <option value="0" {% if all_p %}selected="selected" {% endif %}>
+                All Quizes
+              </option>
+              {% for quiz in quizes %}
+              <option value="{{quiz.id}}" {% ifequal quiz.id quiz_id %} selected="selected" {% endifequal %}>
+                {{quiz.name}}
+              </option>
+              {% endfor %}
+            </select>
+          </form>
+          <script>
+            $("#quiz_select").change(() => {
+              $("#quiz_select_form")
+                .attr(
+                  "action",
+                  "/bajajauto/adminpanel/leaderboard/" +
+                  $("select[name='quiz_id_select']").val() +
+                  "/"
+                )
+                .submit();
+            });
+          </script>
+        </div>
+      </div>
+      <div class="row">
+        <table class="table table-bordered">
+          <thead class="thead-dark">
+            <th id="rank" class="col-2">Rank</th>
+            <th id="name" class="col-8">Name</th>
+            <th id="score" class="col-2">Score</th>
+          </thead>
+          <tbody>
+            {% for user in leaderboard %}
+            <tr>
+              <td>{{user.rank}}</td>
+              {% if all_p %}
+              <td>{{user.email}}</td>
+              {% else %}
+              <td>{{user.user.email}}</td>
+              {% endif %}
+              <td>{{user.score}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock body %}
