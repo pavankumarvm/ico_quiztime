@@ -391,7 +391,7 @@ class QuizView(TemplateView):
 			participant.last_visited = question_i + 1
 			participant.save()
 			if (question_i + 1) >= len(self.quiz):
-				all_participants = Participant.objects.filter(quiz=quiz_obj).order_by('score')
+				all_participants = Participant.objects.filter(quiz=quiz_obj).order_by('score')[::-1]
 				for i in range(len(all_participants)):
 					all_participants[i].rank = i+1
 					all_participants[i].save()
@@ -559,7 +559,7 @@ def createXcel(request, quiz):
 	all_participants = None
 	if quiz != 0:
 		quiz_obj = Quiz.objects.get(id=quiz)
-		all_participants = Participant.objects.filter(quiz=quiz_obj).order_by('rank')[::-1]
+		all_participants = Participant.objects.filter(quiz=quiz_obj).order_by('rank')
 		columns = ['Rank', 'Email', 'Score']
 		d = {
 			'Rank':[],
