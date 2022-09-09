@@ -1,5 +1,3 @@
-from datetime import datetime
-from re import I
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render
 from django.contrib import messages
@@ -14,7 +12,9 @@ from django.views.generic import TemplateView
 from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
-from django.db.models import F
+import pandas as pd
+from ico_quiztime.settings import BASE_DIR
+import os
 
 # Create your views here.
 def index(request):
@@ -551,3 +551,43 @@ def reset_all(request):
 
 def page_not_found_view(request, exception):
     return render(request, '404.html', status=404)
+
+
+@login_required(login_url='/bajajauto/accounts/login/')
+@user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
+def createXcel(request, quiz):
+	all_participants = None
+	if quiz != 0:
+		quiz_obj = Quiz.objects.get(id=quiz)
+		all_participants = Participant.objects.filter(quiz=quiz_obj).order_by('rank')[::-1]
+		columns = ['Rank', 'Email', 'Score']
+		d = {
+			'Rank':[],
+			'Email':[],
+			'Score': [],
+		}
+		for p in all_participants:
+			d['Rank'].append(p.rank)
+			d['Email'].append(p.user.email)
+			d['Score'].append(p.score)
+		df = pd.DataFrame(data=d, columns=columns)
+		df.to_excel(os.path.join(BASE_DIR, 'media/excel/leaderboard_' + str(quiz) + '.xlsx'))
+	else:
+		all_participants = list(IcoUser.objects.exclude(total_score=0).order_by('total_score'))[::-1]
+		for i in range(len(all_participants)):
+			all_participants[i].rank = i+1
+			all_participants[i].score = all_participants[i].total_score
+		columns = ['Rank', 'Email', 'Score']
+		d = {
+			'Rank':[],
+			'Email':[],
+			'Score': [],
+		}
+		for p in all_participants:
+			d['Rank'].append(p.rank)
+			d['Email'].append(p.email)
+			d['Score'].append(p.score)
+		df = pd.DataFrame(data=d, columns=columns)
+		df.to_excel(os.path.join(BASE_DIR, 'media/excel/leaderboard_0.xlsx'))
+	messages.success(request, "Excel file created successfully")
+	return redirect('/bajajauto/adminpanel/leaderboard/' + str(quiz) + '/')

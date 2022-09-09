@@ -33,6 +33,7 @@ urlpatterns = [
   path('adminpanel/reset_all/', reset_all, name='reset_all'),
   path('adminpanel/reset_participants/', reset_participants, name='reset_participants'),
   path('adminpanel/leaderboard/<int:quiz>/', adminleaderboard, name='leaderboard'),
+  path('adminpanel/createXcel/<int:quiz>/', createXcel, name='createXcel'),
   # User APIS
   path('user/dashboard/', dashboard, name='dashboard'),
   path('user/profile/', profile, name='profile'),
