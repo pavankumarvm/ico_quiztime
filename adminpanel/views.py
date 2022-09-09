@@ -391,7 +391,7 @@ class QuizView(TemplateView):
 			participant.last_visited = question_i + 1
 			participant.save()
 			if (question_i + 1) >= len(self.quiz):
-				all_participants = Participant.objects.filter(quiz=quiz_obj).order_by('score')[::-1]
+				all_participants = list(Participant.objects.filter(quiz=quiz_obj).order_by('score'))[::-1]
 				for i in range(len(all_participants)):
 					all_participants[i].rank = i+1
 					all_participants[i].save()
