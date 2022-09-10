@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render
 from django.contrib import messages
@@ -569,7 +570,7 @@ def createXcel(request, quiz):
 		}
 		for p in all_participants:
 			d['Rank'].append(p.rank)
-			d['Name'].append(p.user.first_name + p.user.last_name)
+			d['Name'].append(p.user.first_name + ' ' + p.user.last_name)
 			d['Email'].append(p.user.email)
 			d['Score'].append(p.score)
 		df = pd.DataFrame(data=d, columns=columns)
@@ -588,7 +589,7 @@ def createXcel(request, quiz):
 		}
 		for p in all_participants:
 			d['Rank'].append(p.rank)
-			d['Name'].append(p.user.first_name + p.user.last_name)
+			d['Name'].append(p.first_name + ' ' + p.last_name)
 			d['Email'].append(p.email)
 			d['Score'].append(p.score)
 		df = pd.DataFrame(data=d, columns=columns)
@@ -614,7 +615,7 @@ def createReport(request):
 		'Total_Score': [],
 	}
 	for p in users:
-		d['Registration Date'].append(p.date_joined)
+		d['Registration Date'].append(str(p.date_joined))
 		d['First Name'].append(p.first_name)
 		d['Last Name'].append(p.last_name)
 		d['Email'].append(p.email)
