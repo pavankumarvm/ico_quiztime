@@ -13,6 +13,19 @@
       <h5 class="col-md-4 d-flex align-items-center justify-content-end">
         Total Users: {{total_users}}
       </h5>
+      <h5 class="col-md-4 d-flex align-items-center justify-content-end">
+        <form method="POST" action="/bajajauto/adminpanel/createReport/">
+          {% csrf_token %}
+          <button class="btn btn-primary mx-1" type="submit" id="create">
+            Create Excel
+          </button>
+        </form>
+        <a href="/media/excel/report.xlsx" download id="download">
+          <button class="btn btn-success" type="button">
+            Download Excel
+          </button>
+        </a>
+      </h5>
       <hr />
     </div>
     <div class="row">
@@ -37,12 +50,8 @@
               <form method="POST" action="/bajajauto/accounts/change_status/">
                 {% csrf_token %}
                 <input type="hidden" name="user_id" value="{{user.user_id}}" />
-                {% if user.is_active %}<button
-                  type="submit"
-                  class="btn btn-danger mx-1"
-                >
-                  Block User</button
-                >{% else %}
+                {% if user.is_active %}<button type="submit" class="btn btn-danger mx-1">
+                  Block User</button>{% else %}
                 <button type="submit" class="btn btn-success mx-1">
                   Unblock User
                 </button>
@@ -53,12 +62,8 @@
               <form method="POST" action="/bajajauto/accounts/delete_user/">
                 {% csrf_token %}
                 <input type="hidden" name="user_id" value="{{user.user_id}}" />
-                {% if user.is_active %}<button
-                  type="submit"
-                  class="btn btn-danger mx-1"
-                >
-                  Delete User</button
-                >{% else %}
+                {% if user.is_active %}<button type="submit" class="btn btn-danger mx-1">
+                  Delete User</button>{% else %}
                 <button type="submit" class="btn btn-success mx-1">
                   Unblock User
                 </button>
@@ -69,12 +74,8 @@
               <form method="POST" action="/bajajauto/accounts/make_admin/">
                 {% csrf_token %}
                 <input type="hidden" name="user_id" value="{{user.user_id}}" />
-                {% if user.is_admin %}<button
-                  type="submit"
-                  class="btn btn-danger mx-1"
-                >
-                  Remove Admin</button
-                >{% else %}
+                {% if user.is_admin %}<button type="submit" class="btn btn-danger mx-1">
+                  Remove Admin</button>{% else %}
                 <button type="submit" class="btn btn-success mx-1">
                   Make Admin
                 </button>

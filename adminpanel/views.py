@@ -560,14 +560,16 @@ def createXcel(request, quiz):
 	if quiz != 0:
 		quiz_obj = Quiz.objects.get(id=quiz)
 		all_participants = Participant.objects.filter(quiz=quiz_obj).order_by('rank')
-		columns = ['Rank', 'Email', 'Score']
+		columns = ['Rank', 'Name', 'Email', 'Score']
 		d = {
 			'Rank':[],
+			'Name':[],
 			'Email':[],
 			'Score': [],
 		}
 		for p in all_participants:
 			d['Rank'].append(p.rank)
+			d['Name'].append(p.user.first_name + p.user.last_name)
 			d['Email'].append(p.user.email)
 			d['Score'].append(p.score)
 		df = pd.DataFrame(data=d, columns=columns)
@@ -577,17 +579,50 @@ def createXcel(request, quiz):
 		for i in range(len(all_participants)):
 			all_participants[i].rank = i+1
 			all_participants[i].score = all_participants[i].total_score
-		columns = ['Rank', 'Email', 'Score']
+		columns = ['Rank', 'Name', 'Email', 'Score']
 		d = {
 			'Rank':[],
+			'Name':[],
 			'Email':[],
 			'Score': [],
 		}
 		for p in all_participants:
 			d['Rank'].append(p.rank)
+			d['Name'].append(p.user.first_name + p.user.last_name)
 			d['Email'].append(p.email)
 			d['Score'].append(p.score)
 		df = pd.DataFrame(data=d, columns=columns)
 		df.to_excel(os.path.join(BASE_DIR, 'media/excel/leaderboard_0.xlsx'))
 	messages.success(request, "Excel file created successfully")
 	return redirect('/bajajauto/adminpanel/leaderboard/' + str(quiz) + '/')
+
+
+
+@login_required(login_url='/bajajauto/accounts/login/')
+@user_passes_test(lambda u: u.is_admin, login_url='/bajajauto/accounts/adminlogin/')
+def createReport(request):
+	users = IcoUser.objects.all()
+	columns = ['Registration Date','First Name', 'Last Name','Email', 'Age', 'Gender', 'Phone_no', 'Total_Score']
+	d = {
+		'Registration Date':[],
+		'First Name':[],
+		'Last Name':[],
+		'Email':[],
+		'Age': [],
+		'Gender': [],
+		'Phone_no': [],
+		'Total_Score': [],
+	}
+	for p in users:
+		d['Registration Date'].append(p.date_joined)
+		d['First Name'].append(p.first_name)
+		d['Last Name'].append(p.last_name)
+		d['Email'].append(p.email)
+		d['Age'].append(p.age)
+		d['Gender'].append(p.gender)
+		d['Phone_no'].append(p.phone_no)
+		d['Total_Score'].append(p.total_score)
+	df = pd.DataFrame(data=d, columns=columns)
+	df.to_excel(os.path.join(BASE_DIR, 'media/excel/report.xlsx'))
+	messages.success(request, "Excel file created successfully")
+	return redirect('/bajajauto/adminpanel/dashboard/')
